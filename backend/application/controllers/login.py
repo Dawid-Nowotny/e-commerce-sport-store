@@ -2,10 +2,11 @@ import os, sys
 models_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 sys.path.insert(0, models_path)
 from models.user import User
+from .passwordManager import verify_password
 
-from flask import Blueprint,jsonify, request
+from flask import Blueprint, jsonify, request
 
-login_page = Blueprint('simple_page', __name__, template_folder='templates')
+login_page = Blueprint('login_page', __name__, template_folder='templates')
 
 @login_page.route('/api/login', methods=['POST'])
 async def confirm_login():
@@ -15,15 +16,15 @@ async def confirm_login():
 
     user = User.get_by_email(email)
 
-    if user and user.password == password:
+    if user and verify_password(password, user.password, user.salt):
         response_data = {
-        'message': 'Zalogowano',
-        'success': True
+            'message': 'Zalogowano',
+            'success': True
         }
     else:
         response_data = {
-        'message': 'wiadomosc',
-        'success': False
+            'message': 'Nieprawidłowy adres e-mail lub hasło',
+            'success': False
         }
 
     response = jsonify(response_data)

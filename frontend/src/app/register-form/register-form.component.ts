@@ -54,7 +54,7 @@ export class RegisterFormComponent {
           this.errorMessage = '';
           // Przekieruj użytkownika na inną stronę lub wykonaj inne działania po udanym logowaniu
         } else {
-          this.errorMessage = 'Wystąpił błąd po stronie klienta!';
+          this.errorMessage = response.message;
         }
       },
       (error: HttpErrorResponse) => {

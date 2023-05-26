@@ -8,28 +8,28 @@ from config.FirebaseManager import FirebaseManager
 firebase_manager = FirebaseManager()
 
 class User:
-    def __init__(self, name, email, login, password, isAdmin):
+    def __init__(self, name, email, salt, password, isAdmin):
         self.name = name
         self.email = email
-        self.login = login
         self.password = password
+        self.salt = salt
         self.isAdmin = isAdmin
 
     def __str__(self):
-        return f"User(name='{self.name}', email='{self.email}', login='{self.login}', password='{self.password}', isAdmin={self.isAdmin})"
+        return f"User(name='{self.name}', email='{self.email}', salt='{self.salt}', password='{self.password}', isAdmin={self.isAdmin})"
 
     def to_dict(self):
         return {
             'name': self.name,
             'email': self.email,
-            'login': self.login,
+            'salt': self.salt,
             'password': self.password,
             'isAdmin': self.isAdmin
         }
 
     @staticmethod
     def from_dict(data):
-        return User(data['name'], data['email'], data['login'], data['password'], data['isAdmin'])
+        return User(data['name'], data['email'], data['salt'], data['password'], data['isAdmin'])
 
     def save(self):
         ref = db.reference('users')
