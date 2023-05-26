@@ -6,12 +6,16 @@ import { NotFoundComponent } from './not-found/not-found.component';
 import { CookiesComponent } from './cookies/cookies.component';
 import { RulesComponent } from './rules/rules.component';
 import { LoginComponent } from './login/login.component';
+import { RegisterComponent } from './register/register.component';
+import { NavBarComponent } from './nav-bar/nav-bar.component';
 const routes: Routes = [
   { path: '', component: MainPageComponent },
   { path: 'cart', component: ShopCartComponent },
   { path: 'rules', component: RulesComponent },
   { path: 'cookies', component: CookiesComponent },
   { path: 'login', component: LoginComponent },
+  { path: 'register', component: RegisterComponent },
+  { path: 'nav-bar', component: NavBarComponent },
   { path: '**', pathMatch: 'full', 
         component: NotFoundComponent },
 ];

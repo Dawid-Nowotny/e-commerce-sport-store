@@ -414,6 +414,19 @@ label {
 	padding: 10px;
 }
 
+.nav-bar {
+	color: #000;
+	border-bottom: 1px solid rgba(30,30,30, 0.2);
+	width: 100%;
+	text-transform: uppercase;
+	margin-bottom: 20px;
+}
+
+.nav-bar p {
+	padding: 7px;
+	margin: 0px;
+}
+
 .error-message {
 	color: #fff;
 	background-color: rgba(120,0,0, 1);
@@ -428,6 +441,19 @@ label {
 	padding: 10px;
 }
 
+.success-message {
+	color: #fff;
+	background-color: rgba(0,120,0, 1);
+	width: 100%;
+	margin-bottom: 15px;
+	margin-top: 15px;
+	text-align: center;
+	text-transform: uppercase;
+}
+
+.success-message p {
+	padding: 10px;
+}
 
 .text {
 	color: #000;

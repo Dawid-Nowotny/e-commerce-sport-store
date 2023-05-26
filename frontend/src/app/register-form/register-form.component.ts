@@ -3,42 +3,58 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { ServerService } from '../server.service';
 
 @Component({
-  selector: 'app-login-form',
-  templateUrl: './login-form.component.html',
-  styleUrls: ['./login-form.component.css']
+  selector: 'app-register-form',
+  templateUrl: './register-form.component.html',
+  styleUrls: ['./register-form.component.css']
 })
-export class LoginFormComponent {
+export class RegisterFormComponent {
   username: string;
   password: string;
+  passwordCheck: string;
   errorMessage: string;
   successMessage: string;
+  agreedToTerms: boolean = false;
 
   constructor(private serverService: ServerService) {
     this.username = '';
     this.password = '';
+    this.passwordCheck = '';
     this.errorMessage = '';
     this.successMessage = '';
   }
   
   onSubmit() {
-    if (!this.username || !this.password) {
+    if (!this.username || !this.password || !this.passwordCheck) {
       this.errorMessage = 'Wprowadź nazwę użytkownika i hasło!';
       return;
-    } 
+    }
+
+    if (this.password !== this.passwordCheck) {
+      this.errorMessage = 'Hasła nie są takie same!';
+      return;
+    }
+  
+
+    if (!this.agreedToTerms) {
+      this.errorMessage = 'Musisz zaznaczyć wymagane zgody!';
+      return;
+    }
 
     const data = {
       username: this.username,
-      password: this.password
+      password: this.password,
+      passwordCheck: this.passwordCheck
     };
   
-    this.serverService.login(data).subscribe(
+    this.serverService.register(data).subscribe(
       (response: any) => {
         console.log('Odpowiedź serwera:', response);
         if (response.success == true) {
-          this.successMessage = 'Zalogowano!';
+          this.successMessage = 'Zarejestrowano!';
           this.errorMessage = '';
+          // Przekieruj użytkownika na inną stronę lub wykonaj inne działania po udanym logowaniu
         } else {
-          this.errorMessage = 'Podano błędny email lub hasło!';
+          this.errorMessage = 'Wystąpił błąd po stronie klienta!';
         }
       },
       (error: HttpErrorResponse) => {
@@ -55,4 +71,4 @@ export class LoginFormComponent {
       }
     );
   }
-}
+} 

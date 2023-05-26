@@ -18,5 +18,11 @@ export class ServerService {
     const url = `${this.userUrl}/api/login`;
     return this.http.post(url, data, httpOptions);
   }
+
+   /** POST REGISTER */
+   register(data: any): Observable<any> {
+    const url = `${this.userUrl}/api/register`;
+    return this.http.post(url, data, httpOptions);
+  }
   
 }

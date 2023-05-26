@@ -1,0 +1,8 @@
+<div class="nav-bar">
+    <p>
+        <a routerLink="/" >Strona główna</a> 
+        <a routerLink="/login" *ngIf="isCurrentComponent('/login') || isCurrentComponent('/register')"> / Użytkownik</a>
+        <a routerLink="/login" *ngIf="isCurrentComponent('/login')"> / Logowanie</a>
+        <a routerLink="/register" *ngIf="isCurrentComponent('/register')"> / Rejestracja</a>
+    </p>
+</div>

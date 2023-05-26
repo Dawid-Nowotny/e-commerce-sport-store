@@ -3,5 +3,9 @@
     <div *ngIf="successMessage" class="success-message"><p>{{ successMessage }}</p></div>
     <input type="text" [(ngModel)]="username" [ngModelOptions]="{ standalone: true }" placeholder="E-mail"><br /><br />
     <input type="password" [(ngModel)]="password" [ngModelOptions]="{ standalone: true }" placeholder="Hasło"><br /><br />
-    <button type="submit">Zaloguj się</button>
+    <input type="password" [(ngModel)]="passwordCheck" [ngModelOptions]="{ standalone: true }" placeholder="Powtórz hasło"><br /><br />
+    <label>
+    <input type="checkbox" [(ngModel)]="agreedToTerms" [ngModelOptions]="{ standalone: true }"> Oświadczam, że zapoznałem(am) się i akceptuję treść Regulaminu sklepu internetowego AWAZONsport. *
+    </label><br /><br />
+    <button type="submit" >Zarejestruj się</button>
 </form>
