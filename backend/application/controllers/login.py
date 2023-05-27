@@ -1,8 +1,12 @@
 import os, sys
-models_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
-sys.path.insert(0, models_path)
-from models.user import User
-from .passwordManager import verify_password
+#models_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+#sys.path.insert(0, models_path)
+
+backend_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
+sys.path.insert(0, backend_path)
+
+from config.pyrebaseManager import PyrebaseManager
+pyrebase_manager = PyrebaseManager()
 
 from flask import Blueprint, jsonify, request
 
@@ -14,18 +18,12 @@ async def confirm_login():
     email = submitted_data.get('username')
     password = submitted_data.get('password')
 
-    user = User.get_by_email(email)
+    try:
+        firebase = pyrebase_manager.get_firebase()
+        auth = firebase.auth()
+        user = auth.sign_in_with_email_and_password(email, password)
 
-    if user and verify_password(password, user.password, user.salt):
-        response_data = {
-            'message': 'Zalogowano',
-            'success': True
-        }
-    else:
-        response_data = {
-            'message': 'Nieprawidłowy adres e-mail lub hasło',
-            'success': False
-        }
-
-    response = jsonify(response_data)
-    return response
+        token = user['idToken']
+        return jsonify({'success': True, 'message': 'Zalogowano pomyślnie', 'token': token})
+    except:
+        return jsonify({'success': False, 'error': 'Błąd logowania'})

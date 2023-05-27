@@ -2,3 +2,4 @@
 /config/__pycache__
 /application/controllers/__pycache__
 /application/models/__pycache__
+/config/pyrebaseManager.py
