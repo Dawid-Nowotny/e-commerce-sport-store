@@ -28,6 +28,6 @@ export class NavBarComponent implements OnInit {
   }
 
   isCurrentComponent(componentName: string): boolean {
-    return this.router.url === componentName;
+    return this.router.url.startsWith(componentName);
   }
 }

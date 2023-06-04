@@ -27,19 +27,16 @@ export class RegisterFormComponent {
     if (!this.username || !this.password || !this.passwordCheck) {
       this.errorMessage = 'Wprowadź nazwę użytkownika i hasło!';
       return;
-    }
-
-    if (this.password !== this.passwordCheck) {
+    } else if (this.password.length <= 6) {
+      this.errorMessage = 'Hasło musi być dłuższe niż 6 znaków!';
+      return;
+    } else if (this.password !== this.passwordCheck) {
       this.errorMessage = 'Hasła nie są takie same!';
       return;
-    }
-  
-
-    if (!this.agreedToTerms) {
+    } else if (!this.agreedToTerms) {
       this.errorMessage = 'Musisz zaznaczyć wymagane zgody!';
       return;
     }
-
     const data = {
       username: this.username,
       password: this.password,

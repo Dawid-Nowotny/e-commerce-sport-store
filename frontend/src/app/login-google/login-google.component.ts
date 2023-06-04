@@ -1,41 +1,28 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ServerService } from '../server.service';
 
 @Component({
-  selector: 'app-login-form',
-  templateUrl: './login-form.component.html',
-  styleUrls: ['./login-form.component.css']
+  selector: 'app-login-google',
+  templateUrl: './login-google.component.html',
+  styleUrls: ['./login-google.component.css']
 })
-export class LoginFormComponent {
-  username: string;
-  password: string;
+export class LoginGoogleComponent implements OnInit {
   errorMessage: string;
   successMessage: string;
 
-  constructor(private serverService: ServerService) {
-    this.username = '';
-    this.password = '';
+  constructor(private route: ActivatedRoute, private serverService: ServerService) {
     this.errorMessage = '';
     this.successMessage = '';
   }
 
-  loginWithGoogle() {
-    window.location.href = 'https://accounts.google.com/o/oauth2/v2/auth?client_id=629378831847-cei868ra5f7ih23gu6jb5cu7r3otcaao.apps.googleusercontent.com&redirect_uri=http://localhost:4200/login-google&response_type=code&scope=openid%20email%20profile';
-  }
-  
-  onSubmit() {
-    if (!this.username || !this.password) {
-      this.errorMessage = 'Wprowadź nazwę użytkownika i hasło!';
-      return;
-    } 
-
+  ngOnInit() {
     const data = {
-      username: this.username,
-      password: this.password
+      code: this.route.snapshot.queryParams['code']
     };
-  
-    this.serverService.login(data).subscribe(
+
+    this.serverService.login_google(data).subscribe(
       (response: any) => {
         console.log('Odpowiedź serwera:', response);
         if (response.success == true) {

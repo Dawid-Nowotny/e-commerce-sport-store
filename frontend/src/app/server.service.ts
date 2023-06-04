@@ -19,6 +19,12 @@ export class ServerService {
     return this.http.post(url, data, httpOptions);
   }
 
+  /** POST GOOGLE LOGIN */
+  login_google(code: any): Observable<any> {
+    const url = `${this.userUrl}/api/login_google`;
+    return this.http.post(url, code, httpOptions);
+  }
+
    /** POST REGISTER */
    register(data: any): Observable<any> {
     const url = `${this.userUrl}/api/register`;

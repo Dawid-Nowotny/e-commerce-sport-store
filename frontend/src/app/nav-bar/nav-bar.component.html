@@ -1,8 +1,12 @@
 <div class="nav-bar">
     <p>
         <a routerLink="/" >Strona główna</a> 
-        <a routerLink="/login" *ngIf="isCurrentComponent('/login') || isCurrentComponent('/register')"> / Użytkownik</a>
-        <a routerLink="/login" *ngIf="isCurrentComponent('/login')"> / Logowanie</a>
+        <a routerLink="/login" *ngIf="isCurrentComponent('/login') || isCurrentComponent('/register') || isCurrentComponent('/login-google')"> / Użytkownik</a>
+        <a routerLink="/login" *ngIf="isCurrentComponent('/login') && !isCurrentComponent('/login-google')"> / Logowanie</a>
         <a routerLink="/register" *ngIf="isCurrentComponent('/register')"> / Rejestracja</a>
+        <a routerLink="/cookies" *ngIf="isCurrentComponent('/cookies')"> / Polityka prywatności</a>
+        <a routerLink="/rules" *ngIf="isCurrentComponent('/rules')"> / Regulamin sprzedaży</a>
+        <a routerLink="/cart" *ngIf="isCurrentComponent('/cart')"> / Koszyk</a>
+        <a *ngIf="isCurrentComponent('/login-google')"> / Logowanie google</a>
     </p>
 </div>

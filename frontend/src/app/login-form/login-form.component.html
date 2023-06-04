@@ -4,4 +4,5 @@
     <input type="text" [(ngModel)]="username" [ngModelOptions]="{ standalone: true }" placeholder="E-mail"><br /><br />
     <input type="password" [(ngModel)]="password" [ngModelOptions]="{ standalone: true }" placeholder="Hasło"><br /><br />
     <button type="submit">Zaloguj się</button>
-</form>
+</form><br />
+<button (click)="loginWithGoogle()">Zaloguj przez Google</button>

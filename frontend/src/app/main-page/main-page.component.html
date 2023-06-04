@@ -1,1 +1,20 @@
-<p>main-page works!</p>
+<app-nav-bar></app-nav-bar>
+<div class="content_padding">
+    <div class="filters">
+        <div class="bar"><p>Sortuj</p></div>
+        <p>cena rosnąco<br />
+        cena malejąco<br /><br /></p>
+        <div class="bar"><p>Filtruj</p></div>
+        <p>marka <br />
+        typ <br /><br /></p>
+    </div>
+    <div class="products">
+        <div class="item_list">
+            <div class="item" *ngFor="let itemElement of items">
+                <img [src]="itemElement.image" class="item_image"><br />
+                <div class="item_name">{{ itemElement.name }}</div>
+                <div class="item_price">{{ itemElement.price }} zł</div>
+            </div>
+        </div>
+    </div>
+</div>
