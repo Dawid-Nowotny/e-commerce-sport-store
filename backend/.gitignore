@@ -1,5 +1,7 @@
 /config/sklep-sportowy-7c265-firebase-adminsdk-8iec3-2fabe67376.json
 /config/__pycache__
 /application/controllers/__pycache__
+/application/controllers/client_secrets.json
 /application/models/__pycache__
 /config/pyrebaseManager.py
+/application/controllers/login_google.py
