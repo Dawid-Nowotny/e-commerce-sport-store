@@ -9,12 +9,26 @@
         typ <br /><br /></p>
     </div>
     <div class="products">
+        <mat-paginator [pageSizeOptions]="pageSizeOptions"
+                    [pageSize]="pageSize"
+                    [pageIndex]="currentPageIndex"
+                    [length]="totalItems"
+                    (page)="onPageChange($event)">
+        </mat-paginator>
+        <br />
         <div class="item_list">
             <div class="item" *ngFor="let itemElement of items">
-                <img [src]="itemElement.image" class="item_image"><br />
+                <img [src]="itemElement.prod_images[0]" class="item_image"><br />
                 <div class="item_name">{{ itemElement.name }}</div>
                 <div class="item_price">{{ itemElement.price }} zł</div>
             </div>
         </div>
+        <br />
+        <mat-paginator [pageSizeOptions]="pageSizeOptions"
+                    [pageSize]="pageSize"
+                    [pageIndex]="currentPageIndex"
+                    [length]="totalItems"
+                    (page)="onPageChange($event)">
+        </mat-paginator>
     </div>
 </div>

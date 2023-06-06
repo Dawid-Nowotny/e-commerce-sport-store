@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { Items } from '../app/items/items';
+
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -30,5 +32,14 @@ export class ServerService {
     const url = `${this.userUrl}/api/register`;
     return this.http.post(url, data, httpOptions);
   }
-  
+
+  /** POST GETPRODUCTS */
+  getProducts(pageIndex: number, pageSize: number): Observable<any> {
+    const data = {
+      pageIndex: pageIndex,
+      pageSize: pageSize
+    };
+    const url = `${this.userUrl}/api/products`;
+    return this.http.post(url, data, httpOptions);
+  }
 }
