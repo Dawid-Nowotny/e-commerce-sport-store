@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ServerService } from '../server.service';
 
@@ -13,7 +14,7 @@ export class LoginFormComponent {
   errorMessage: string;
   successMessage: string;
 
-  constructor(private serverService: ServerService) {
+  constructor(private serverService: ServerService, private router: Router) {
     this.username = '';
     this.password = '';
     this.errorMessage = '';
@@ -41,6 +42,8 @@ export class LoginFormComponent {
         if (response.success == true) {
           this.successMessage = 'Zalogowano!';
           this.errorMessage = '';
+          localStorage.setItem("user_id", response.user_id);
+          this.router.navigate(['/']);
         } else {
           this.errorMessage = 'Podano błędny email lub hasło!';
         }

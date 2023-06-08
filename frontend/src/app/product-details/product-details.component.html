@@ -1,0 +1,23 @@
+<app-nav-bar></app-nav-bar>
+<div class="content_padding">
+    <div *ngFor="let item of items">
+        <div class="details_image">
+            <img [src]="item.prod_images[0]" class="item_image"><br />
+        </div>
+        <div>
+            <h2>{{ item.name }}</h2>
+            <p>Id: {{ item.id }}</p>
+            <p>Cena: {{ item.price }}</p>
+            <p>Kolor: {{ item.characteristics.color }}</p>
+            <p>Marka: {{ item.brand }}</p>
+            <p>Kategoria: {{ item.category }}</p>
+            <p>size 41: {{ item.sizes_and_amounts['41'] }} sztuk</p>
+            <form (ngSubmit)="onSubmit()">
+                <label><input type="radio" name="size" [(ngModel)]="size" value="41" checked>41</label>
+                <label><input type="radio" name="size" [(ngModel)]="size" value="42">42</label>
+                <label><input type="radio" name="size" [(ngModel)]="size" value="43">43</label><br /><br />
+                <input type="submit" value="Dodaj do koszyka">
+            </form>
+        </div>
+      </div>
+</div>

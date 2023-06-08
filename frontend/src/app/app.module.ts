@@ -19,6 +19,7 @@ import { RegisterFormComponent } from './register-form/register-form.component';
 import { NavBarComponent } from './nav-bar/nav-bar.component';
 import { LoginGoogleComponent } from './login-google/login-google.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { ProductDetailsComponent } from './product-details/product-details.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     RegisterComponent,
     RegisterFormComponent,
     NavBarComponent,
-    LoginGoogleComponent
+    LoginGoogleComponent,
+    ProductDetailsComponent
   ],
   imports: [
     BrowserModule,
