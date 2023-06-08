@@ -23,7 +23,7 @@ async def register_confirm():
         existing_user = auth.get_user_by_email(email)
         return jsonify({'success': False, 'message': 'Konto z takim emailem jest już zarejestrowane'})
     except ValueError:
-            return jsonify({'success': False, 'message': 'Nieprawidłowy adres e-mail.'})
+        return jsonify({'success': False, 'message': 'Nieprawidłowy adres e-mail.'})
     except exceptions.NotFoundError:
         try:
             user = auth.create_user(
@@ -31,7 +31,8 @@ async def register_confirm():
                 password=password
             )
 
-            token = auth.create_custom_token(user.uid)
-            return jsonify({'success': True, 'token': token.decode('utf-8')})
+            uid = user.uid
+
+            return jsonify({'success': True, 'message': 'Rejestracja powiodła się', 'user_id': uid})
         except:
-             return jsonify({'success': False, 'message': 'Nieokreślony błąd.'})
+            return jsonify({'success': False, 'message': 'Nieokreślony błąd.'})

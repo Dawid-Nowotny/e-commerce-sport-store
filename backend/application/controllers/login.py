@@ -23,7 +23,7 @@ async def confirm_login():
         auth = firebase.auth()
         user = auth.sign_in_with_email_and_password(email, password)
 
-        token = user['idToken']
-        return jsonify({'success': True, 'message': 'Zalogowano pomyślnie', 'token': token})
+        uid = user['localId']
+        return jsonify({'success': True, 'message': 'Zalogowano pomyślnie', 'user_id': uid})
     except:
         return jsonify({'success': False, 'error': 'Błąd logowania'})

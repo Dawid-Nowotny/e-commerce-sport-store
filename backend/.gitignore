@@ -3,5 +3,6 @@
 /application/controllers/__pycache__
 /application/controllers/client_secrets.json
 /application/models/__pycache__
-/config/pyrebaseManager.py
+/config/pyrebaseConfig.py
 /application/controllers/login_google.py
+/__pycache__
