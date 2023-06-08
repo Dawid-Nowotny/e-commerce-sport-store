@@ -17,11 +17,12 @@
         </mat-paginator>
         <br />
         <div class="item_list">
-            <div class="item" *ngFor="let itemElement of items">
-                <img [src]="itemElement.prod_images[0]" class="item_image"><br />
-                <div class="item_name">{{ itemElement.name }}</div>
-                <div class="item_price">{{ itemElement.price }} zł</div>
-            </div>
+                <div class="item" *ngFor="let itemElement of items" (click)="goToProductDetails(itemElement.id)">
+                        <img [src]="itemElement.prod_images[0]" class="item_image"><br />
+                        <div class="item_name">{{ itemElement.name }}</div>
+                        <div class="item_price">{{ itemElement.price }} zł</div>
+                    
+                </div>
         </div>
         <br />
         <mat-paginator [pageSizeOptions]="pageSizeOptions"

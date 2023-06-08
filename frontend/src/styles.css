@@ -653,3 +653,9 @@ label {
 	.search_header input, .search_header span { display:block; }
 	.search_mobile_header input, .search_mobile_header span { display:none; }
 }
+
+.details_image {
+	width: 40%;
+	float: left;
+	margin: 20px;
+}

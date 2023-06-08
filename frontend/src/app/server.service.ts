@@ -42,4 +42,19 @@ export class ServerService {
     const url = `${this.userUrl}/api/products`;
     return this.http.post(url, data, httpOptions);
   }
+
+  /** POST GETDETAILS */
+  getDetails(productId: string): Observable<any> {
+    const data = {
+      productId: productId
+    };
+    const url = `${this.userUrl}/api/product-details`;
+    return this.http.post(url, data, httpOptions);
+  }
+
+  /** POST ADDTOCART */
+  addToCart(data: any): Observable<any> {
+    const url = `${this.userUrl}/api/add-to-cart`;
+    return this.http.post(url, data, httpOptions);;
+  }
 }

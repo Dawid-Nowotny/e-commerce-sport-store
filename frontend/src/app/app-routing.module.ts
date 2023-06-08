@@ -9,6 +9,7 @@ import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { NavBarComponent } from './nav-bar/nav-bar.component';
 import { LoginGoogleComponent } from './login-google/login-google.component';
+import { ProductDetailsComponent } from './product-details/product-details.component';
 const routes: Routes = [
   { path: '', component: MainPageComponent },
   { path: 'cart', component: ShopCartComponent },
@@ -18,6 +19,7 @@ const routes: Routes = [
   { path: 'register', component: RegisterComponent },
   { path: 'nav-bar', component: NavBarComponent },
   { path: 'login-google', component: LoginGoogleComponent },
+  { path: 'product-details/:id', component: ProductDetailsComponent },
   { path: '**', pathMatch: 'full', 
         component: NotFoundComponent },
 ];
