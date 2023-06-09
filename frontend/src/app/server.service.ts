@@ -3,7 +3,6 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Items } from '../app/items/items';
 
-
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
 };
@@ -67,6 +66,7 @@ export class ServerService {
     return this.http.post(url, data, httpOptions);
   }
 
+  /** POST DELETEPRODUCTFROMCART */
   deleteProductFromCart(productId: string, size: string): Observable<any> {
     const data = {
       userId: localStorage.getItem("user_id"),
@@ -77,6 +77,7 @@ export class ServerService {
     return this.http.post(url, data, httpOptions);
   }
 
+  /** POST SETPRODUCTAMOUNT */
   setProductAmount(productId: string, size: string, amount: number): Observable<any> {
     const data = {
       userId: localStorage.getItem("user_id"),
@@ -86,5 +87,17 @@ export class ServerService {
     }
     const url = `${this.userUrl}/api/set-product-amount`;
     return this.http.post(url, data, httpOptions);
+  }
+
+  /** POST ADDPRODUCT */
+  addProduct(formData: FormData): Observable<any> {
+    const url = `${this.userUrl}/api/admin/add-product`;
+    return this.http.post(url, formData);
+  }
+
+  /** POST GETBRANDSANDCATEGORIES */
+  getBrandsAndCategories(): Observable<any> {
+    const url = `${this.userUrl}/api/admin/get-lists`;
+    return this.http.post(url, null);
   }
 }

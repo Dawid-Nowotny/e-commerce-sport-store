@@ -28,7 +28,6 @@ export class MainPageComponent implements OnInit {
   fetchProducts(): void {
     this.serverService.getProducts(this.currentPageIndex, this.pageSize).subscribe(response => {
       this.items = response.items;
-      console.log(this.items[0].id);
       this.totalItems = response.totalItems;
     });
   }

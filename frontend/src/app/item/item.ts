@@ -3,9 +3,6 @@ export interface Item {
     name: string;
     price: number;
     description: string;
-    characteristics: {
-        color: string;
-    };
     brand: string;
     category: string;
     prod_images: string[];
