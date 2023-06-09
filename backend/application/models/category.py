@@ -43,3 +43,10 @@ class Category:
         snapshot = ref.get()
         categories = [Category.from_dict(data) for data in snapshot.values()]
         return categories
+    
+    @staticmethod
+    def get_all_with_ids():
+        ref = db.reference('categories')
+        snapshot = ref.get()
+        categories = [{'id': category_id, 'name': data['name']} for category_id, data in snapshot.items()]
+        return categories
