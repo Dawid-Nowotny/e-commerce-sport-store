@@ -55,6 +55,36 @@ export class ServerService {
   /** POST ADDTOCART */
   addToCart(data: any): Observable<any> {
     const url = `${this.userUrl}/api/add-to-cart`;
-    return this.http.post(url, data, httpOptions);;
+    return this.http.post(url, data, httpOptions);
+  }
+
+  /** POST GETCART */
+  getCart(): Observable<any> {
+    const data = {
+      userId: localStorage.getItem("user_id")
+    }
+    const url = `${this.userUrl}/api/get-cart`;
+    return this.http.post(url, data, httpOptions);
+  }
+
+  deleteProductFromCart(productId: string, size: string): Observable<any> {
+    const data = {
+      userId: localStorage.getItem("user_id"),
+      productId: productId,
+      size: size
+    }
+    const url = `${this.userUrl}/api/delete-from-cart`;
+    return this.http.post(url, data, httpOptions);
+  }
+
+  setProductAmount(productId: string, size: string, amount: number): Observable<any> {
+    const data = {
+      userId: localStorage.getItem("user_id"),
+      productId: productId,
+      size: size,
+      amount: amount
+    }
+    const url = `${this.userUrl}/api/set-product-amount`;
+    return this.http.post(url, data, httpOptions);
   }
 }

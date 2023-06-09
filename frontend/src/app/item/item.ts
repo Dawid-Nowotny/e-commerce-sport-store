@@ -10,6 +10,7 @@ export interface Item {
     category: string;
     prod_images: string[];
     sizes_and_amounts: {
-        [size: string]: number
-    };
+        size: string;
+        amount: number;
+    }[];
 }
