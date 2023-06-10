@@ -113,3 +113,8 @@ class Product:
         snapshot = ref.get()
         product_count = len(snapshot)
         return product_count
+    
+    def delete(self):
+        ref = db.reference('products')
+        if self.id:
+            ref.child(self.id).delete()

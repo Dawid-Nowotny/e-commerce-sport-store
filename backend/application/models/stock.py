@@ -52,3 +52,8 @@ class Stock:
             return Stock(product_id, size, snapshot)
         else:
             return None
+    
+    def delete(self):
+        ref = db.reference('stock')
+        stock_ref = ref.child(self.product_id)
+        stock_ref.child(self.size).delete()

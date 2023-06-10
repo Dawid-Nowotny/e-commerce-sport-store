@@ -67,26 +67,34 @@ async def handle_get():
             existing_products = json.loads(existing_data.decode())
             
             cart = []
+            total_price = 0
+            
             for product_data in existing_products:
                 product_id = product_data.get('product')
                 product = Product.get_by_id(product_id)
                 stock = Stock.get_by_product_id_and_size(product_id, product_data.get('size'))
+                
+                price = float(product.price) * product_data.get('amount')
+                total_price += price
+                
                 cart.append({
                     'id': product_id,
                     'name': product.name,
                     'size': product_data.get('size'),
                     'amount': product_data.get('amount'),
-                    'stock_amount': stock.amount
+                    'stock_amount': stock.amount if stock else None,
                 })
 
             print(cart)
-            return jsonify({'success': True, 'cart': cart})
+            print(total_price)
+
+            return jsonify({'success': True, 'cart': cart, 'total_price': total_price})
         else:
-            return jsonify({'success': True, 'cart': []})
+            return jsonify({'success': True, 'cart': [], 'total_price': 0})
     else:
         return jsonify({'success': False, 'message': 'Użytkownik o podanym identyfikatorze nie istnieje'})
     
-@delete_from_cart.route('/api/delete-from-cart', methods=['POST'])
+@delete_from_cart.route('/api/delete-from-cart', methods=['DELETE'])
 async def handle_delete():
     submitted_data = request.get_json()
     user_id = submitted_data.get('userId')
