@@ -15,11 +15,10 @@ from flask import Blueprint, jsonify, request
 
 main_page_products = Blueprint('main_page_products', __name__, template_folder='templates')
 
-@main_page_products.route('/api/products', methods=['POST'])
+@main_page_products.route('/api/products', methods=['GET'])
 async def get_products():
-    submitted_data = request.get_json()
-    pageIndex = submitted_data.get('pageIndex')
-    pageSize = submitted_data.get('pageSize')
+    pageIndex = int(request.args.get('pageIndex'))
+    pageSize = int(request.args.get('pageSize'))
 
     start_index = pageIndex * pageSize
     end_index = start_index + pageSize

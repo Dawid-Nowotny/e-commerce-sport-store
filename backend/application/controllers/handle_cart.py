@@ -53,10 +53,9 @@ async def handle_add():
     else:
         return jsonify({'success': False, 'message': 'Użytkownik o podanym identyfikatorze nie istnieje'})
     
-@get_cart.route('/api/get-cart', methods=['POST'])
+@get_cart.route('/api/get-cart', methods=['GET'])
 async def handle_get():
-    submitted_data = request.get_json()
-    user_id = submitted_data.get('userId')
+    user_id = request.args.get('userId')
     
     if user_id is None:
         return jsonify({'success': False, 'message': 'Użytkownik o podanym identyfikatorze nie istnieje'})
@@ -85,8 +84,6 @@ async def handle_get():
                     'stock_amount': stock.amount if stock else None,
                 })
 
-            print(cart)
-            print(total_price)
 
             return jsonify({'success': True, 'cart': cart, 'total_price': total_price})
         else:
@@ -119,7 +116,7 @@ async def handle_delete():
     else:
         return jsonify({'success': True, 'message': 'Koszyk jest pusty'})
     
-@increase_product_amount.route('/api/set-product-amount', methods=['POST'])
+@increase_product_amount.route('/api/set-product-amount', methods=['PUT'])
 async def handle_increase():
     submitted_data = request.get_json()
     user_id = submitted_data.get('userId')

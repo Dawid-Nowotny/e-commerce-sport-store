@@ -7,7 +7,7 @@ from application.controllers.login_google import google_login_page
 from application.controllers.register import register_page
 
 from application.controllers.main_page import main_page_products
-from application.controllers.product_detail import product_details
+from application.controllers.product_detail import product_details, product_details_edit
 from application.controllers.handle_cart import add_to_cart, get_cart, delete_from_cart, increase_product_amount
 
 from application.controllers.handle_admin_operation import check_admin, add_new_product, edit_product, delete_product, append_stock
@@ -19,6 +19,7 @@ app.register_blueprint(register_page)
 
 app.register_blueprint(main_page_products)
 app.register_blueprint(product_details)
+app.register_blueprint(product_details_edit)
 
 app.register_blueprint(add_to_cart)
 app.register_blueprint(get_cart)
