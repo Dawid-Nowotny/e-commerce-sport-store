@@ -32,32 +32,22 @@ export class ServerService {
     return this.http.post(url, data, httpOptions);
   }
 
-  /** POST GETPRODUCTS */
+  /** GET GETPRODUCTS */
   getProducts(pageIndex: number, pageSize: number): Observable<any> {
-    const data = {
-      pageIndex: pageIndex,
-      pageSize: pageSize
-    };
-    const url = `${this.userUrl}/api/products`;
-    return this.http.post(url, data, httpOptions);
+    const url = `${this.userUrl}/api/products?pageIndex=${pageIndex}&pageSize=${pageSize}`;
+    return this.http.get(url);
   }
 
   /** POST GETDETAILS */
   getDetails(productId: string): Observable<any> {
-    const data = {
-      productId: productId
-    };
-    const url = `${this.userUrl}/api/product-details`;
-    return this.http.post(url, data, httpOptions);
+    const url = `${this.userUrl}/api/product-details?productId=${productId}`;
+    return this.http.get(url);
   }
 
   /** POST GETDETAILSFOREDIT */
   getDetailsForEdit(productId: string): Observable<any> {
-    const data = {
-      productId: productId
-    };
-    const url = `${this.userUrl}/api/admin/product-details-edit`;
-    return this.http.post(url, data, httpOptions);
+    const url = `${this.userUrl}/api/admin/product-details-edit?productId=${productId}`;
+    return this.http.get(url);
   }
 
   /** POST ADDTOCART */
@@ -66,13 +56,10 @@ export class ServerService {
     return this.http.post(url, data, httpOptions);
   }
 
-  /** POST GETCART */
+  /** GET GETCART */
   getCart(): Observable<any> {
-    const data = {
-      userId: localStorage.getItem("user_id")
-    }
-    const url = `${this.userUrl}/api/get-cart`;
-    return this.http.post(url, data, httpOptions);
+    const url = `${this.userUrl}/api/get-cart?userId=${localStorage.getItem("user_id")}`;
+    return this.http.get(url);
   }
 
   /** DELETE DELETEPRODUCTFROMCART */
@@ -94,7 +81,7 @@ export class ServerService {
     return this.http.delete(url, options);
   }
 
-  /** POST SETPRODUCTAMOUNT */
+  /** PUT SETPRODUCTAMOUNT */
   setProductAmount(productId: string, size: string, amount: number): Observable<any> {
     const data = {
       userId: localStorage.getItem("user_id"),
@@ -103,7 +90,7 @@ export class ServerService {
       amount: amount
     }
     const url = `${this.userUrl}/api/set-product-amount`;
-    return this.http.post(url, data, httpOptions);
+    return this.http.put(url, data);
   }
 
   /** POST ADDPRODUCT */
@@ -112,10 +99,10 @@ export class ServerService {
     return this.http.post(url, formData);
   }
 
-  /** POST GETBRANDSANDCATEGORIES */
+  /** GET GETBRANDSANDCATEGORIES */
   getBrandsAndCategories(): Observable<any> {
     const url = `${this.userUrl}/api/admin/get-lists`;
-    return this.http.post(url, null);
+    return this.http.get(url);
   }
 
   /** PUT EDITPRODUCT */
