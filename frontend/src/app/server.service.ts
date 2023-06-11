@@ -38,6 +38,12 @@ export class ServerService {
     return this.http.get(url);
   }
 
+  /** GET GETBRANDSANDCATEGORIES */
+  getFilteredProducts(pageIndex: number, pageSize: number, filters: string): Observable<any> {
+    const url = `${this.userUrl}/api/filtered-products?pageIndex=${pageIndex}&pageSize=${pageSize}` + filters;
+    return this.http.get(url);
+  }
+
   /** POST GETDETAILS */
   getDetails(productId: string): Observable<any> {
     const url = `${this.userUrl}/api/product-details?productId=${productId}`;
