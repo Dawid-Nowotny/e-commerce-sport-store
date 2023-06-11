@@ -2,7 +2,7 @@
 <div class="content_padding">
     <form (ngSubmit)="onSubmit()" enctype="multipart/form-data">
         <label for="name">Nazwa produktu:</label>
-        <input type="text" [(ngModel)]="name" name="name"><br />       
+        <input type="text" [(ngModel)]="name" name="name" [required]="true" [ngModelOptions]="{standalone: true}"><br />       
         
         <label for="brand">Marka:</label>
         <select name="brand" [(ngModel)]="brand_id">
@@ -21,7 +21,7 @@
         <label for="description">Opis:</label>
         <textarea [(ngModel)]="description" name="description"></textarea><br />
       
-        <label for="price">Product Price:</label>
+        <label for="price">Cena produktu:</label>
         <input type="text" [(ngModel)]="price" name="price"><br />
       
         <label for="prod_images">Product Images:</label>

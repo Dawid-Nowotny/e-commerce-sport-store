@@ -22,6 +22,9 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { ProductDetailsComponent } from './product-details/product-details.component';
 import { AdminPanelComponent } from './admin-panel/admin-panel.component';
 import { AddProductComponent } from './add-product/add-product.component';
+import { ProductListComponent } from './product-list/product-list.component';
+import { EditProductComponent } from './edit-product/edit-product.component';
+import { IncreaseStockComponent } from './increase-stock/increase-stock.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +43,10 @@ import { AddProductComponent } from './add-product/add-product.component';
     LoginGoogleComponent,
     ProductDetailsComponent,
     AdminPanelComponent,
-    AddProductComponent
+    AddProductComponent,
+    ProductListComponent,
+    EditProductComponent,
+    IncreaseStockComponent
   ],
   imports: [
     BrowserModule,

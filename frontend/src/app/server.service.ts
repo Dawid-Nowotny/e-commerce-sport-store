@@ -51,6 +51,15 @@ export class ServerService {
     return this.http.post(url, data, httpOptions);
   }
 
+  /** POST GETDETAILSFOREDIT */
+  getDetailsForEdit(productId: string): Observable<any> {
+    const data = {
+      productId: productId
+    };
+    const url = `${this.userUrl}/api/admin/product-details-edit`;
+    return this.http.post(url, data, httpOptions);
+  }
+
   /** POST ADDTOCART */
   addToCart(data: any): Observable<any> {
     const url = `${this.userUrl}/api/add-to-cart`;
@@ -66,15 +75,23 @@ export class ServerService {
     return this.http.post(url, data, httpOptions);
   }
 
-  /** POST DELETEPRODUCTFROMCART */
+  /** DELETE DELETEPRODUCTFROMCART */
   deleteProductFromCart(productId: string, size: string): Observable<any> {
-    const data = {
-      userId: localStorage.getItem("user_id"),
-      productId: productId,
-      size: size
-    }
+    const userId = localStorage.getItem('user_id');
     const url = `${this.userUrl}/api/delete-from-cart`;
-    return this.http.post(url, data, httpOptions);
+  
+    const options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+      body: {
+        userId: userId,
+        productId: productId,
+        size: size,
+      },
+    };
+  
+    return this.http.delete(url, options);
   }
 
   /** POST SETPRODUCTAMOUNT */
@@ -99,5 +116,39 @@ export class ServerService {
   getBrandsAndCategories(): Observable<any> {
     const url = `${this.userUrl}/api/admin/get-lists`;
     return this.http.post(url, null);
+  }
+
+  /** PUT EDITPRODUCT */
+  editProduct(formData: FormData): Observable<any> {
+    const url = `${this.userUrl}/api/admin/edit-product`;
+    return this.http.put(url, formData);
+  }
+
+  /** DELETE DELETEPRODUCT */
+  deleteProduct(productId: string): Observable<any> {
+    const url = `${this.userUrl}/api/admin/delete-product`;
+  
+    const options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+      body: {
+        productId: productId
+      },
+    };
+  
+    return this.http.delete(url, options);
+  }
+
+  /** GET DELETEPRODUCT */
+  getProductCategory(productId: string): Observable<any> {
+    const url = `${this.userUrl}/api/admin/get-lists?id=${productId}`;
+    return this.http.get(url);
+  }
+
+  /** POST GETBRANDSANDCATEGORIES */
+  addProductStock(data: any): Observable<any> {
+    const url = `${this.userUrl}/api/admin/add-stock`;
+    return this.http.post(url, data);
   }
 }

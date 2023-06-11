@@ -15,16 +15,18 @@ export class AddProductComponent {
   name: string = '';
   price: string = '';
   prod_images: File[] = [];
-  
-  constructor(private titleService: Title, private serverService: ServerService) { }
   categories: any = '';
   brands: any = '';
+  
+  constructor(private titleService: Title, private serverService: ServerService) { }
 
   ngOnInit() {
     this.titleService.setTitle('Dodaj produkt - AWAZONsport');
     this.serverService.getBrandsAndCategories().subscribe(response => {
       this.categories = response.categories;
       this.brands = response.brands;
+      this.category_id = this.categories[0].id;
+      this.brand_id = this.brands[0].id;
     });
   }
 

@@ -3,7 +3,6 @@ import { Title } from '@angular/platform-browser';
 import { ServerService } from '../server.service';
 import { Router } from '@angular/router';
 import { Item } from '../item/item';
-import { Items } from '../items/items';
 import { Cart } from '../cart/cart';
 import { AppModule } from '../app.module';
 
@@ -15,6 +14,7 @@ import { AppModule } from '../app.module';
 export class ShopCartComponent implements OnInit {
   constructor(private titleService: Title, private serverService: ServerService, private router: Router) { }
   cart: Cart[] = [];
+  totalPrice: number = 0;
   selectedOption: number = 0;
 
   ngOnInit() {
@@ -26,6 +26,7 @@ export class ShopCartComponent implements OnInit {
       }
       else{
         this.cart = response.cart;
+        this.totalPrice = response.total_price;
         if(this.cart.length == 0) {
           alert("koszyk pusty");
         }

@@ -12,6 +12,9 @@ import { LoginGoogleComponent } from './login-google/login-google.component';
 import { ProductDetailsComponent } from './product-details/product-details.component';
 import { AdminPanelComponent } from './admin-panel/admin-panel.component';
 import { AddProductComponent } from './add-product/add-product.component';
+import { ProductListComponent } from './product-list/product-list.component';
+import { EditProductComponent } from './edit-product/edit-product.component';
+import { IncreaseStockComponent } from './increase-stock/increase-stock.component';
 const routes: Routes = [
   { path: '', component: MainPageComponent },
   { path: 'cart', component: ShopCartComponent },
@@ -24,6 +27,9 @@ const routes: Routes = [
   { path: 'product-details/:id', component: ProductDetailsComponent },
   { path: 'admin-panel', component: AdminPanelComponent },
   { path: 'admin-panel/add-product', component: AddProductComponent },
+  { path: 'admin-panel/product-list', component: ProductListComponent },
+  { path: 'admin-panel/edit-product/:id', component: EditProductComponent },
+  { path: 'admin-panel/increase-stock/:id', component: IncreaseStockComponent },
   { path: '**', pathMatch: 'full', 
         component: NotFoundComponent },
 ];
