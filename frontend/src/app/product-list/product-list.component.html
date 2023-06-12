@@ -2,27 +2,11 @@
 <div class="content_padding">
     <div class="filters">
         <div class="bar"><p>Sortuj</p></div>
-        <p> 
-            <span (click)="setPriceOrder('asc')">cena rosnąco</span><br />
-            <span (click)="setPriceOrder('desc')">cena malejąco</span><br /><br />
-        </p>
+        <p>cena rosnąco<br />
+        cena malejąco<br /><br /></p>
         <div class="bar"><p>Filtruj</p></div>
-        <p>
-            <label for="brand">Marka:</label>
-            <select name="brand" [(ngModel)]="brand_id" (change)="setFilters()">
-                <option [value]=brand.id *ngFor="let brand of brands; let i=index" [selected]="i==0">
-                    {{ brand.name }}
-                </option>
-            </select>
-        </p>
-        <p>
-            <label for="category">Kategoria:</label>
-            <select name="category" [(ngModel)]="category_id" (change)="setFilters()">
-                <option [value]=category.id *ngFor="let category of categories; let i=index" [selected]="i==0">
-                    {{ category.name }}
-                </option>
-            </select>
-        </p>
+        <p>marka <br />
+        typ <br /><br /></p>
     </div>
     <div class="products">
         <mat-paginator [pageSizeOptions]="pageSizeOptions"
@@ -33,11 +17,13 @@
         </mat-paginator>
         <br />
         <div class="item_list">
-                <div class="item" *ngFor="let itemElement of items" (click)="goToProductDetails(itemElement.id)">
+                <div class="details_image" *ngFor="let itemElement of items">
                         <img [src]="itemElement.prod_images[0]" class="item_image"><br />
                         <div class="item_name">{{ itemElement.name }}</div>
                         <div class="item_price">{{ itemElement.price }} zł</div>
-                    
+                        <button (click)="goToEditProduct(itemElement.id)">Edytuj</button>
+                        <button (click)="goToIncreaseStock(itemElement.id)">Dodaj ilość produktu</button> 
+                        <button (click)="deleteProduct(itemElement.id)">Usuń</button>
                 </div>
         </div>
         <br />

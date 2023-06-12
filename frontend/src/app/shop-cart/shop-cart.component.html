@@ -3,7 +3,19 @@
         <app-nav-bar></app-nav-bar>
         <div class="text-center">
             <div class="bar"><p>Koszyk</p></div>
-
+            <div class="item" *ngFor="let cartElement of cart">
+                <div class="item_name" (click)="goToProductDetails(cartElement.id)">
+                  {{ cartElement.name }}
+                </div>
+                <select (change)="setProductAmount(cartElement.id, cartElement.size, selectedOption)" [(ngModel)]="selectedOption">
+                    <option value=1>1</option>
+                    <option value=2>2</option>
+                    <option value=3>3</option>
+                </select>
+                <button (click)="deleteProductFromCart(cartElement.id, cartElement.size)">Usuń produkt z koszyka</button>
+            </div>
+            <div>Całkowita cena: {{ totalPrice }}</div>
+            <button routerLink="">Zapłać</button>
         </div>
     </div>
 </div>
