@@ -43,3 +43,10 @@ class Brand:
         snapshot = ref.get()
         brands = [Brand.from_dict(data) for data in snapshot.values()]
         return brands
+    
+    @staticmethod
+    def get_all_with_ids():
+        ref = db.reference('brands')
+        snapshot = ref.get()
+        brands = [{'id': brand_id, 'name': data['name']} for brand_id, data in snapshot.items()]
+        return brands

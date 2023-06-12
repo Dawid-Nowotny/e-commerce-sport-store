@@ -11,20 +11,18 @@ from .category import Category
 firebase_manager = FirebaseManager()
 
 class Product:
-    def __init__(self, id, name, price, description, characteristics, brand_id, category_id, prod_images):
+    def __init__(self, id, name, price, description, brand_id, category_id, prod_images):
         self.id = id
         self.name = name
         self.price = price
         self.description = description
-        self.characteristics = characteristics
         self.brand_id = brand_id
         self.category_id = category_id
         self.prod_images = prod_images
 
     def __str__(self):
         return f"Product(id='{self.id}', name='{self.name}', price={self.price}, description='{self.description}', " \
-            f"characteristics={self.characteristics}, brand_id='{self.brand_id}', " \
-            f"category_id='{self.category_id}', prod_images={self.prod_images})"
+            f"brand_id='{self.brand_id}', category_id='{self.category_id}', prod_images={self.prod_images})"
 
     def to_dict(self):
         brand = Brand.get_by_id(self.brand_id)
@@ -38,9 +36,19 @@ class Product:
             'name': self.name,
             'price': self.price,
             'description': self.description,
-            'characteristics': self.characteristics,
             'brand': brand_name,
             'category': category_name,
+            'prod_images': self.prod_images
+        }
+
+    def to_dict_with_ids(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'price': self.price,
+            'description': self.description,
+            'brand': self.brand_id,
+            'category': self.category_id,
             'prod_images': self.prod_images
         }
 
@@ -51,7 +59,6 @@ class Product:
             name=data['name'],
             price=data['price'],
             description=data['description'],
-            characteristics=data['characteristics'],
             brand_id=data['brand_id'],
             category_id=data['category_id'],
             prod_images=data['prod_images']
@@ -65,6 +72,16 @@ class Product:
             new_product_ref = ref.push()
             self.id = new_product_ref.key
             new_product_ref.set(self.to_dict())
+
+    def original_save(self):
+        ref = db.reference('products')
+        if self.id:
+            ref.child(self.id).set(self.to_dict_with_ids())
+        else:
+            new_product_ref = ref.push()
+            self.id = new_product_ref.key
+            new_product_ref.set(self.to_dict_with_ids())
+
 
     @staticmethod
     def get_by_id(id):
@@ -96,3 +113,8 @@ class Product:
         snapshot = ref.get()
         product_count = len(snapshot)
         return product_count
+    
+    def delete(self):
+        ref = db.reference('products')
+        if self.id:
+            ref.child(self.id).delete()
