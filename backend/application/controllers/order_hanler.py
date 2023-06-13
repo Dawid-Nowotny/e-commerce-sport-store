@@ -20,7 +20,7 @@ import json
 add_order = Blueprint('add_order', __name__, template_folder='templates')
 
 @add_order.route('/api/add-order', methods=['POST'])
-def create_order():
+async def create_order():
     submitted_data = request.get_json()
     user_id = submitted_data.get('user_id')
     del_id = submitted_data.get('delivery_id')
@@ -53,8 +53,8 @@ def create_order():
             products.append(product_dict)
 
         o = Order(user_id, del_id, products, total_price)
-        o.save()
+        o_id = o.save()
     else:
         return jsonify({'success': False, 'message': 'W koszyku nie ma żadnego produktu'})
 
-    return jsonify({'success': True, 'message': 'Zamówienie zostało dodane'})
+    return jsonify({'success': True, 'message': 'Zamówienie zostało dodane', 'order_id': o_id})

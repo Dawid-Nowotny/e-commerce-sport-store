@@ -34,8 +34,9 @@ class Order:
 
     def save(self):
         ref = db.reference('orders')
-        new_order_ref = ref.push()
-        new_order_ref.set(self.to_dict())
+        new_order_ref = ref.push(self.to_dict())
+        new_order_id = new_order_ref.key
+        return new_order_id
 
     @staticmethod
     def get_by_id(id):
