@@ -11,7 +11,7 @@ export class ServerService {
 
   private userUrl = 'http://127.0.0.1:5000';  // URL to REST API
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   /** POST LOGIN */
   login(data: any): Observable<any> {
@@ -70,6 +70,7 @@ export class ServerService {
   /** POST SETDELIVERYDATA */
   setDeliveryData(data: any): Observable<any> {
     const url = `${this.userUrl}/api/delivery-data`;
+    console.log("setDeliveryData"+data);
     return this.http.post(url, data, httpOptions);
   }
 
@@ -80,6 +81,15 @@ export class ServerService {
       delivery_id: delivery_id
     }
     const url = `${this.userUrl}/api/add-order`;
+    return this.http.post(url, data, httpOptions);
+  }
+
+  /** POST PAYMENT */
+  payment(order_id: string): Observable<any> {
+    const data = {
+      order_id: order_id
+    }
+    const url = `${this.userUrl}/api/payment`;
     return this.http.post(url, data, httpOptions);
   }
 
@@ -98,7 +108,6 @@ export class ServerService {
         size: size,
       },
     };
-  
     return this.http.delete(url, options);
   }
 
@@ -144,7 +153,6 @@ export class ServerService {
         productId: productId
       },
     };
-  
     return this.http.delete(url, options);
   }
 

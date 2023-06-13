@@ -30,17 +30,23 @@ export class CheckoutComponent {
       postcode: this.postcode,
       phoneNumber: this.phoneNumber
     }
-    console.log(data);
+    
     this.serverService.setDeliveryData(data).subscribe(
       (response: any) => {
         if(response.success == true) {
           this.serverService.addOrder(response.delivery_id).subscribe(
             (response: any) => {
-              console.log(response);
+              if(response.success == true) {
+                this.serverService.payment(response.order_id).subscribe(
+                  (response: any) => {
+                    window.open(response.url);
+                  }
+                );
+              }
             }
           );
         }
       }
-    )
+    );
   }
 }
