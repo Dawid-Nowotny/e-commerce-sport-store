@@ -12,7 +12,7 @@
             <p>size 41: {{ item[0].sizes_and_amounts['41'] }} sztuk</p>
             <form (ngSubmit)="onSubmit()">
                 <label for="rozmiar">Rozmiar: </label>
-                <select name="rozmiar" [(ngModel)]="rozmiar">
+                <select name="rozmiar" [(ngModel)]="size">
                     <option *ngFor="let element of sizes">
                         {{ element }}
                     </option>

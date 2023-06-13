@@ -15,11 +15,9 @@ import { AddProductComponent } from './add-product/add-product.component';
 import { ProductListComponent } from './product-list/product-list.component';
 import { EditProductComponent } from './edit-product/edit-product.component';
 import { IncreaseStockComponent } from './increase-stock/increase-stock.component';
-import { CheckoutComponent } from './checkout/checkout.component';
 const routes: Routes = [
   { path: '', component: MainPageComponent },
   { path: 'cart', component: ShopCartComponent },
-  { path: 'checkout', component: CheckoutComponent },
   { path: 'rules', component: RulesComponent },
   { path: 'cookies', component: CookiesComponent },
   { path: 'login', component: LoginComponent },

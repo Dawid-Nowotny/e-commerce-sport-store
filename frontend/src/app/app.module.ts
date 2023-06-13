@@ -19,13 +19,14 @@ import { RegisterFormComponent } from './register-form/register-form.component';
 import { NavBarComponent } from './nav-bar/nav-bar.component';
 import { LoginGoogleComponent } from './login-google/login-google.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatPaginatorIntl } from '@angular/material/paginator';
+import { CustomPaginatorIntl } from './matpaginatorintl/MatPaginatorIntl';
 import { ProductDetailsComponent } from './product-details/product-details.component';
 import { AdminPanelComponent } from './admin-panel/admin-panel.component';
 import { AddProductComponent } from './add-product/add-product.component';
 import { ProductListComponent } from './product-list/product-list.component';
 import { EditProductComponent } from './edit-product/edit-product.component';
 import { IncreaseStockComponent } from './increase-stock/increase-stock.component';
-import { CheckoutComponent } from './checkout/checkout.component';
 
 @NgModule({
   declarations: [
@@ -47,8 +48,7 @@ import { CheckoutComponent } from './checkout/checkout.component';
     AddProductComponent,
     ProductListComponent,
     EditProductComponent,
-    IncreaseStockComponent,
-    CheckoutComponent
+    IncreaseStockComponent
   ],
   imports: [
     BrowserModule,
@@ -59,7 +59,9 @@ import { CheckoutComponent } from './checkout/checkout.component';
     HttpClientModule,
     MatPaginatorModule
   ],
-  providers: [],
+  providers: [
+    { provide: MatPaginatorIntl, useClass: CustomPaginatorIntl }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

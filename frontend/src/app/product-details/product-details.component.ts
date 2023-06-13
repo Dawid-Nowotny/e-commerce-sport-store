@@ -12,8 +12,8 @@ import { Sizes } from '../sizes/sizes';
 export class ProductDetailsComponent {
   productId: string = '';
   item: Item[] = [];
-  sizes: string[] = []
-  rozmiar: string = '';
+  sizes: string[] = [];
+  size: string = '';
 
   constructor(private route: ActivatedRoute, private serverService: ServerService) {}
  
@@ -30,7 +30,7 @@ export class ProductDetailsComponent {
         this.sizes = Sizes.clothes;
       else if(this.item[0].category == "Piłka")
         this.sizes = Sizes.balls;
-      this.rozmiar = this.sizes[0];
+      this.size = this.sizes[0];
       });
     });
   }
@@ -39,7 +39,7 @@ export class ProductDetailsComponent {
     const data = {
       userId: localStorage.getItem("user_id"),
       productId: this.productId,
-      size: this.rozmiar
+      size: this.size
     }
 
     this.serverService.addToCart(data).subscribe(
