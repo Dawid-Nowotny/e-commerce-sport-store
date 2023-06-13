@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Items } from '../app/items/items';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -66,6 +65,22 @@ export class ServerService {
   getCart(): Observable<any> {
     const url = `${this.userUrl}/api/get-cart?userId=${localStorage.getItem("user_id")}`;
     return this.http.get(url);
+  }
+
+  /** POST SETDELIVERYDATA */
+  setDeliveryData(data: any): Observable<any> {
+    const url = `${this.userUrl}/api/delivery-data`;
+    return this.http.post(url, data, httpOptions);
+  }
+
+  /** POST ADDORDER */
+  addOrder(delivery_id: string): Observable<any> {
+    const data = {
+      user_id: localStorage.getItem('user_id'),
+      delivery_id: delivery_id
+    }
+    const url = `${this.userUrl}/api/add-order`;
+    return this.http.post(url, data, httpOptions);
   }
 
   /** DELETE DELETEPRODUCTFROMCART */
