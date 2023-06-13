@@ -73,7 +73,7 @@ async def handle_get():
                 product = Product.get_by_id(product_id)
                 stock = Stock.get_by_product_id_and_size(product_id, product_data.get('size'))
                 
-                price = float(product.price) * product_data.get('amount')
+                price = float(product.price) * int(product_data.get('amount'))
                 total_price += price
                 
                 cart.append({
@@ -83,7 +83,6 @@ async def handle_get():
                     'amount': product_data.get('amount'),
                     'stock_amount': stock.amount if stock else None,
                 })
-
 
             return jsonify({'success': True, 'cart': cart, 'total_price': total_price})
         else:
@@ -122,7 +121,7 @@ async def handle_increase():
     user_id = submitted_data.get('userId')
     product_id = submitted_data.get('productId')
     size = submitted_data.get('size')
-    amount = submitted_data.get('amount')
+    amount = int(submitted_data.get('amount'))
 
     if user_id is None:
         return jsonify({'success': False, 'message': 'Użytkownik o podanym identyfikatorze nie istnieje'})

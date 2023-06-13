@@ -43,19 +43,33 @@ async def get_products_filtered():
 
     products = Product.get_all()
 
+    lengths = []
     if price_order == 'asc':
         products.sort(key=lambda p: float(p.price))
+        prod_len = Product.get_product_count()
     elif price_order == 'desc':
         products.sort(key=lambda p: float(p.price), reverse=True)
+        prod_len = Product.get_product_count()
     else:
         products.reverse()
+        prod_len = Product.get_product_count()
+
+    lengths.append(prod_len)
 
     if category_id != 'None':
         products = [product for product in products if product.category_id == category_id]
+        prod_len_CB = len(products)
 
     if brand_id != 'None':
         products = [product for product in products if product.brand_id == brand_id]
+        prod_len_CB = len(products)
+
+    try:
+        lengths.append(prod_len_CB)
+    except:
+        pass
 
     products = products[start_index:end_index]
     products_dict = [product.to_dict() for product in products]
-    return jsonify({'items': products_dict, 'totalItems': len(products_dict)})
+
+    return jsonify({'items': products_dict, 'totalItems': min(lengths)})

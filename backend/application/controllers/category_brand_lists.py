@@ -20,7 +20,7 @@ async def get_lists():
 
     return jsonify({'categories': categories, 'brands': brands})
 
-@get_category_type.route('/api/admin/get-lists', methods=['GET'])
+@get_category_type.route('/api/admin/get-product-category', methods=['GET'])
 async def get_type():
     product_id = request.args.get('id')
     product = Product.get_by_id(product_id)

@@ -47,8 +47,8 @@ class Product:
             'name': self.name,
             'price': self.price,
             'description': self.description,
-            'brand': self.brand_id,
-            'category': self.category_id,
+            'brand_id': self.brand_id,
+            'category_id': self.category_id,
             'prod_images': self.prod_images
         }
 
