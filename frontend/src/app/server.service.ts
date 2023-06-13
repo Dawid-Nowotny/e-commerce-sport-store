@@ -135,7 +135,7 @@ export class ServerService {
 
   /** GET DELETEPRODUCT */
   getProductCategory(productId: string): Observable<any> {
-    const url = `${this.userUrl}/api/admin/get-lists?id=${productId}`;
+    const url = `${this.userUrl}/api/admin/get-product-category?id=${productId}`;
     return this.http.get(url);
   }
 

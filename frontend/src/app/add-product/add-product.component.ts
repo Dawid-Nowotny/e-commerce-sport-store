@@ -36,7 +36,7 @@ export class AddProductComponent {
 
   onSubmit(): void {
     const formData = new FormData();
-
+    
     formData.append('id', this.id.toString());
     formData.append('brand_id', this.brand_id.toString());
     formData.append('category_id', this.category_id.toString());

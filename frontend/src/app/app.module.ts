@@ -25,6 +25,7 @@ import { AddProductComponent } from './add-product/add-product.component';
 import { ProductListComponent } from './product-list/product-list.component';
 import { EditProductComponent } from './edit-product/edit-product.component';
 import { IncreaseStockComponent } from './increase-stock/increase-stock.component';
+import { CheckoutComponent } from './checkout/checkout.component';
 
 @NgModule({
   declarations: [
@@ -46,7 +47,8 @@ import { IncreaseStockComponent } from './increase-stock/increase-stock.componen
     AddProductComponent,
     ProductListComponent,
     EditProductComponent,
-    IncreaseStockComponent
+    IncreaseStockComponent,
+    CheckoutComponent
   ],
   imports: [
     BrowserModule,

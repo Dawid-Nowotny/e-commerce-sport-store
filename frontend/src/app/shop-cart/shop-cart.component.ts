@@ -1,10 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ServerService } from '../server.service';
 import { Router } from '@angular/router';
-import { Item } from '../item/item';
 import { Cart } from '../cart/cart';
-import { AppModule } from '../app.module';
 
 @Component({
   selector: 'app-shop-cart',
@@ -12,50 +10,56 @@ import { AppModule } from '../app.module';
   styleUrls: ['./shop-cart.component.css']
 })
 export class ShopCartComponent implements OnInit {
-  constructor(private titleService: Title, private serverService: ServerService, private router: Router) { }
+  constructor(private titleService: Title, private serverService: ServerService, private router: Router, private cdr: ChangeDetectorRef) { }
   cart: Cart[] = [];
   totalPrice: number = 0;
-  selectedOption: number = 0;
+  selectedOption: number[] = [];
+  maxAmount: number[][] = [];
 
   ngOnInit() {
     this.titleService.setTitle('Koszyk - AWAZONsport');
-    
+    this.getCart();
+  }
+
+  getCart(): void {
     this.serverService.getCart().subscribe(response => {
       if(response.success == false) {
         alert("nie zalogowany");
-      }
-      else{
+      } else {
         this.cart = response.cart;
         this.totalPrice = response.total_price;
+        console.log(this.cart);
+        for(let i = 0; i < this.cart.length; i++) {
+          this.selectedOption[i] = this.cart[i].amount;
+        }
         if(this.cart.length == 0) {
           alert("koszyk pusty");
         }
       }
+      this.getRange();
     });
   }
 
+  getRange(): void {
+    for (let i = 0; i < this.cart.length && i <= 10; i++) {
+      this.maxAmount[i] = [];
+      for (let j = 1; j < this.cart[i].stock_amount; j++) {
+        this.maxAmount[i].push(j);
+      }
+    }
+  }
+
   deleteProductFromCart(productId: string, size: string): void {
-    this.serverService.deleteProductFromCart(productId, size).subscribe(
-      (response: any) => {
-        console.log('Odpowiedź serwera:', response);
+    this.serverService.deleteProductFromCart(productId, size).subscribe(response => {
+        console.log('Odpowiedź serwera:', response.message);
+        this.getCart();
+        this.cdr.detectChanges();
       }
     );
-    const currentUrl = this.router.url;
-    this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-      this.router.navigateByUrl(currentUrl);
-    });
   }
 
   goToProductDetails(productId: string): void {
     this.router.navigate(['/product-details', productId]);
-  }
-
-  getRange(amount: number): number[] {
-    let array: number[] = [];
-    for(let i = 1; i < amount && i <= 10; i++) {
-      array.push(i);
-    }
-    return array;
   }
 
   setProductAmount(productId: string, size: string, amount: number): void {

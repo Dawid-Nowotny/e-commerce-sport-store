@@ -3,19 +3,19 @@
         <app-nav-bar></app-nav-bar>
         <div class="text-center">
             <div class="bar"><p>Koszyk</p></div>
-            <div class="item" *ngFor="let cartElement of cart">
+            <div class="item" *ngFor="let cartElement of cart; let i=index">
                 <div class="item_name" (click)="goToProductDetails(cartElement.id)">
                   {{ cartElement.name }}
                 </div>
-                <select (change)="setProductAmount(cartElement.id, cartElement.size, selectedOption)" [(ngModel)]="selectedOption">
-                    <option value=1>1</option>
-                    <option value=2>2</option>
-                    <option value=3>3</option>
+                <select (change)="setProductAmount(cartElement.id, cartElement.size, selectedOption[i])" [(ngModel)]="selectedOption[i]">
+                    <option *ngFor="let amount of maxAmount[i]; let i = index" [value]="amount">
+                        {{ amount }}
+                    </option>
                 </select>
                 <button (click)="deleteProductFromCart(cartElement.id, cartElement.size)">Usuń produkt z koszyka</button>
             </div>
             <div>Całkowita cena: {{ totalPrice }}</div>
-            <button routerLink="">Zapłać</button>
+            <button routerLink="checkout">Zapłać</button>
         </div>
     </div>
 </div>
