@@ -80,11 +80,12 @@ async def handle_get():
                     'id': product_id,
                     'name': product.name,
                     'size': product_data.get('size'),
+                    'price': round(product.price * product_data.get('amount'),2),
                     'amount': product_data.get('amount'),
                     'stock_amount': stock.amount if stock else None,
                 })
 
-            return jsonify({'success': True, 'cart': cart, 'total_price': total_price})
+            return jsonify({'success': True, 'cart': cart, 'total_price': round(total_price, 2)})
         else:
             return jsonify({'success': True, 'cart': [], 'total_price': 0})
     else:

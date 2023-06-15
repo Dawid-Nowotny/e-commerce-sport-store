@@ -13,7 +13,7 @@ product_details = Blueprint('product_details', __name__, template_folder='templa
 get_brand_and_category_lists = Blueprint('get_brand_and_category_lists', __name__, template_folder='templates')
 get_category_type = Blueprint('get_category_type', __name__, template_folder='templates')
 
-@get_brand_and_category_lists.route('/api/admin/get-lists', methods=['GET'])
+@get_brand_and_category_lists.route('/api/get-lists', methods=['GET'])
 async def get_lists():
     categories = Category.get_all_with_ids()
     brands = Brand.get_all_with_ids()

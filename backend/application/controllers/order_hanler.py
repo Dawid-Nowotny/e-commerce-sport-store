@@ -18,6 +18,7 @@ from flask import Blueprint, jsonify, request
 import json
 
 add_order = Blueprint('add_order', __name__, template_folder='templates')
+get_order_user_list = Blueprint('get_order_user_list', __name__, template_folder='templates')
 
 @add_order.route('/api/add-order', methods=['POST'])
 async def create_order():
@@ -52,9 +53,27 @@ async def create_order():
             }
             products.append(product_dict)
 
-        o = Order(user_id, del_id, products, total_price)
+        o = Order(user_id, del_id, products, total_price, "Not paid")
         o_id = o.save()
     else:
         return jsonify({'success': False, 'message': 'W koszyku nie ma żadnego produktu'})
 
     return jsonify({'success': True, 'message': 'Zamówienie zostało dodane', 'order_id': o_id})
+
+@get_order_user_list.route('/api/get-orders', methods=['GET'])
+async def get_orders():
+    user_id = request.args.get('user_id')
+
+    if user_id is None:
+        return jsonify({'success': False, 'message': 'Brak identyfikatora użytkownika'})
+
+    orders = Order.get_all()
+    user_orders = []
+
+    for order in orders:
+        if order.user_id == user_id:
+            user_orders.append(order)
+
+    user_orders_data = [order.to_dict() for order in user_orders]
+
+    return jsonify({'success': True, 'orders': user_orders_data})
