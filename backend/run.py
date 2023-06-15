@@ -15,6 +15,8 @@ from application.controllers.delivery import add_delivery_details
 from application.controllers.order_hanler import add_order
 from application.controllers.payment import payment
 
+from application.controllers.search import search
+
 app.register_blueprint(login_page)
 app.register_blueprint(google_login_page)
 app.register_blueprint(register_page)
@@ -42,6 +44,8 @@ app.register_blueprint(get_category_type)
 app.register_blueprint(add_delivery_details)
 app.register_blueprint(add_order)
 app.register_blueprint(payment)
+
+app.register_blueprint(search)
 
 if __name__ == '__main__':
     app.run(debug=False, port=5000, host='0.0.0.0')
