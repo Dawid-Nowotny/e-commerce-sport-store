@@ -1,0 +1,17 @@
+<div class="content_padding">
+    <div class="content_text">
+        <app-nav-bar></app-nav-bar>
+        <div *ngFor="let element of orders">
+            {{ element.order_id }}<br />
+            <div *ngIf="element.payment_status == 'Not paid'; then notPaid else paid"></div>
+            <ng-template #paid>
+                Status płatności: opłacono
+            </ng-template>
+            <ng-template #notPaid>
+                Status płatności: nieopłacono
+                <button (click)="payOrder(element.order_id)">Zmień status na opłacone</button>
+            </ng-template>
+            <br /><br />
+        </div>
+    </div>
+</div>

@@ -26,6 +26,8 @@ import { ProductListComponent } from './product-list/product-list.component';
 import { EditProductComponent } from './edit-product/edit-product.component';
 import { IncreaseStockComponent } from './increase-stock/increase-stock.component';
 import { CheckoutComponent } from './checkout/checkout.component';
+import { OrdersComponent } from './orders/orders.component';
+import { AdminOrdersComponent } from './admin-orders/admin-orders.component';
 
 @NgModule({
   declarations: [
@@ -48,7 +50,9 @@ import { CheckoutComponent } from './checkout/checkout.component';
     ProductListComponent,
     EditProductComponent,
     IncreaseStockComponent,
-    CheckoutComponent
+    CheckoutComponent,
+    OrdersComponent,
+    AdminOrdersComponent
   ],
   imports: [
     BrowserModule,

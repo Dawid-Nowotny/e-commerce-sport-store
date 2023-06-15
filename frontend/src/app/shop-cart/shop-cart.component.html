@@ -12,9 +12,10 @@
                         {{ amount }}
                     </option>
                 </select>
+                Sztuk {{ cartElement.price }}
                 <button (click)="deleteProductFromCart(cartElement.id, cartElement.size)">Usuń produkt z koszyka</button>
             </div>
-            <div>Całkowita cena: {{ totalPrice }}</div>
+            <div>Całkowita cena: {{ totalPrice }} zł</div>
             <button routerLink="/checkout">Przejdź do płatności</button>
         </div>
     </div>
