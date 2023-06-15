@@ -143,4 +143,11 @@ export class ServerService {
     const url = `${this.userUrl}/api/admin/add-stock`;
     return this.http.post(url, data);
   }
+
+  /** GET GETSEARCHRESULT */
+  getSearchResult(searchValue: string): Observable<any> {
+    const url = `${this.userUrl}/api/search?name=${searchValue}`;
+    return this.http.get(url);
+  }
+
 }

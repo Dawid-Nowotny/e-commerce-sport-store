@@ -59,7 +59,7 @@
         <div class="loader" *ngIf="isLoading"></div>
         <div class="item_list" *ngIf="!isLoading">
             <div class="item" *ngFor="let itemElement of items" (click)="goToProductDetails(itemElement.id)">
-                    <div style="height:375px; display: flex; align-items: center;"><img [src]="itemElement.prod_images[0]" class="item_image"></div>
+                    <div class="div_item_image"><img [src]="itemElement.prod_images[0]" class="item_image"></div>
                     <div class="item_name">{{ itemElement.name }}</div>
                     <div class="item_price">{{ itemElement.price }} zł</div>
                 
