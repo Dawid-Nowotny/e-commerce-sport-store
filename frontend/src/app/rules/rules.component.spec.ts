@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { RulesComponent } from './rules.component';
+import { NavBarComponent } from '../nav-bar/nav-bar.component'; // Dodaj import NavBarComponent
 
 describe('RulesComponent', () => {
   let component: RulesComponent;
@@ -8,9 +9,8 @@ describe('RulesComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ RulesComponent ]
-    })
-    .compileComponents();
+      declarations: [RulesComponent, NavBarComponent], // Dodaj NavBarComponent do declarations
+    }).compileComponents();
 
     fixture = TestBed.createComponent(RulesComponent);
     component = fixture.componentInstance;
