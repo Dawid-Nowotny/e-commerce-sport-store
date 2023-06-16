@@ -1,6 +1,5 @@
 import { Component, OnInit, ChangeDetectorRef, AfterViewInit, HostListener } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Title } from '@angular/platform-browser';
 import { PageEvent } from '@angular/material/paginator';
 import { ServerService } from '../server.service';
 import { Item } from '../item/item';
@@ -33,10 +32,9 @@ export class MainPageComponent implements OnInit, AfterViewInit {
   messagePrice: string = '';
 
   
-  constructor(private titleService: Title, private serverService: ServerService, private router: Router, private cdr: ChangeDetectorRef, private route: ActivatedRoute) {}
+  constructor(private serverService: ServerService, private router: Router, private cdr: ChangeDetectorRef, private route: ActivatedRoute) {}
 
   ngOnInit() {
-    this.titleService.setTitle('AWAZONsport');
     this.serverService.getBrandsAndCategories().subscribe(response => {
       this.categories = [{id: '', name: 'Wszystkie'}].concat(response.categories);
       this.brands = [{id: '', name: 'Wszystkie'}].concat(response.brands);
@@ -132,7 +130,16 @@ export class MainPageComponent implements OnInit, AfterViewInit {
         this.messagePrice = '';
       
     }
+
     
+    if (this.brand_id != '' && this.category_id == '') {
+      this.router.navigate([''], { queryParams: { brand: this.getBrandName(this.brand_id), category: 'Wszystkie' }, queryParamsHandling: 'merge' });
+    } else if (this.brand_id == '' && this.category_id != '') {
+      this.router.navigate([''], { queryParams: { brand: 'Wszystkie', category: this.getCategoryName(this.category_id) }, queryParamsHandling: 'merge' });
+    } else {
+      this.router.navigate([''], { queryParams: { brand: this.getBrandName(this.brand_id), category: this.getCategoryName(this.category_id) }, queryParamsHandling: 'merge' });
+    }
+
     this.getFilteredList();
   }
 
