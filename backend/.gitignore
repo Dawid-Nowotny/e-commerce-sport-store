@@ -5,4 +5,5 @@
 /application/models/__pycache__
 /config/pyrebaseConfig.py
 /config/login_google_config.py
+/config/stripeConfig.py
 /__pycache__

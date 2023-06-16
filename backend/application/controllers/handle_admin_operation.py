@@ -2,7 +2,6 @@ import os, sys
 backend_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
 sys.path.insert(0, backend_path)
 
-from config.FirebaseManager import FirebaseManager
 from firebase_admin import storage
 
 models_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
@@ -11,6 +10,7 @@ sys.path.insert(0, models_path)
 from models.admin import Admin
 from models.product import Product
 from models.stock import Stock
+from models.order import Order
 
 from flask import Blueprint, jsonify, request
 import uuid
@@ -24,6 +24,8 @@ add_new_product = Blueprint('add_new_product', __name__, template_folder='templa
 edit_product = Blueprint('edit_product', __name__, template_folder='templates')
 delete_product = Blueprint('delete_product', __name__, template_folder='templates')
 append_stock = Blueprint('append_stock', __name__, template_folder='templates')
+get_user_orders = Blueprint('get_user_orders', __name__, template_folder='templates')
+change_payment_status = Blueprint('change_payment_status', __name__, template_folder='templates')
 
 @check_admin.route('/api/admin', methods=['GET'])
 async def bool_admin():
@@ -152,3 +154,37 @@ async def add_stock():
         return jsonify({'success': True})
     else:
         return jsonify({'success': False, 'message': 'Produkt o podanym ID nie istnieje.'})
+    
+@get_user_orders.route('/api/admin/get-orders', methods=['GET'])
+async def get_all_orders():
+    orders = Order.get_all()
+    orders_data = [order.to_dict() for order in orders]
+    print(len(orders_data))
+
+    return jsonify({'success': True, 'orders': orders_data})
+
+@change_payment_status.route('/api/admin/change-payment', methods=['PUT'])
+async def change_order_payment():
+    submitted_data = request.get_json()
+    order_id = submitted_data.get('order_id')
+
+    if order_id is None:
+        return jsonify({'success': False, 'message': 'Brak identyfikatora zamówienia'})
+
+    order = Order.get_by_id(order_id)
+
+    if order:
+        products = order.products
+        for product in products:
+            stock = Stock.get_by_product_id_and_size(product['id'], product['size'])
+            if stock is None or stock.amount <= 0:
+                return jsonify({'success': False, 'message': f'Produkt "{product["name"]}" w rozmiarze "{product["size"]}" jest niedostępny'})
+
+            stock.amount -= 1
+            stock.save()
+
+        order.payment_status = "Paid"
+        order.save()
+        return jsonify({'success': True, 'message': 'Status płatności został zmieniony'})
+    else:
+        return jsonify({'success': False, 'message': 'Nie znaleziono zamówienia o podanym identyfikatorze'})

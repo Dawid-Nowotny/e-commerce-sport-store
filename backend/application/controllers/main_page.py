@@ -85,7 +85,6 @@ async def get_products_filtered():
         products = filter_by_max_price(products, float(maxPrice))
         prod_len_CB = len(products)
     
-
     try:
         lengths.append(prod_len_CB)
     except:
