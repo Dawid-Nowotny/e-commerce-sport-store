@@ -5,6 +5,7 @@ sys.path.insert(0, models_path)
 from models.delivery_details import DeliveryDetails
 from models.order import Order
 from models.product import Product
+from models.stock import Stock
 
 backend_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
 sys.path.insert(0, backend_path)
@@ -39,26 +40,47 @@ async def create_order():
         existing_data = json.loads(existing_data)
         total_price = 0
         products = []
+        is_any_product_unavailable = False
+
         for product_data in existing_data:
             product_id = product_data.get('product')
             product = Product.get_by_id(product_id)
-            price = float(product.price) * int(product_data.get('amount'))
+            size = product_data.get('size')
+            amount = product_data.get('amount')
+
+            stock = Stock.get_by_product_id_and_size(product_id, size)
+            if stock is None or stock.amount < amount:
+                is_any_product_unavailable = True
+                break
+
+            price = float(product.price) * amount
             total_price += price
             product_dict = {
                 'id': product.id,
                 'name': product.name,
                 'price': product.price,
-                'size': product_data.get('size'),
-                'amount': product_data.get('amount'),
+                'size': size,
+                'amount': amount,
             }
             products.append(product_dict)
 
+        if is_any_product_unavailable:
+            return jsonify({'success': False, 'message': 'Jeden lub więcej produktów jest niedostępnych'})
+
+        for product_data in existing_data:
+            product_id = product_data.get('product')
+            size = product_data.get('size')
+            amount = product_data.get('amount')
+            stock = Stock.get_by_product_id_and_size(product_id, size)
+            stock.amount -= amount
+            stock.save()
+
         o = Order(user_id, del_id, products, total_price, "Not paid")
         o_id = o.save()
+
+        return jsonify({'success': True, 'message': 'Zamówienie zostało dodane', 'order_id': o_id})
     else:
         return jsonify({'success': False, 'message': 'W koszyku nie ma żadnego produktu'})
-
-    return jsonify({'success': True, 'message': 'Zamówienie zostało dodane', 'order_id': o_id})
 
 @get_order_user_list.route('/api/get-orders', methods=['GET'])
 async def get_orders():

@@ -14,6 +14,7 @@ from application.controllers.category_brand_lists import get_brand_and_category_
 from application.controllers.delivery import add_delivery_details
 from application.controllers.order_hanler import add_order, get_order_user_list
 from application.controllers.payment import payment
+from application.controllers.payment_result import payment_success, payment_failure
 
 from application.controllers.search import search
 
@@ -46,7 +47,10 @@ app.register_blueprint(get_category_type)
 app.register_blueprint(add_delivery_details)
 app.register_blueprint(add_order)
 app.register_blueprint(get_order_user_list)
+
 app.register_blueprint(payment)
+app.register_blueprint(payment_success)
+app.register_blueprint(payment_failure)
 
 app.register_blueprint(search)
 
