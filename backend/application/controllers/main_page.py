@@ -2,6 +2,7 @@ import os, sys
 models_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 sys.path.insert(0, models_path)
 
+from models.stock import Stock
 from models.product import Product
 
 backend_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
@@ -37,6 +38,9 @@ async def get_products_filtered():
     price_order = str(request.args.get('priceOrder'))
     category_id = str(request.args.get('category'))
     brand_id = str(request.args.get('brand'))
+    size = str(request.args.get('size'))
+    minPrice = str(request.args.get('minPrice'))
+    maxPrice = str(request.args.get('maxPrice'))
 
     start_index = pageIndex * pageSize
     end_index = start_index + pageSize
@@ -64,6 +68,23 @@ async def get_products_filtered():
         products = [product for product in products if product.brand_id == brand_id]
         prod_len_CB = len(products)
 
+    if size != 'None':
+        filtered_products = []
+        for product in products:
+            sizes_and_amounts = get_sizes_and_amounts(product.id)
+            if size in sizes_and_amounts:
+                filtered_products.append(product)
+        products = filtered_products
+        prod_len_CB = len(products)
+
+    if minPrice != 'None':
+        products = filter_by_min_price(products, float(minPrice))
+        prod_len_CB = len(products)
+
+    if maxPrice != 'None':
+        products = filter_by_max_price(products, float(maxPrice))
+        prod_len_CB = len(products)
+    
     try:
         lengths.append(prod_len_CB)
     except:
@@ -73,3 +94,24 @@ async def get_products_filtered():
     products_dict = [product.to_dict() for product in products]
 
     return jsonify({'items': products_dict, 'totalItems': min(lengths)})
+
+def get_sizes_and_amounts(id):
+        stock_list = Stock.get_by_product_id(id)
+        sizes_and_amounts = {}
+        for stock in stock_list:
+            sizes_and_amounts[stock.size] = stock.amount
+        return sizes_and_amounts
+
+def filter_by_min_price(products, minPrice):
+    filtered_products = []
+    for product in products:
+        if float(product.price) >= minPrice:
+            filtered_products.append(product)
+    return filtered_products
+
+def filter_by_max_price(products, maxPrice):
+    filtered_products = []
+    for product in products:
+        if float(product.price) <= maxPrice:
+            filtered_products.append(product)
+    return filtered_products

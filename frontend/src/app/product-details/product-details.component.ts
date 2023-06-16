@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Router } from '@angular/router';
 import { ServerService } from '../server.service';
 import { Item } from '../item/item';
+import { Sizes } from '../sizes/sizes';
 
 @Component({
   selector: 'app-product-details',
@@ -10,20 +10,27 @@ import { Item } from '../item/item';
   styleUrls: ['./product-details.component.css']
 })
 export class ProductDetailsComponent {
-  productId: string;
-  size: number;
+  productId: string = '';
+  item: Item[] = [];
+  sizes: string[] = []
+  rozmiar: string = '';
 
-  constructor(private route: ActivatedRoute, private serverService: ServerService) {
-    this.productId = "";
-    this.size = 0;
-  }
-  items: Item[] = [];
+  constructor(private route: ActivatedRoute, private serverService: ServerService) {}
+ 
   ngOnInit() {
     this.route.url.subscribe(urlSegments => {
       this.productId = urlSegments[urlSegments.length - 1].toString();
     
       this.serverService.getDetails(this.productId).subscribe(response => {
-        this.items = [response.items];
+        this.item = [response.items];
+      
+      if(this.item[0].category == "Buty")
+        this.sizes = Sizes.boots;
+      else if(this.item[0].category == "Ubranie")
+        this.sizes = Sizes.clothes;
+      else if(this.item[0].category == "Piłka")
+        this.sizes = Sizes.balls;
+      this.rozmiar = this.sizes[0];
       });
     });
   }
@@ -32,8 +39,9 @@ export class ProductDetailsComponent {
     const data = {
       userId: localStorage.getItem("user_id"),
       productId: this.productId,
-      size: this.size
+      size: this.rozmiar
     }
+
     this.serverService.addToCart(data).subscribe(
       (response: any) => {
         console.log('Odpowiedź serwera:', response);

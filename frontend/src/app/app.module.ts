@@ -25,6 +25,11 @@ import { AddProductComponent } from './add-product/add-product.component';
 import { ProductListComponent } from './product-list/product-list.component';
 import { EditProductComponent } from './edit-product/edit-product.component';
 import { IncreaseStockComponent } from './increase-stock/increase-stock.component';
+import { CheckoutComponent } from './checkout/checkout.component';
+import { OrdersComponent } from './orders/orders.component';
+import { AdminOrdersComponent } from './admin-orders/admin-orders.component';
+import { PaymentSuccessComponent } from './payment-success/payment-success.component';
+import { PaymentCancelComponent } from './payment-cancel/payment-cancel.component';
 
 @NgModule({
   declarations: [
@@ -46,7 +51,12 @@ import { IncreaseStockComponent } from './increase-stock/increase-stock.componen
     AddProductComponent,
     ProductListComponent,
     EditProductComponent,
-    IncreaseStockComponent
+    IncreaseStockComponent,
+    CheckoutComponent,
+    OrdersComponent,
+    AdminOrdersComponent,
+    PaymentSuccessComponent,
+    PaymentCancelComponent,
   ],
   imports: [
     BrowserModule,

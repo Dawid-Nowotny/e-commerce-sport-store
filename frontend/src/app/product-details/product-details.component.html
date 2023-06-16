@@ -1,20 +1,22 @@
 <app-nav-bar></app-nav-bar>
 <div class="content_padding">
-    <div *ngFor="let item of items">
+    <div>
         <div class="details_image">
-            <img [src]="item.prod_images[0]" class="item_image"><br />
+            <img [src]="item[0].prod_images[0]" class="item_image"><br />
         </div>
         <div>
-            <h2>{{ item.name }}</h2>
-            <p>Id: {{ item.id }}</p>
-            <p>Cena: {{ item.price }}</p>
-            <p>Marka: {{ item.brand }}</p>
-            <p>Kategoria: {{ item.category }}</p>
-            <p>size 41: {{ item.sizes_and_amounts['41'] }} sztuk</p>
+            <h2>{{ item[0].name }}</h2>
+            <p>Cena: {{ item[0].price }} zł</p>
+            <p>Marka: {{ item[0].brand }}</p>
+            <p>Kategoria: {{ item[0].category }}</p>
+            <p>size 41: {{ item[0].sizes_and_amounts['41'] }} sztuk</p>
             <form (ngSubmit)="onSubmit()">
-                <label><input type="radio" name="size" [(ngModel)]="size" value="41" checked>41</label>
-                <label><input type="radio" name="size" [(ngModel)]="size" value="42">42</label>
-                <label><input type="radio" name="size" [(ngModel)]="size" value="43">43</label><br /><br />
+                <label for="rozmiar">Rozmiar: </label>
+                <select name="rozmiar" [(ngModel)]="rozmiar">
+                    <option *ngFor="let element of sizes">
+                        {{ element }}
+                    </option>
+                </select><br />
                 <input type="submit" value="Dodaj do koszyka">
             </form>
         </div>

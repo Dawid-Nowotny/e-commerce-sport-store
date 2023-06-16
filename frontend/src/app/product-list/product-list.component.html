@@ -2,11 +2,27 @@
 <div class="content_padding">
     <div class="filters">
         <div class="bar"><p>Sortuj</p></div>
-        <p>cena rosnąco<br />
-        cena malejąco<br /><br /></p>
+        <p> 
+            <span (click)="setPriceOrder('asc')">cena rosnąco</span><br />
+            <span (click)="setPriceOrder('desc')">cena malejąco</span><br /><br />
+        </p>
         <div class="bar"><p>Filtruj</p></div>
-        <p>marka <br />
-        typ <br /><br /></p>
+        <p>
+            <label for="brand">Marka:</label>
+            <select name="brand" [(ngModel)]="brand_id" (change)="setFilters()">
+                <option [value]=brand.id *ngFor="let brand of brands; let i=index" [selected]="i==0">
+                    {{ brand.name }}
+                </option>
+            </select>
+        </p>
+        <p>
+            <label for="category">Kategoria:</label>
+            <select name="category" [(ngModel)]="category_id" (change)="setFilters()">
+                <option [value]=category.id *ngFor="let category of categories; let i=index" [selected]="i==0">
+                    {{ category.name }}
+                </option>
+            </select>
+        </p>
     </div>
     <div class="products">
         <mat-paginator [pageSizeOptions]="pageSizeOptions"

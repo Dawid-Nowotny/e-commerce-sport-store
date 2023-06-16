@@ -1,38 +1,11 @@
 <div>
-    <div *ngIf="category === 'Buty'">
-        <select [(ngModel)]="buty">
-          <option value="36">36</option>
-          <option value="37">37</option>
-          <option value="38">38</option>
-          <option value="39">39</option>
-          <option value="40">40</option>
-          <option value="41">41</option>
-          <option value="42">42</option>
-          <option value="43">43</option>
-          <option value="44">44</option>
-          <option value="45">45</option>
+    <div>
+        <select [(ngModel)]="rozmiar">
+            <option *ngFor="let element of sizes">
+                {{ element }}
+            </option>
         </select>
-      </div>
-      
-      <div *ngIf="category === 'Piłka'">
-        <select [(ngModel)]="pilka">
-          <option value="1">1</option>
-          <option value="3">3</option>
-          <option value="4">4</option>
-          <option value="5">5</option>
-        </select>
-      </div>
-      
-      <div *ngIf="category === 'Ubranie'">
-        <select [(ngModel)]="ubranie">
-          <option value="XS">XS</option>
-          <option value="S">S</option>
-          <option value="M">M</option>
-          <option value="L">L</option>
-          <option value="XL">XL</option>
-          <option value="XXL">XXL</option>
-        </select>
-      </div>
-      <input type="number" [(ngModel)]="ilosc" min="0"><br />
-      <button (click)="addToStock()">Dodaj do magazynu</button>
+    </div>
+    <input type="number" [(ngModel)]="ilosc" min="0"><br />
+    <button (click)="addToStock()">Dodaj do magazynu</button>
 </div>
