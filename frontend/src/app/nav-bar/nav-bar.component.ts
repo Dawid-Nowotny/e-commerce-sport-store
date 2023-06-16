@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { Type } from '@angular/core'; 
@@ -11,6 +11,11 @@ import { Type } from '@angular/core';
 
 export class NavBarComponent implements OnInit {
   currentComponent: string | null = null;
+  @Input() itemId: string = ''; 
+  @Input() itemName: string = ''; 
+  @Input() itemCategory: string = ''; 
+  @Input() itemBrand: string = ''; 
+  @Input() notFound: string = ''; 
 
   constructor(private router: Router) {}
 
@@ -29,5 +34,17 @@ export class NavBarComponent implements OnInit {
 
   isCurrentComponent(componentName: string): boolean {
     return this.router.url.startsWith(componentName);
+  }
+
+  navigateToCategory(category: string): void {
+    this.router.navigate([''], { queryParams: { category: category, brand: 'Wszystkie' } });
+  }
+  
+  navigateToBrand(brand: string): void {
+    this.router.navigate([''], { queryParams: { brand: brand, category: 'Wszystkie' } });
+  }
+
+  navigateToHomePage(): void {
+    this.router.navigate([''], { queryParams: { brand: 'Wszystkie', category: 'Wszystkie' } });
   }
 }

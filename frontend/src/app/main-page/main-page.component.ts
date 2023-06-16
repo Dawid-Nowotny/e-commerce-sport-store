@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectorRef, AfterViewInit, HostListener } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 import { PageEvent } from '@angular/material/paginator';
 import { ServerService } from '../server.service';
@@ -33,25 +33,35 @@ export class MainPageComponent implements OnInit, AfterViewInit {
   messagePrice: string = '';
 
   
-  constructor(private titleService: Title, private serverService: ServerService, private router: Router, private cdr: ChangeDetectorRef) {}
+  constructor(private titleService: Title, private serverService: ServerService, private router: Router, private cdr: ChangeDetectorRef, private route: ActivatedRoute) {}
 
   ngOnInit() {
-    this.fetchProducts();
     this.titleService.setTitle('AWAZONsport');
     this.serverService.getBrandsAndCategories().subscribe(response => {
       this.categories = [{id: '', name: 'Wszystkie'}].concat(response.categories);
       this.brands = [{id: '', name: 'Wszystkie'}].concat(response.brands);
+
+      this.route.queryParamMap.subscribe(params => {
+        this.category_id = this.getCategoryId(params.get('category') || '');
+        this.brand_id = this.getBrandId(params.get('brand') || '');
+        if (this.brand_id != '') {
+          this.filter += '&brand=' + this.brand_id;
+        }
+        if (this.category_id != '') {
+          this.filter += '&category=' + this.category_id;
+        }
+        if((params.get('category') || '') == 'Wszystkie' && (params.get('brand') || '') == 'Wszystkie') this.filter = '';
+        this.getFilteredList();
+      });
     });
   }
 
   ngAfterViewInit(): void {
-    // Pobieranie elementów
     const filtersDropdownContent = document.querySelector('.filters-dropdown-content') as HTMLElement;
     const filtersDropdownButton = document.querySelector('.filters-dropdown-button') as HTMLElement;
     const sortingDropdownContent = document.querySelector('.sorting-dropdown-content') as HTMLElement;
     const sortingDropdownButton = document.querySelector('.sorting-dropdown-button') as HTMLElement;
 
-    // Rozwiń/zwiń listę po kliknięciu przycisku (filtry)
     filtersDropdownButton.addEventListener('click', function() {
       if (filtersDropdownContent.style.display === 'none') {
         filtersDropdownContent.style.display = 'block';
@@ -60,7 +70,6 @@ export class MainPageComponent implements OnInit, AfterViewInit {
       }
     });
 
-    // Rozwiń/zwiń listę po kliknięciu przycisku (sortowanie)
     sortingDropdownButton.addEventListener('click', function() {
       if (sortingDropdownContent.style.display === 'none') {
         sortingDropdownContent.style.display = 'block';
@@ -69,7 +78,6 @@ export class MainPageComponent implements OnInit, AfterViewInit {
       }
     });
 
-    // Rozwiń listy po załadowaniu strony
     filtersDropdownContent.style.display = 'block';
     sortingDropdownContent.style.display = 'block';
   }
@@ -156,5 +164,25 @@ export class MainPageComponent implements OnInit, AfterViewInit {
 
   goToProductDetails(productId: string): void {
     this.router.navigate(['/product-details', productId]);
+  }
+
+  getCategoryName(categoryId: string): string {
+    const category = this.categories && this.categories.find((cat: any) => cat.id === categoryId);
+    return category ? category.name : '';
+  }
+  
+  getBrandName(brandId: string): string {
+    const brand = this.brands && this.brands.find((brand: any) => brand.id === brandId);
+    return brand ? brand.name : '';
+  }
+
+  getCategoryId(categoryName: string): string {
+    const category = this.categories.find((cat: any) => cat.name === categoryName);
+    return category && category.id ? category.id : '';
+  }
+  
+  getBrandId(brandName: string): string {
+    const brand = this.brands.find((brand: any) => brand.name === brandName);
+    return brand && brand.id ? brand.id : '';
   }
 }
