@@ -9,10 +9,21 @@
     <div class="loader" *ngIf="isLoading"></div>
     <div class="details_content" *ngIf="!isLoading">
         <div class="details_images">
-            
-            <img *ngFor="let image of item[0].prod_images" [src]="image" class="image"><br />
+            <div class="slideshow-container">
+                <div class="slideshow-content">
+                    <div><a class="prev" (click)="plusSlides(-1)">&#10094;</a></div>
+                    <div class="mySlides fade" *ngFor="let image of item[0].prod_images; let i = index;" #slide>
+                        <img [src]="image">
+                    </div>
+                    <div><a class="next" (click)="plusSlides(1)">&#10095;</a></div>
+                </div>
+            </div>
+            <div class="thumbnails">
+                <div class="thumbnail" *ngFor="let image of item[0].prod_images; let i = index;" (click)="currentSlide(i + 1)">
+                    <img [src]="image">
+                </div>
+            </div>
         </div>
-        
         <div class="details_info">
             <p class="title">{{ item[0].name }}</p>
             <p class="category">Kategoria: {{ item[0].category }}</p>
@@ -45,3 +56,4 @@
 		</div>
     </div>
 </div>
+

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChildren, ElementRef, QueryList } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ServerService } from '../server.service';
 import { Item } from '../item/item';
@@ -9,7 +9,7 @@ import { Sizes } from '../sizes/sizes';
   templateUrl: './product-details.component.html',
   styleUrls: ['./product-details.component.css']
 })
-export class ProductDetailsComponent {
+export class ProductDetailsComponent implements AfterViewInit, OnInit {
   isLoading: boolean = false;
   productId: string = '';
   item: Item[] = [];
@@ -17,6 +17,8 @@ export class ProductDetailsComponent {
   size: string = '';
   errorMessage: string = '';
   successMessage: string = '';
+  slideIndex: number = 1;
+  @ViewChildren('slide') slides!: QueryList<ElementRef>;
 
   constructor(private route: ActivatedRoute, private serverService: ServerService) {}
  
@@ -39,12 +41,54 @@ export class ProductDetailsComponent {
         } else {
           this.size = ''; 
         }
+        setTimeout(() => {
+          this.showSlides(1);
+        }, 0);
+
+        
         
         this.isLoading = false;
       });
     });
   }
 
+  ngAfterViewInit(): void {
+    this.showSlides(this.slideIndex);
+  }
+
+  plusSlides(n: number) {
+    this.showSlides(this.slideIndex += n);
+  }
+  
+  currentSlide(n: number) {
+    this.showSlides(this.slideIndex = n);
+  }
+  
+
+  gAfterViewInit(): void {
+    this.showSlides(this.slideIndex);
+  }
+
+  showSlides(n: number) {
+    let i;
+    let slides = this.slides ? this.slides.toArray() : [];
+    let thumbnails = document.getElementsByClassName('thumbnail') as HTMLCollectionOf<HTMLElement>;
+    if (n > slides.length) { this.slideIndex = 1; }    
+    if (n < 1) { this.slideIndex = slides.length; }
+    for (i = 0; i < slides.length; i++) {
+      if (slides[i].nativeElement) {
+        slides[i].nativeElement.style.display = "none";
+      }  
+    }
+    for (i = 0; i < thumbnails.length; i++) {
+      thumbnails[i].className = thumbnails[i].className.replace(" active", "");
+    }
+    if (slides[this.slideIndex - 1]?.nativeElement) {
+      slides[this.slideIndex - 1].nativeElement.style.display = "block";
+    }  
+    thumbnails[this.slideIndex - 1]?.classList.add("active");
+  }
+  
   isAvailable(size: string): boolean {
     if (this.item[0].sizes_and_amounts[this.parseSize(size)]) {
       return true;
