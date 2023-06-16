@@ -1,11 +1,19 @@
-<div>
-    <div>
-        <select [(ngModel)]="rozmiar">
-            <option *ngFor="let element of sizes">
-                {{ element }}
-            </option>
-        </select>
-    </div>
-    <input type="number" [(ngModel)]="ilosc" min="0"><br />
-    <button (click)="addToStock()">Dodaj do magazynu</button>
+<div class="content_padding">
+    <div *ngIf="isAdmin; then adminPanel else error"></div>
+    <ng-template #adminPanel>
+        <div>
+            <div>
+                <select [(ngModel)]="rozmiar">
+                    <option *ngFor="let element of sizes">
+                        {{ element }}
+                    </option>
+                </select>
+            </div>
+            <input type="number" [(ngModel)]="ilosc" min="0"><br />
+            <button (click)="addToStock()">Dodaj do magazynu</button>
+        </div>
+    </ng-template>
+    <ng-template #error>
+        <p>Brak uprawnień administratora</p>
+    </ng-template>
 </div>

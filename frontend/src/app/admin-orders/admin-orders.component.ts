@@ -9,11 +9,19 @@ import { Order } from '../order/order';
 })
 export class AdminOrdersComponent {
   orders: Order[] = [];
+  isAdmin: boolean = false;
   
   constructor(private serverService: ServerService, private cdr: ChangeDetectorRef) {}
 
   ngOnInit() {
-    this.getOrders();
+    this.serverService.isAdmin().subscribe(
+      (response: any) => {
+        if(response.isAdmin == true) {
+          this.isAdmin = true;
+          this.getOrders();
+        }
+      }
+    );
   }
 
   payOrder(order_id: string): void {

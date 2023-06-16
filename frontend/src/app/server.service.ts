@@ -31,6 +31,12 @@ export class ServerService {
     return this.http.post(url, data, httpOptions);
   }
 
+  /** GET ISADMIN */
+  isAdmin(): Observable<any> {
+    const url = `${this.userUrl}/api/admin?userId=${localStorage.getItem('user_id')}`;
+    return this.http.get(url);
+  }
+
   /** GET GETPRODUCTS */
   getProducts(pageIndex: number, pageSize: number): Observable<any> {
     const url = `${this.userUrl}/api/products?pageIndex=${pageIndex}&pageSize=${pageSize}`;

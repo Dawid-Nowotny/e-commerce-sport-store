@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./product-list.component.css']
 })
 export class ProductListComponent implements OnInit {
+  isAdmin: boolean = false;
   items: Item[] = [];
   pageSizeOptions: number[] = [15, 25, 50];
   currentPageIndex = 0;
@@ -26,12 +27,19 @@ export class ProductListComponent implements OnInit {
   constructor(private titleService: Title, private serverService: ServerService, private router: Router, private cdr: ChangeDetectorRef) {}
 
   ngOnInit() {
-    this.fetchProducts();
-    this.titleService.setTitle('AWAZONsport');
-    this.serverService.getBrandsAndCategories().subscribe(response => {
-      this.categories = [{id: '', name: 'Wszystkie'}].concat(response.categories);
-      this.brands = [{id: '', name: 'Wszystkie'}].concat(response.brands);
-    });
+    this.serverService.isAdmin().subscribe(
+      (response: any) => {
+        if(response.isAdmin == true) {
+          this.isAdmin = true;
+          this.fetchProducts();
+          this.titleService.setTitle('AWAZONsport');
+          this.serverService.getBrandsAndCategories().subscribe(response => {
+            this.categories = [{id: '', name: 'Wszystkie'}].concat(response.categories);
+            this.brands = [{id: '', name: 'Wszystkie'}].concat(response.brands);
+          });
+        }
+      }
+    );
   }
 
   fetchProducts(): void {

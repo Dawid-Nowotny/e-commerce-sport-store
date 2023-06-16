@@ -1,33 +1,41 @@
-<div *ngFor="let item of items">
-    <div>
-        <form (ngSubmit)="onSubmit()" enctype="multipart/form-data">
-            <label for="name">Nazwa:</label>
-            <input type="text" name="name" [(ngModel)]="name" [value]="item.name"><br />
+<div class="content_padding">
+    <div *ngIf="isAdmin; then adminPanel else error"></div>
+    <ng-template #adminPanel>
+        <div *ngFor="let item of items">
+            <div>
+                <form (ngSubmit)="onSubmit()" enctype="multipart/form-data">
+                    <label for="name">Nazwa:</label>
+                    <input type="text" name="name" [(ngModel)]="name" [value]="item.name"><br />
 
-            <label for="brand">Marka:</label>
-            <select name="brand" [(ngModel)]="brand_id">
-                <option [value]=brand.id *ngFor="let brand of brands" >
-                    {{ brand.name }}
-                </option>
-            </select><br />
+                    <label for="brand">Marka:</label>
+                    <select name="brand" [(ngModel)]="brand_id">
+                        <option [value]=brand.id *ngFor="let brand of brands" >
+                            {{ brand.name }}
+                        </option>
+                    </select><br />
 
-            <label for="category">Kategoria:</label>
-            <select name="category" [(ngModel)]="category_id">
-                <option [value]=category.id *ngFor="let category of categories">
-                    {{ category.name }}
-                </option>
-            </select><br />
+                    <label for="category">Kategoria:</label>
+                    <select name="category" [(ngModel)]="category_id">
+                        <option [value]=category.id *ngFor="let category of categories">
+                            {{ category.name }}
+                        </option>
+                    </select><br />
 
-            <label for="price">Cena:</label>
-            <input type="text" [(ngModel)]="price" name="price" [value]="item.price"><br />
+                    <label for="price">Cena:</label>
+                    <input type="text" [(ngModel)]="price" name="price" [value]="item.price"><br />
 
-            <label for="description">Opis:</label>
-            <textarea [(ngModel)]="description" name="description"></textarea><br />
+                    <label for="description">Opis:</label>
+                    <textarea [(ngModel)]="description" name="description"></textarea><br />
 
-            <label for="prod_images">Product Images:</label>
-            <input type="file" [(ngModel)]="prod_images" name="prod_images" multiple (change)="onFileChange($event)"><br />
-            
-            <input type="submit" value="Edytuj produkt">
-        </form>
-    </div>
+                    <label for="prod_images">Product Images:</label>
+                    <input type="file" [(ngModel)]="prod_images" name="prod_images" multiple (change)="onFileChange($event)"><br />
+                    
+                    <input type="submit" value="Edytuj produkt">
+                </form>
+            </div>
+        </div>
+    </ng-template>
+    <ng-template #error>
+        <p>Brak uprawnień administratora</p>
+    </ng-template>
 </div>

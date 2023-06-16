@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ServerService } from '../server.service';
+import { AppComponent } from '../app.component';
 
 @Component({
   selector: 'app-register-form',
@@ -16,7 +17,7 @@ export class RegisterFormComponent {
   successMessage: string;
   agreedToTerms: boolean = false;
 
-  constructor(private serverService: ServerService, private router: Router) {
+  constructor(private serverService: ServerService, private router: Router, private appComponent: AppComponent) {
     this.username = '';
     this.password = '';
     this.passwordCheck = '';
@@ -50,6 +51,8 @@ export class RegisterFormComponent {
         if (response.success == true) {
           this.successMessage = 'Zarejestrowano!';
           this.errorMessage = '';
+          localStorage.setItem('user_id', response.user_id);
+          this.appComponent.checkState();
           this.router.navigate(['/']);
           // Przekieruj użytkownika na inną stronę lub wykonaj inne działania po udanym logowaniu
         } else {

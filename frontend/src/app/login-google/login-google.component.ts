@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ServerService } from '../server.service';
+import { AppComponent } from '../app.component';
 
 @Component({
   selector: 'app-login-google',
@@ -12,7 +13,7 @@ export class LoginGoogleComponent implements OnInit {
   errorMessage: string;
   successMessage: string;
 
-  constructor(private route: ActivatedRoute, private serverService: ServerService) {
+  constructor(private route: ActivatedRoute, private serverService: ServerService, private appComponent: AppComponent) {
     this.errorMessage = '';
     this.successMessage = '';
   }
@@ -28,6 +29,8 @@ export class LoginGoogleComponent implements OnInit {
         if (response.success == true) {
           this.successMessage = 'Zalogowano!';
           this.errorMessage = '';
+          localStorage.setItem('user_id', response.user_id);
+          this.appComponent.checkState();
         } else {
           this.errorMessage = 'Podano błędny email lub hasło!';
         }

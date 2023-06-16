@@ -8,6 +8,7 @@ import { ServerService } from '../server.service';
   styleUrls: ['./add-product.component.css']
 })
 export class AddProductComponent {
+  isAdmin: boolean = false;
   id: string = '';
   brand_id: string = '';
   category_id: number = 0;
@@ -21,13 +22,20 @@ export class AddProductComponent {
   constructor(private titleService: Title, private serverService: ServerService) { }
 
   ngOnInit() {
-    this.titleService.setTitle('Dodaj produkt - AWAZONsport');
-    this.serverService.getBrandsAndCategories().subscribe(response => {
-      this.categories = response.categories;
-      this.brands = response.brands;
-      this.category_id = this.categories[0].id;
-      this.brand_id = this.brands[0].id;
-    });
+    this.serverService.isAdmin().subscribe(
+      (response: any) => {
+        if(response.isAdmin == true) {
+          this.isAdmin = true;
+          this.titleService.setTitle('Dodaj produkt - AWAZONsport');
+          this.serverService.getBrandsAndCategories().subscribe(response => {
+            this.categories = response.categories;
+            this.brands = response.brands;
+            this.category_id = this.categories[0].id;
+            this.brand_id = this.brands[0].id;
+          });
+        }
+      }
+    );
   }
 
   onFileChange(event: any) {
