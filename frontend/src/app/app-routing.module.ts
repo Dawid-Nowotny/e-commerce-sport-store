@@ -18,10 +18,14 @@ import { IncreaseStockComponent } from './increase-stock/increase-stock.componen
 import { CheckoutComponent } from './checkout/checkout.component';
 import { OrdersComponent } from './orders/orders.component';
 import { AdminOrdersComponent } from './admin-orders/admin-orders.component';
+import { PaymentSuccessComponent } from './payment-success/payment-success.component';
+import { PaymentCancelComponent } from './payment-cancel/payment-cancel.component';
 const routes: Routes = [
   { path: '', component: MainPageComponent },
   { path: 'cart', component: ShopCartComponent },
   { path: 'checkout', component: CheckoutComponent },
+  { path: 'payment-success', component: PaymentSuccessComponent },
+  { path: 'payment-cancel', component: PaymentCancelComponent },
   { path: 'rules', component: RulesComponent },
   { path: 'cookies', component: CookiesComponent },
   { path: 'login', component: LoginComponent },

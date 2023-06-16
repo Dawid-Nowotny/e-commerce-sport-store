@@ -28,6 +28,8 @@ import { IncreaseStockComponent } from './increase-stock/increase-stock.componen
 import { CheckoutComponent } from './checkout/checkout.component';
 import { OrdersComponent } from './orders/orders.component';
 import { AdminOrdersComponent } from './admin-orders/admin-orders.component';
+import { PaymentSuccessComponent } from './payment-success/payment-success.component';
+import { PaymentCancelComponent } from './payment-cancel/payment-cancel.component';
 
 @NgModule({
   declarations: [
@@ -52,7 +54,9 @@ import { AdminOrdersComponent } from './admin-orders/admin-orders.component';
     IncreaseStockComponent,
     CheckoutComponent,
     OrdersComponent,
-    AdminOrdersComponent
+    AdminOrdersComponent,
+    PaymentSuccessComponent,
+    PaymentCancelComponent,
   ],
   imports: [
     BrowserModule,
