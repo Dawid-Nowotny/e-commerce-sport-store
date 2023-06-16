@@ -28,19 +28,19 @@ export class EditProductComponent {
       this.productId = urlSegments[urlSegments.length - 1].toString();
     
       this.serverService.getDetailsForEdit(this.productId).subscribe(response => {
-        console.log(response);
+        console.log(response.items.brand_id);
         this.items = [response.items];
         this.name = this.items[0].name;
-        this.brand_id = this.items[0].brand;
-        this.category_id = this.items[0].category;
+        this.brand_id = response.items.brand_id;
+        this.category_id = response.items.category_id;
         this.price = this.items[0].price.toString();
         this.description = this.items[0].description;
       });
     });
     this.serverService.getBrandsAndCategories().subscribe(response => {
       this.categories = response.categories;
-      console.log(this.categories);
       this.brands = response.brands;
+      console.log(this.brands);
     });
   }
 

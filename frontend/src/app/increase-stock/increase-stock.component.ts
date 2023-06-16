@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ServerService } from '../server.service';
-
+import { Sizes } from '../sizes/sizes';
 
 @Component({
   selector: 'app-increase-stock',
@@ -11,10 +11,9 @@ import { ServerService } from '../server.service';
 export class IncreaseStockComponent {
   category: string = '';
   productId: string = '';
-  buty: string = '42';
-  pilka: string = '1';
-  ubranie: string = 'M';
+  rozmiar: string = '';
   ilosc: number = 1;
+  sizes: string[] = []
   
   constructor(private route: ActivatedRoute, private serverService: ServerService) { }
 
@@ -24,32 +23,21 @@ export class IncreaseStockComponent {
     
       this.serverService.getProductCategory(this.productId).subscribe(response => {
         this.category = response.category;
+        if(this.category == "Buty")
+          this.sizes = Sizes.boots;
+        else if(this.category == "Ubranie")
+          this.sizes = Sizes.clothes;
+        else if(this.category == "Piłka")
+          this.sizes = Sizes.balls;
       });
     });
   }
 
   addToStock() {
-    let data = {};
-    if(this.category == "Buty") {
-      data = {
-        productId: this.productId,
-        size: this.buty,
-        amount: this.ilosc
-      }
-    }
-    else if(this.category == "Piłka") {
-      data = {
-        productId: this.productId,
-        size: this.pilka,
-        amount: this.ilosc
-      }
-    }
-    else if(this.category == "Ubranie") {
-      data = {
-        productId: this.productId,
-        size: this.ubranie,
-        amount: this.ilosc
-      }
+    const data = {
+      productId: this.productId,
+      size: this.rozmiar,
+      amount: this.ilosc
     }
     
     this.serverService.addProductStock(data).subscribe(response => {

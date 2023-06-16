@@ -5,7 +5,6 @@ import { PageEvent } from '@angular/material/paginator';
 import { ServerService } from '../server.service';
 import { Item } from '../item/item';
 
-
 @Component({
   selector: 'app-main-page',
   templateUrl: './main-page.component.html',
@@ -25,8 +24,7 @@ export class MainPageComponent implements OnInit {
   brands: any = '';
   brand_id: string = '';
   
-  constructor(private titleService: Title, private serverService: ServerService, private router: Router, private cdr: ChangeDetectorRef) {
-  }
+  constructor(private titleService: Title, private serverService: ServerService, private router: Router, private cdr: ChangeDetectorRef) {}
 
   ngOnInit() {
     this.fetchProducts();
@@ -52,6 +50,7 @@ export class MainPageComponent implements OnInit {
   }
 
   setFilters(): void {
+    this.filter = '';
     if (this.priceOrder != '')
       this.filter = '&priceOrder=' + this.priceOrder;
     if (this.brand_id != '')
@@ -69,7 +68,6 @@ export class MainPageComponent implements OnInit {
 
   getFilteredList(): void {
     this.serverService.getFilteredProducts(this.currentPageIndex, this.pageSize, this.filter).subscribe(response => {
-      console.log(response);
       this.items = response.items;
       this.totalItems = response.totalItems;
       this.cdr.detectChanges();
