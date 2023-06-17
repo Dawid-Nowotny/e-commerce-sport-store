@@ -11,7 +11,7 @@ export class ServerService {
 
   private userUrl = 'http://127.0.0.1:5000';  // URL to REST API
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   /** POST LOGIN */
   login(data: any): Observable<any> {
@@ -29,6 +29,12 @@ export class ServerService {
    register(data: any): Observable<any> {
     const url = `${this.userUrl}/api/register`;
     return this.http.post(url, data, httpOptions);
+  }
+
+  /** GET ISADMIN */
+  isAdmin(): Observable<any> {
+    const url = `${this.userUrl}/api/admin?userId=${localStorage.getItem('user_id')}`;
+    return this.http.get(url);
   }
 
   /** GET GETPRODUCTS */
@@ -67,6 +73,32 @@ export class ServerService {
     return this.http.get(url);
   }
 
+  /** POST SETDELIVERYDATA */
+  setDeliveryData(data: any): Observable<any> {
+    const url = `${this.userUrl}/api/delivery-data`;
+    console.log("setDeliveryData"+data);
+    return this.http.post(url, data, httpOptions);
+  }
+
+  /** POST ADDORDER */
+  addOrder(delivery_id: string): Observable<any> {
+    const data = {
+      user_id: localStorage.getItem('user_id'),
+      delivery_id: delivery_id
+    }
+    const url = `${this.userUrl}/api/add-order`;
+    return this.http.post(url, data, httpOptions);
+  }
+
+  /** POST PAYMENT */
+  payment(order_id: string): Observable<any> {
+    const data = {
+      order_id: order_id
+    }
+    const url = `${this.userUrl}/api/payment`;
+    return this.http.post(url, data, httpOptions);
+  }
+
   /** DELETE DELETEPRODUCTFROMCART */
   deleteProductFromCart(productId: string, size: string): Observable<any> {
     const userId = localStorage.getItem('user_id');
@@ -82,7 +114,6 @@ export class ServerService {
         size: size,
       },
     };
-  
     return this.http.delete(url, options);
   }
 
@@ -106,7 +137,7 @@ export class ServerService {
 
   /** GET GETBRANDSANDCATEGORIES */
   getBrandsAndCategories(): Observable<any> {
-    const url = `${this.userUrl}/api/admin/get-lists`;
+    const url = `${this.userUrl}/api/get-lists`;
     return this.http.get(url);
   }
 
@@ -128,17 +159,16 @@ export class ServerService {
         productId: productId
       },
     };
-  
     return this.http.delete(url, options);
   }
 
-  /** GET DELETEPRODUCT */
+  /** GET PRODUCTCATEGORY */
   getProductCategory(productId: string): Observable<any> {
     const url = `${this.userUrl}/api/admin/get-product-category?id=${productId}`;
     return this.http.get(url);
   }
 
-  /** POST GETBRANDSANDCATEGORIES */
+  /** POST ADDPRODUCTSTOCK */
   addProductStock(data: any): Observable<any> {
     const url = `${this.userUrl}/api/admin/add-stock`;
     return this.http.post(url, data);
@@ -150,4 +180,43 @@ export class ServerService {
     return this.http.get(url);
   }
 
+  /** GET GETORDERS */
+  getOrders(): Observable<any> {
+    const url = `${this.userUrl}/api/get-orders?user_id=${localStorage.getItem('user_id')}`;
+    return this.http.get(url);
+  }
+
+  /** GET GETADMINORDERS */
+  getAdminOrders(): Observable<any> {
+    const url = `${this.userUrl}/api/admin/get-orders`;
+    return this.http.get(url);
+  }
+
+  /** PUT PAYORDER */
+  payOrder(order_id: string): Observable<any> {
+    const data = {
+      order_id: order_id
+    }
+    const url = `${this.userUrl}/api/admin/change-payment`;
+    return this.http.put(url, data);
+  }
+
+  /** GET ADDPRODUCTSTOCK */
+  getSuccessfulPayment(): Observable<any> {
+    let orderId = localStorage.getItem('order_id');
+    let userId = localStorage.getItem('user_id')
+    const url = `${this.userUrl}/api/successful-payment?userId=${userId}&orderId=${orderId}`;
+    //localStorage.removeItem('order_id');
+    return this.http.get(url);
+  }
+
+  /** POST ADDPRODUCTSTOCK */
+  putCancelledPayment(): Observable<any> {
+    const data = {
+      orderId: localStorage.getItem('order_id')
+    }
+    const url = `${this.userUrl}/api/cancel-payment`;
+    //localStorage.removeItem('order_id');
+    return this.http.put(url, data);
+  }
 }

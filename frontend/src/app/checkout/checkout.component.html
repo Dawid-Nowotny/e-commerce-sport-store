@@ -1,0 +1,22 @@
+<div class="content_padding">
+    <div class="content_text">
+        <app-nav-bar></app-nav-bar>
+        <label for="imie">Imię:</label>
+        <input type="text" [(ngModel)]="firstname"><br />
+        <label for="nazwisko">Nazwisko:</label>
+        <input type="text" [(ngModel)]="lastname"><br />
+        <label for="panstwo">Państwo:</label>
+        <input type="text" [(ngModel)]="country"><br />
+        <label for="miasto">Miasto:</label>
+        <input type="text" [(ngModel)]="city"><br />
+        <label for="ulica">Ulica:</label>
+        <input type="text" [(ngModel)]="street"><br />
+        <label for="nrDomu">Numer domu:</label>
+        <input type="text" [(ngModel)]="houseNumber"><br />
+        <label for="kodPocztowy">Kod pocztowy:</label>
+        <input type="text" [(ngModel)]="postcode"><br />
+        <label for="numerTelefonu">Numer telefonu:</label>
+        <input type="text" [(ngModel)]="phoneNumber"><br />
+        <button (click)="goToTransaction()">Przejdź do płatności</button>
+    </div>
+</div>

@@ -41,9 +41,9 @@ export class ShopCartComponent implements OnInit {
   }
 
   getRange(): void {
-    for (let i = 0; i < this.cart.length && i <= 10; i++) {
+    for (let i = 0; i < this.cart.length; i++) {
       this.maxAmount[i] = [];
-      for (let j = 1; j < this.cart[i].stock_amount; j++) {
+      for (let j = 1; j <= this.cart[i].stock_amount && j <= 10; j++) {
         this.maxAmount[i].push(j);
       }
     }
@@ -66,6 +66,7 @@ export class ShopCartComponent implements OnInit {
     this.serverService.setProductAmount(productId, size, amount).subscribe(
       (response: any) => {
         console.log('Odpowiedź serwera:', response);
+        this.getCart();
       }
     );
   }

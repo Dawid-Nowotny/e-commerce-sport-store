@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { ServerService } from './server.service';
 import { Item } from './item/item';
@@ -11,13 +11,17 @@ import { Item } from './item/item';
 
 export class AppComponent {
   title = 'AWAZONsport';
+  isLogged: boolean = false;
   isLoading: boolean = false;
   searchResult: boolean = false;
   items: Item[] = [];
   searchValue: string = "";
 
-  constructor(private serverService: ServerService,private router: Router) {}
+  constructor(private serverService: ServerService,private router: Router, private cdr: ChangeDetectorRef) {}
 
+  ngOnInit(): void {
+    this.checkState();
+  }
 
   onPanelMouseLeave(event: MouseEvent) {
     const panelDiv = document.querySelector('#search');
@@ -54,5 +58,17 @@ export class AppComponent {
 
   goToProductDetails(productId: string): void {
     this.router.navigate(['/product-details', productId]);
+
+  logout(): void {
+    localStorage.removeItem('user_id');
+    this.isLogged = false;
+    this.cdr.detectChanges();
+  }
+
+  checkState() {
+    if(localStorage.getItem('user_id') != undefined) {
+      this.isLogged = true;
+    }
+    this.cdr.detectChanges();
   }
 }

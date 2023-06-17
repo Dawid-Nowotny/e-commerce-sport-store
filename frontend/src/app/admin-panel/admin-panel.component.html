@@ -1,6 +1,11 @@
-<app-nav-bar></app-nav-bar>
 <div class="content_padding">
-    <button routerLink="/admin-panel/add-product">Dodaj produkt</button><br />
-    <button routerLink="/admin-panel/product-list">Lista produktów</button><br />
-    <button>Zamówienia</button>
+    <div *ngIf="isAdmin; then adminPanel else error"></div>
+    <ng-template #adminPanel>
+        <button routerLink="/admin-panel/add-product">Dodaj produkt</button><br />
+        <button routerLink="/admin-panel/product-list">Lista produktów</button><br />
+        <button routerLink="/admin-panel/orders">Zamówienia</button>
+    </ng-template>
+    <ng-template #error>
+        <p>Brak uprawnień administratora</p>
+    </ng-template>
 </div>

@@ -1,0 +1,23 @@
+<div class="content_padding">
+    <div class="content_text">
+        <app-nav-bar></app-nav-bar>
+        <div *ngIf="isAdmin; then adminPanel else error"></div>
+        <ng-template #adminPanel>
+            <div *ngFor="let element of orders">
+                {{ element.order_id }}<br />
+                <div *ngIf="element.payment_status == 'Not paid'; then notPaid else paid"></div>
+                <ng-template #paid>
+                    Status płatności: opłacono
+                </ng-template>
+                <ng-template #notPaid>
+                    Status płatności: nieopłacono
+                    <button (click)="payOrder(element.order_id)">Zmień status na opłacone</button>
+                </ng-template>
+                <br /><br />
+            </div>
+        </ng-template>
+        <ng-template #error>
+            <p>Brak uprawnień administratora</p>
+        </ng-template>
+    </div>
+</div>
