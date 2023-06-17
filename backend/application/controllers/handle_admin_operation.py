@@ -17,8 +17,6 @@ import uuid
 from io import BytesIO
 import datetime
 
-product_details = Blueprint('product_details', __name__, template_folder='templates')
-
 check_admin = Blueprint('check_admin', __name__, template_folder='templates')
 add_new_product = Blueprint('add_new_product', __name__, template_folder='templates')
 edit_product = Blueprint('edit_product', __name__, template_folder='templates')
@@ -29,8 +27,7 @@ change_payment_status = Blueprint('change_payment_status', __name__, template_fo
 
 @check_admin.route('/api/admin', methods=['GET'])
 async def bool_admin():
-    submitted_data = request.get_json()
-    user_id = submitted_data.get('userId')
+    user_id = request.args.get('userId')
 
     if user_id is None:
         return jsonify({'success': False, 'message': 'Nie podano identyfikatora użytkownika'})
@@ -47,7 +44,7 @@ async def new_product():
     category_id = request.form.get('category_id')
     description = request.form.get('description')
     name = request.form.get('name')
-    price = request.form.get('price')
+    price = float(request.form.get('price'))
 
     images = request.files.getlist('images[]')
 
@@ -82,7 +79,7 @@ async def edit_product_database():
     category_id = request.form.get('category_id')
     description = request.form.get('description')
     name = request.form.get('name')
-    price = request.form.get('price')
+    price = float(request.form.get('price'))
 
     images = request.files.getlist('images[]')
 
@@ -172,7 +169,6 @@ async def change_order_payment():
         return jsonify({'success': False, 'message': 'Brak identyfikatora zamówienia'})
 
     order = Order.get_by_id(order_id)
-
     if order:
         products = order.products
         for product in products:

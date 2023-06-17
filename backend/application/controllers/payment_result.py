@@ -10,6 +10,7 @@ sys.path.insert(0, models_path)
 from models.order import Order
 from models.product import Product
 from models.delivery_details import DeliveryDetails
+from models.stock import Stock
 
 from flask import Blueprint, jsonify, request, redirect
 
@@ -48,6 +49,28 @@ async def handle_successful_payment():
 
     return jsonify({'success': True, 'message': 'Zamówienie zostało zakończone', 'order': order_dict})
 
-@payment_failure.route('/api/payment', methods=['GET'])
+@payment_success.route('/api/cancel-payment', methods=['PUT'])
 async def handle_unsuccessful_payment():
-    pass
+    submitted_data = request.get_json()
+    order_id = submitted_data.get('orderId')
+
+    order = Order.get_by_id(order_id)
+
+    if order is None:
+        return jsonify({'success': False, 'message': 'Nie znaleziono zamówienia o podanym identyfikatorze'})
+
+    order.payment_status = "Cancelled"
+    order.save()
+
+    for product_data in order.products:
+        product_id = product_data['id']
+        product = Product.get_by_id(product_id)
+        if product:
+            size = product_data['size']
+            amount = product_data['amount']
+            stock = Stock.get_by_product_id_and_size(product_id, size)
+            if stock:
+                stock.amount += amount
+                stock.save()
+                
+    return jsonify({'success': True, 'message': 'Płatność została anulowana'})

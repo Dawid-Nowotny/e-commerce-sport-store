@@ -1,6 +1,7 @@
 from app import app
 
 from application.controllers.login import login_page
+from application.controllers.logout import logout
 from application.controllers.login_google import google_login_page
 from application.controllers.register import register_page
 
@@ -20,6 +21,7 @@ from application.controllers.search import search
 
 app.register_blueprint(login_page)
 app.register_blueprint(google_login_page)
+app.register_blueprint(logout)
 app.register_blueprint(register_page)
 
 app.register_blueprint(main_page_products)

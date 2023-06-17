@@ -11,7 +11,6 @@ backend_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..
 sys.path.insert(0, backend_path)
 
 from app import redis_client
-
 from flask import Blueprint, jsonify, request
 import json
 
