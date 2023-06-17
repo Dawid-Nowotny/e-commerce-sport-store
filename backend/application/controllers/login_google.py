@@ -25,16 +25,21 @@ def login_google():
     code = request.get_json().get('code')
     
     try:
-        custom_token = login_with_google(code)
+        exchanged_code = exchange_code(code)
+        access_token = exchanged_code['access_token']
+        token_info = get_token_info(access_token)
+
+        uid = token_info['sub']
+        custom_token = login_with_google(token_info)
 
         if custom_token == None:
             return jsonify({'success': False, 'message': 'Konto z takim emailem jest już zarejestrowane'})
 
         firebase = pyrebase_manager.get_firebase()
         auth = firebase.auth()
-        user = auth.sign_in_with_custom_token(custom_token.decode())
+        auth.sign_in_with_custom_token(custom_token.decode())
 
-        return jsonify({'success': True, 'message': 'Zalogowano pomyślnie'})
+        return jsonify({'success': True, 'message': 'Zalogowano pomyślnie', 'user_id': uid})
     except exceptions.FirebaseError as error:
         return jsonify({'success': False, 'error': str(error)})
 
@@ -42,11 +47,7 @@ def login_google():
 
 
 
-def login_with_google(code):
-        exchanged_code = exchange_code(code)
-        access_token = exchanged_code['access_token']
-        token_info = get_token_info(access_token)
-
+def login_with_google(token_info):
         email = token_info['email']
         uid = token_info['sub']
 
