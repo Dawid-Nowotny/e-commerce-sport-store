@@ -62,6 +62,11 @@ async def handle_unsuccessful_payment():
     order.payment_status = "Cancelled"
     order.save()
 
+    restore_stock(order)
+                
+    return jsonify({'success': True, 'message': 'Płatność została anulowana'})
+
+def restore_stock(order):
     for product_data in order.products:
         product_id = product_data['id']
         product = Product.get_by_id(product_id)
@@ -72,5 +77,3 @@ async def handle_unsuccessful_payment():
             if stock:
                 stock.amount += amount
                 stock.save()
-                
-    return jsonify({'success': True, 'message': 'Płatność została anulowana'})
