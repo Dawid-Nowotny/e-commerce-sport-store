@@ -58,7 +58,8 @@ export class AppComponent {
 
   goToProductDetails(productId: string): void {
     this.router.navigate(['/product-details', productId]);
-
+  }
+  
   logout(): void {
     localStorage.removeItem('user_id');
     this.isLogged = false;

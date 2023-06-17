@@ -1,4 +1,4 @@
-<div  id="container" ng-controller="viewController">
+<div id="container" ng-controller="viewController">
   <div id="whole_header" (mouseleave)="onPanelMouseLeave($event)">
     <div id="header">
         <div class="logo">
@@ -26,8 +26,14 @@
     </div>
     <div id="header_bottom">
       <div id="user_menu">
-        <a routerLink="/login"><div>Logowanie</div></a>
-        <a routerLink="/register"><div>Rejestracja</div></a>
+        <div *ngIf="isLogged; then logoutTemplate else loginTemplate"></div>
+        <ng-template #loginTemplate>
+          <a routerLink="/login"><div>Logowanie</div></a>
+          <a routerLink="/register"><div>Rejestracja</div></a>
+        </ng-template>
+        <ng-template #logoutTemplate>
+          <a routerLink="" (click)="logout()"><div>Wyloguj</div></a>
+        </ng-template>
       </div>
       <div id="search_mobile">
         <div class="search_mobile_header">
@@ -42,31 +48,15 @@
         <a routerLink="/cart"><div>Koszyk</div></a>
         <a routerLink="/accounts"><div>Użytkownicy</div></a> 
         <a routerLink="/orders"><div>Zamówienia</div></a>
-        <a routerLink="/login"><div>Logowanie</div></a>
-        <a routerLink="/register"><div>Rejestracja</div></a>
+        <div *ngIf="isLogged; then logoutTemplate else loginTemplate"></div>
+        <ng-template #loginTemplate>
+          <a routerLink="/login"><div>Logowanie</div></a>
+          <a routerLink="/register"><div>Rejestracja</div></a>
+        </ng-template>
+        <ng-template #logoutTemplate>
+          <a routerLink="" (click)="logout()"><div>Wyloguj</div></a>
+        </ng-template>
       </div>
-      <div id="menu_top_right">
-        <div class="search_header">
-          <input type="text" class="search_input" placeholder="Wyszukaj" />
-          <span class="search_icon">
-            <mat-icon>search</mat-icon>
-          </span>
-        </div>
-        <div id="search_icon" class="div"><mat-icon>search</mat-icon></div>
-        <a routerLink="/cart"><div class="div"><mat-icon>shopping_cart</mat-icon></div></a>
-        <div id="menu_icon" class="div"><mat-icon>menu</mat-icon></div>
-      </div>
-  </div>
-  <div id="header_bottom">
-    <div id="user_menu">
-      <div *ngIf="isLogged; then logoutTemplate else loginTemplate"></div>
-      <ng-template #loginTemplate>
-        <a routerLink="/login"><div>Logowanie</div></a>
-        <a routerLink="/register"><div>Rejestracja</div></a>
-      </ng-template>
-      <ng-template #logoutTemplate>
-        <a routerLink="" (click)="logout()"><div>Wyloguj</div></a>
-      </ng-template>
     </div>
     <div id="search" *ngIf="searchResult" >
       <div class="search_title"> 
