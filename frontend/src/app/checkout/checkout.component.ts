@@ -53,7 +53,7 @@ export class CheckoutComponent {
                 localStorage.setItem('order_id', response.order_id);
                 this.serverService.payment(response.order_id).subscribe(
                   (response: any) => {
-                    window.open(response.url);
+                    window.location.href = response.url;
                   }
                 );
               }

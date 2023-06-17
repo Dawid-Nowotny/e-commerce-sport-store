@@ -9,6 +9,7 @@ import { Sizes } from '../sizes/sizes';
   styleUrls: ['./increase-stock.component.css']
 })
 export class IncreaseStockComponent {
+  isAdmin: boolean = false;
   category: string = '';
   productId: string = '';
   rozmiar: string = '';
@@ -18,19 +19,26 @@ export class IncreaseStockComponent {
   constructor(private route: ActivatedRoute, private serverService: ServerService) { }
 
   ngOnInit() {
-    this.route.url.subscribe(urlSegments => {
-      this.productId = urlSegments[urlSegments.length - 1].toString();
-    
-      this.serverService.getProductCategory(this.productId).subscribe(response => {
-        this.category = response.category;
-        if(this.category == "Buty")
-          this.sizes = Sizes.boots;
-        else if(this.category == "Ubranie")
-          this.sizes = Sizes.clothes;
-        else if(this.category == "Piłka")
-          this.sizes = Sizes.balls;
-      });
-    });
+    this.serverService.isAdmin().subscribe(
+      (response: any) => {
+        if(response.isAdmin == true) {
+          this.isAdmin = true;
+          this.route.url.subscribe(urlSegments => {
+            this.productId = urlSegments[urlSegments.length - 1].toString();
+          
+            this.serverService.getProductCategory(this.productId).subscribe(response => {
+              this.category = response.category;
+              if(this.category == "Buty")
+                this.sizes = Sizes.boots;
+              else if(this.category == "Ubranie")
+                this.sizes = Sizes.clothes;
+              else if(this.category == "Piłka")
+                this.sizes = Sizes.balls;
+            });
+          });
+        }
+      }
+    );
   }
 
   addToStock() {

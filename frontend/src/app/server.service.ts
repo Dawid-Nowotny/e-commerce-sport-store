@@ -31,6 +31,12 @@ export class ServerService {
     return this.http.post(url, data, httpOptions);
   }
 
+  /** GET ISADMIN */
+  isAdmin(): Observable<any> {
+    const url = `${this.userUrl}/api/admin?userId=${localStorage.getItem('user_id')}`;
+    return this.http.get(url);
+  }
+
   /** GET GETPRODUCTS */
   getProducts(pageIndex: number, pageSize: number): Observable<any> {
     const url = `${this.userUrl}/api/products?pageIndex=${pageIndex}&pageSize=${pageSize}`;
@@ -189,12 +195,22 @@ export class ServerService {
     return this.http.put(url, data);
   }
 
-  /** POST ADDPRODUCTSTOCK */
+  /** GET ADDPRODUCTSTOCK */
   getSuccessfulPayment(): Observable<any> {
     let orderId = localStorage.getItem('order_id');
     let userId = localStorage.getItem('user_id')
     const url = `${this.userUrl}/api/successful-payment?userId=${userId}&orderId=${orderId}`;
     //localStorage.removeItem('order_id');
     return this.http.get(url);
+  }
+
+  /** POST ADDPRODUCTSTOCK */
+  putCancelledPayment(): Observable<any> {
+    const data = {
+      orderId: localStorage.getItem('order_id')
+    }
+    const url = `${this.userUrl}/api/cancel-payment`;
+    //localStorage.removeItem('order_id');
+    return this.http.put(url, data);
   }
 }
