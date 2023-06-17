@@ -1,30 +1,54 @@
-<app-nav-bar></app-nav-bar>
+<app-nav-bar [itemCategory]="getCategoryName(category_id)" [itemBrand]="getBrandName(brand_id)"></app-nav-bar>
 <div class="content_padding">
     <div class="filters">
-        <div class="bar"><p>Sortuj</p></div>
-        <p> 
-            <span (click)="setPriceOrder('asc')">cena rosnąco</span><br />
-            <span (click)="setPriceOrder('desc')">cena malejąco</span><br /><br />
-        </p>
-        <div class="bar"><p>Filtruj</p></div>
-        <p>
-            <label for="brand">Marka:</label>
-            <select name="brand" [(ngModel)]="brand_id" (change)="setFilters()">
+        <div class="sorting-dropdown-button bar"><p>Sortowanie</p></div>
+		<div class="sorting-dropdown-content dropdown-content">
+			<p> 
+                <select name="sorting" [(ngModel)]="priceOrder" (change)="setFilters()" style="width: 95%;">
+                    <option value="">Od najnowszych</option>
+                    <option value="asc">Cena rosnąco</option>
+                    <option value="desc">Cena malejąco</option>
+                </select>
+              </p>
+		</div>
+		
+        <div class="filters-dropdown-button bar"><p>Filtrowanie</p></div>
+		<div class="filters-dropdown-content dropdown-content">
+            <div class="label"><label for="brand">Marka:</label></div>
+            <select name="brand" [(ngModel)]="brand_id" (change)="setFilters()" style="width: 95%;">
                 <option [value]=brand.id *ngFor="let brand of brands; let i=index" [selected]="i==0">
                     {{ brand.name }}
                 </option>
-            </select>
-        </p>
-        <p>
-            <label for="category">Kategoria:</label>
-            <select name="category" [(ngModel)]="category_id" (change)="setFilters()">
+            </select><br/><br/>
+            <div class="label"><label for="category">Kategoria:</label></div>
+            <select name="category" [(ngModel)]="category_id" (change)="setFilters()" style="width: 95%;">
                 <option [value]=category.id *ngFor="let category of categories; let i=index" [selected]="i==0">
                     {{ category.name }}
                 </option>
-            </select>
-        </p>
+            </select><br/><br/>
+            <div *ngIf="category_id">
+                <div class="label"><label for="size">Rozmiar:</label></div>
+                <select name="rozmiar" [(ngModel)]="size" (change)="setFilters()" style="width: 95%;">
+                    <option *ngFor="let element of sizes">
+                        {{ element }}
+                    </option>
+                </select>
+                <br/><br/>
+            </div>
+            <div class="label"><label for="category">Przedział cenowy:</label>
+                <div style="display:flex;">
+                    <input type="text" (keydown)="onKeyPress($event)" (keypress)="onKeyPress($event)" placeholder="Od" [(ngModel)]="minPrice" (change)="setFilters()" style="text-align:center; width: 100%; box-sizing: border-box;"/>
+                    <div style="padding-top:4px;">_</div>
+                    <input type="text" (keydown)="onKeyPress($event)" (keypress)="onKeyPress($event)" placeholder="Do" [(ngModel)]="maxPrice" (change)="setFilters()" style="text-align:center; width: 100%; box-sizing: border-box;"/>
+                </div>
+                <div class="error-message" *ngIf="messagePrice"><p>{{ messagePrice }}</p></div>
+            </div><br/><br/>
+		</div>
     </div>
-    <div class="products">
+    <div class="products" *ngIf="message">
+        <div class="error-message"><p>{{ message }}</p></div>
+    </div>
+    <div class="products" *ngIf="!message">
         <mat-paginator [pageSizeOptions]="pageSizeOptions"
                     [pageSize]="pageSize"
                     [pageIndex]="currentPageIndex"
@@ -32,13 +56,14 @@
                     (page)="onPageChange($event)">
         </mat-paginator>
         <br />
-        <div class="item_list">
-                <div class="item" *ngFor="let itemElement of items" (click)="goToProductDetails(itemElement.id)">
-                        <img [src]="itemElement.prod_images[0]" class="item_image"><br />
-                        <div class="item_name">{{ itemElement.name }}</div>
-                        <div class="item_price">{{ itemElement.price }} zł</div>
-                    
-                </div>
+        <div class="loader" *ngIf="isLoading"></div>
+        <div class="item_list" *ngIf="!isLoading">
+            <div class="item" *ngFor="let itemElement of items" (click)="goToProductDetails(itemElement.id)">
+                    <div class="div_item_image"><img [src]="itemElement.prod_images[0]" class="item_image"></div>
+                    <div class="item_name">{{ itemElement.name }}</div>
+                    <div class="item_price">{{ itemElement.price }} zł</div>
+                
+            </div>
         </div>
         <br />
         <mat-paginator [pageSizeOptions]="pageSizeOptions"

@@ -1,24 +1,59 @@
-<app-nav-bar></app-nav-bar>
-<div class="content_padding">
-    <div>
-        <div class="details_image">
-            <img [src]="item[0].prod_images[0]" class="item_image"><br />
+<app-nav-bar [itemId]="item[0].id" [itemName]="item[0].name" [itemBrand]="item[0].brand" [itemCategory]="item[0].category"></app-nav-bar>
+<div class="details_padding">
+    <div class="products" *ngIf="errorMessage">
+        <div class="error-message"><p>{{ errorMessage }}</p></div>
+    </div>
+    <div class="products" *ngIf="successMessage">
+        <div class="success-message"><p>{{ successMessage }}</p></div>
+    </div>
+    <div class="loader" *ngIf="isLoading"></div>
+    <div class="details_content" *ngIf="!isLoading">
+        <div class="details_images">
+            <div class="slideshow-container">
+                <div class="slideshow-content">
+                    <div><a class="prev" (click)="plusSlides(-1)">&#10094;</a></div>
+                    <div class="mySlides fade" *ngFor="let image of item[0].prod_images; let i = index;" #slide>
+                        <img [src]="image">
+                    </div>
+                    <div><a class="next" (click)="plusSlides(1)">&#10095;</a></div>
+                </div>
+            </div>
+            <div class="thumbnails">
+                <div class="thumbnail" *ngFor="let image of item[0].prod_images; let i = index;" (click)="currentSlide(i + 1)">
+                    <img [src]="image">
+                </div>
+            </div>
         </div>
-        <div>
-            <h2>{{ item[0].name }}</h2>
-            <p>Cena: {{ item[0].price }} zł</p>
-            <p>Marka: {{ item[0].brand }}</p>
-            <p>Kategoria: {{ item[0].category }}</p>
-            <p>size 41: {{ item[0].sizes_and_amounts['41'] }} sztuk</p>
+        <div class="details_info">
+            <p class="title">{{ item[0].name }}</p>
+            <p class="category">Kategoria: {{ item[0].category }}</p>
+            <p class="price">{{ item[0].price }} zł</p>
+            <br />
+            <p class="size">Wybierz rozmiar:</p>
             <form (ngSubmit)="onSubmit()">
-                <label for="rozmiar">Rozmiar: </label>
-                <select name="rozmiar" [(ngModel)]="rozmiar">
-                    <option *ngFor="let element of sizes">
-                        {{ element }}
-                    </option>
-                </select><br />
-                <input type="submit" value="Dodaj do koszyka">
-            </form>
+                <div class="details_sizes">
+                    <div class="details_size" *ngFor="let element of sizes">
+                        <input type="radio" id="{{ element }}" name="size" [value]="element" [(ngModel)]="size" [ngModelOptions]="{standalone: true}" [disabled]="!isAvailable(element)" [checked]="false">
+                        <label for="{{ element }}" [class.disabled]="!isAvailable(element)">{{ element }}</label>
+                    </div>
+                </div><br />
+                <input type="submit" value="Dodaj do koszyka" class="details_add_cart_button">
+              </form>
         </div>
     </div>
+    <div class="details_description" *ngIf="!isLoading">
+        <div class="bar"><p>Opis produktu</p></div>
+		<div class="content">
+			<p> 
+                {{ item[0].description }}
+            </p>
+		</div>
+        <div class="bar"><p>Szczegóły produktu</p></div>
+		<div class="content">
+			<p> 
+                {{ item[0].description }}
+            </p>
+		</div>
+    </div>
 </div>
+

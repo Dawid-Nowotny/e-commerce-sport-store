@@ -174,6 +174,12 @@ export class ServerService {
     return this.http.post(url, data);
   }
 
+  /** GET GETSEARCHRESULT */
+  getSearchResult(searchValue: string): Observable<any> {
+    const url = `${this.userUrl}/api/search?name=${searchValue}`;
+    return this.http.get(url);
+  }
+
   /** GET GETORDERS */
   getOrders(): Observable<any> {
     const url = `${this.userUrl}/api/get-orders?user_id=${localStorage.getItem('user_id')}`;
