@@ -7,8 +7,10 @@
         <a routerLink="/register" *ngIf="isCurrentComponent('/register')"> / Rejestracja</a>
         <a routerLink="/cookies" *ngIf="isCurrentComponent('/cookies')"> / Polityka prywatności</a>
         <a routerLink="/rules" *ngIf="isCurrentComponent('/rules')"> / Regulamin sprzedaży</a>
-        <a routerLink="/cart" *ngIf="isCurrentComponent('/cart') || isCurrentComponent('/checkout')"> / Koszyk</a>
+        <a routerLink="/cart" *ngIf="isCurrentComponent('/cart') || isCurrentComponent('/checkout') || isCurrentComponent('/payment-cancel') || isCurrentComponent('/payment-success')"> / Koszyk</a>
         <a routerLink="/checkout" *ngIf="isCurrentComponent('/checkout')"> / Kasa</a>
+        <a routerLink="/payment-cancel" *ngIf="isCurrentComponent('/payment-cancel')"> / Kasa</a>
+        <a routerLink="/payment-success" *ngIf="isCurrentComponent('/payment-success')"> / Kasa</a>
         <a (click)="navigateToCategory(itemCategory)" *ngIf="itemCategory && itemCategory !== 'Wszystkie'" style="cursor: pointer"> / {{itemCategory}}</a>
         <a (click)="navigateToBrand(itemBrand)" *ngIf="itemBrand && itemBrand !== 'Wszystkie'" style="cursor: pointer"> / {{itemBrand}}</a>
         <a [routerLink]="'/product-details/' + itemId" *ngIf="itemName"> / {{itemName}}</a>
