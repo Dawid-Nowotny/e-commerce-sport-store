@@ -1274,3 +1274,35 @@ label {
 		width: 50%;
 	}
 }
+
+.login_form .form_control {
+	width: 100%;
+	box-sizing: border-box;
+}
+
+.login_form .label {
+	font-family: 'Century Gothic';
+    color: #000;
+    background-color: #f0f0f0;
+    border: 1px solid #f0f0f0;
+	width: 100%;
+	box-sizing: border-box;
+}
+
+.login_form .button {
+	width: 100%;
+}
+
+@media only screen and (min-width: 960px) {
+	.login_form .form_control {
+		width: 400px;
+	}
+	
+	.login_form .label {
+		width: 400px;
+	}
+	
+	.login_form .button {
+		width: 400px;
+	}
+}
