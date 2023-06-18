@@ -1,5 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
-import { Title } from '@angular/platform-browser';
+import { Component, OnInit, ChangeDetectorRef, AfterViewInit } from '@angular/core';
 import { ServerService } from '../server.service';
 import { Router } from '@angular/router';
 import { Cart } from '../cart/cart';
@@ -10,33 +9,42 @@ import { Cart } from '../cart/cart';
   styleUrls: ['./shop-cart.component.css']
 })
 export class ShopCartComponent implements OnInit {
-  constructor(private titleService: Title, private serverService: ServerService, private router: Router, private cdr: ChangeDetectorRef) { }
+  constructor(private serverService: ServerService, private router: Router, private cdr: ChangeDetectorRef) { }
+  isLoading: boolean = false;
+  isLogged: boolean = false;
   cart: Cart[] = [];
   totalPrice: number = 0;
   selectedOption: number[] = [];
   maxAmount: number[][] = [];
+  errorMessage: string = '';
+  successMessage: string = '';
+  cartMessage: string = '';
 
   ngOnInit() {
-    this.titleService.setTitle('Koszyk - AWAZONsport');
     this.getCart();
   }
 
+  ngAfterViewInit(): void {
+    this.isLogged = this.serverService.isLogged;
+  }
+
   getCart(): void {
+    this.isLoading = true;
     this.serverService.getCart().subscribe(response => {
-      if(response.success == false) {
-        alert("nie zalogowany");
-      } else {
+      if(response.success !== false) {
         this.cart = response.cart;
         this.totalPrice = response.total_price;
-        console.log(this.cart);
         for(let i = 0; i < this.cart.length; i++) {
           this.selectedOption[i] = this.cart[i].amount;
         }
         if(this.cart.length == 0) {
-          alert("koszyk pusty");
+          this.cartMessage = "Brak produktów w koszyku!";
         }
+      } else {
+        this.cartMessage = "Brak produktów w koszyku!";
       }
       this.getRange();
+      this.isLoading = false;
     });
   }
 

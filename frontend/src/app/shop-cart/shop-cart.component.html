@@ -1,22 +1,59 @@
 <div class="content_padding">
     <div class="content_text">
         <app-nav-bar></app-nav-bar>
-        <div class="text-center">
-            <div class="bar"><p>Koszyk</p></div>
-            <div class="item" *ngFor="let cartElement of cart; let i=index">
-                <div class="item_name" (click)="goToProductDetails(cartElement.id)">
-                  {{ cartElement.name }}
+        <div *ngIf="errorMessage">
+            <div class="error-message"><p>{{ errorMessage }}</p></div>
+        </div>
+        <div *ngIf="successMessage">
+            <div class="success-message"><p>{{ successMessage }}</p></div>
+        </div>
+        <div class="loader" *ngIf="isLoading"></div>
+        <div class="cart" *ngIf="!isLoading">
+            <div class="cart_list">
+                <div class="bar"><p>Koszyk</p></div>
+                <div *ngIf="cartMessage">
+                    <div class="cart-message"><p>{{ cartMessage }}</p></div>
                 </div>
-                <select (change)="setProductAmount(cartElement.id, cartElement.size, selectedOption[i])" [(ngModel)]="selectedOption[i]">
-                    <option *ngFor="let amount of maxAmount[i]; let i = index" [value]="amount">
-                        {{ amount }}
-                    </option>
-                </select>
-                Sztuk {{ cartElement.price }}
-                <button (click)="deleteProductFromCart(cartElement.id, cartElement.size)">Usuń produkt z koszyka</button>
+                <div class="cart_item" *ngFor="let cartElement of cart; let i=index">
+                    <div class="thumbnail">
+                        <img [src]="cartElement.img">
+                    </div>
+                    <div class="info_container">
+                        <div class="info">
+                            <div class="name" (click)="goToProductDetails(cartElement.id)">
+                                {{ cartElement.name }}
+                            </div>
+                            <div class="amount">
+                                Ilość:  
+                                <select (change)="setProductAmount(cartElement.id, cartElement.size, selectedOption[i])" [(ngModel)]="selectedOption[i]">
+                                    <option *ngFor="let amount of maxAmount[i]; let i = index" [value]="amount">
+                                        {{ amount }}
+                                    </option>
+                                </select>
+                            </div>
+                            <button (click)="deleteProductFromCart(cartElement.id, cartElement.size)">USUŃ</button>
+                        </div>
+                        <div class="price">
+                            {{ cartElement.price }} zł
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div>Całkowita cena: {{ totalPrice }} zł</div>
-            <button routerLink="/checkout">Przejdź do płatności</button>
+            <div class="cart_summary">
+                <div class="cart_summary_content"><span class="title">Podsumowanie</span><br /><br />
+                    <div style="display: flex; justify-content: space-between;">
+                        <span class="price_title">Całkowita cena:</span>
+                        <span class="price">{{ totalPrice }} zł</span>
+                    </div>
+                </div><br />
+                <div *ngIf="isLogged">
+                    <button routerLink="/checkout" class="cart_button">Przejdź do płatności</button>
+                </div>
+                <div *ngIf="!isLogged">
+                    <button (click)="errorMessage = 'Aby przejść do płatności, musisz się zalogować!'" class="cart_button">Przejdź do płatności</button>
+                </div>
+            </div>
+            
         </div>
     </div>
 </div>

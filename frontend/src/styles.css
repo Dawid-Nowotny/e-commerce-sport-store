@@ -59,6 +59,7 @@ button, input, textarea, select {
 
 button, input {
     text-transform: uppercase;
+	font-family: 'Century Gothic';
 }
 
 button:hover, input:hover, textarea:hover, select:hover {
@@ -439,6 +440,7 @@ label {
 }
 
 .bar {
+	font-family: 'Century Gothic';
 	color: #000;
 	background-color: #c8c8c8;
 	width: 100%;
@@ -451,6 +453,7 @@ label {
 }
 
 .nav-bar {
+	font-family: 'Century Gothic';
 	color: #000;
 	border-bottom: 1px solid #c8c8c8;
 	width: 100%;
@@ -464,6 +467,7 @@ label {
 }
 
 .error-message {
+	font-family: 'Century Gothic';
 	color: #fff;
 	background-color: rgba(120,0,0, 1);
 	width: 100%;
@@ -478,6 +482,7 @@ label {
 }
 
 .success-message {
+	font-family: 'Century Gothic';
 	color: #fff;
 	background-color: rgba(0,120,0, 1);
 	width: 100%;
@@ -764,6 +769,7 @@ label {
 
 .details_sizes {
 	display: flex;
+	font-family: 'Century Gothic';
     flex-direction: row;
     flex-wrap: wrap;
     align-content: space-between;
@@ -871,6 +877,7 @@ label {
 
 .details_info .title {
 	font-size: 16px;
+	font-family: 'Century Gothic';
     font-weight: bold;
 	margin-left: 15px;
 }
@@ -883,6 +890,7 @@ label {
 .details_info .price {
 	font-size: 16px;
     font-weight: bold;
+	font-family: 'Century Gothic';
 	margin-left: 15px;
 }
 
@@ -1044,5 +1052,152 @@ label {
 	.slideshow-content {
 		width: 80%;
 		height: 700px;
+	}
+}
+
+.cart {
+	width: 100%;
+	display: flex;
+    flex-direction: column;
+}
+
+.cart_list {
+	width: 100%;
+}
+
+.cart_summary {
+	width: 100%;
+}
+
+.cart_summary_content {
+	width: 100%;
+	font-size: 14px;
+	padding: 20px;
+	background-color: #fff;
+    border: 1px solid #ccc;
+	box-sizing: border-box;
+}
+
+.cart_summary_content .title {
+	font-family: 'Century Gothic';
+	text-transform: uppercase;
+	font-size: 19px;
+}
+
+.cart_summary_content .price_title {
+	font-size: 14px;
+	text-align: left;
+}
+
+.cart_summary_content .price {
+	font-family: 'Century Gothic';
+	font-size: 19px;
+	text-align: right;
+}
+
+.cart_button {
+	width: 100%;
+	font-size: 14px;
+	text-transform: uppercase;
+	padding: 20px;
+	background-color: #fff;
+    border: 1px solid #ccc;
+}
+
+.cart_button:hover {
+	padding: 20px;
+	background-color: #e0e0e0;
+    border: 1px solid #ccc;
+}
+
+.cart-message {
+	font-family: 'Century Gothic';
+	width: 100%;
+	text-align: left;
+	box-sizing: border-box;
+}
+
+
+.cart-message p {
+	padding: 10px;
+	padding-left: 30px;
+	margin: 0;
+}
+
+.cart_list .bar {
+	box-sizing: border-box;
+	padding-left: 15px;
+	text-align: left;
+}
+
+.cart_list .cart_item {
+	width: 100%;
+    padding: 10px 10px 10px 25px;
+    box-sizing: border-box;
+	display: flex;
+}
+
+.cart_list .thumbnail {
+    width: 125px;
+    height: 125px;
+    margin: 5px;
+    cursor: pointer;
+}
+
+.cart_list .thumbnail img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.cart_list .cart_image {
+	width: 150px;
+}
+
+.cart_list .info_container {
+	flex-grow: 1;
+	display:flex;
+	padding-left: 20px;
+    flex-direction: column;
+}
+
+.cart_list .info {
+	flex-grow: 1;
+}
+
+.cart_list .name {
+	font-family: 'Century Gothic';
+    font-size: 17px;
+	padding-bottom: 10px;
+}
+
+.cart_list .price {
+	font-family: 'Century Gothic';
+    font-size: 19px;
+    text-align: right;
+	padding: 0px 20px;
+}
+
+.cart_list .amount {
+	padding-bottom: 10px;
+}
+
+@media only screen and (min-width: 960px) {
+	.cart {
+		width: 100%;
+		flex-direction: row;
+	}
+
+	.cart_list {
+		width: 70%;
+		margin-right: 10px;
+	}
+	
+	.cart_summary {
+		width: 30%;
+	}
+	
+	.cart_list .info_container {
+		flex-direction: row;
 	}
 }
