@@ -1,8 +1,6 @@
-import os, sys, datetime
-models_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
-sys.path.insert(0, models_path)
+import datetime
 
-from models.order import Order
+from application.models.order import Order
 from .payment_result import restore_stock
 
 def payment_exp():

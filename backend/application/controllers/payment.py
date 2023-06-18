@@ -1,19 +1,11 @@
-import os, sys
-backend_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
-sys.path.insert(0, backend_path)
+from application.models.order import Order
+from application.models.product import Product
 
-from config.stripeConfig import key
+from flask import Blueprint, jsonify, request
 
-models_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
-sys.path.insert(0, models_path)
-
-from models.order import Order
-from models.product import Product
-from models.stock import Stock
-
-from flask import Blueprint, jsonify, request, redirect
 import stripe
 import stripe.error
+from config.stripeConfig import key
 
 stripe.api_key = key
 
@@ -22,7 +14,7 @@ payment = Blueprint('payment', __name__, template_folder='templates')
 YOUR_DOMAIN = 'http://localhost:4200'
 
 @payment.route('/api/payment', methods=['POST'])
-async def process_payment():
+def process_payment():
     submitted_data = request.get_json()
     o_id = submitted_data.get('order_id')
 

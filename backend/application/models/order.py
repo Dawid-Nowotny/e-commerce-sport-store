@@ -1,11 +1,5 @@
-import os, sys, datetime
-backend_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
-sys.path.insert(0, backend_path)
-
+import datetime
 from firebase_admin import db
-from config.FirebaseManager import FirebaseManager
-
-firebase_manager = FirebaseManager()
 
 class Order:
     def __init__(self, user_id, delivery_data_id, products, price, payment_status, date_exp=None):

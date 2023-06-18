@@ -1,16 +1,5 @@
-import os, sys
-models_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
-sys.path.insert(0, models_path)
-
-from models.stock import Stock
-from models.product import Product
-
-backend_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
-sys.path.insert(0, backend_path)
-
-from config.FirebaseManager import FirebaseManager
-
-firebase_manager = FirebaseManager()
+from application.models.stock import Stock
+from application.models.product import Product
 
 from flask import Blueprint, jsonify, request
 
@@ -18,7 +7,7 @@ main_page_products = Blueprint('main_page_products', __name__, template_folder='
 main_page_products_filtered = Blueprint('main_page_products_filtered', __name__, template_folder='templates')
 
 @main_page_products.route('/api/products', methods=['GET'])
-async def get_products():
+def get_products():
     pageIndex = int(request.args.get('pageIndex'))
     pageSize = int(request.args.get('pageSize'))
 
@@ -32,7 +21,7 @@ async def get_products():
     return jsonify({'items': products_dict, 'totalItems': Product.get_product_count()})
 
 @main_page_products_filtered.route('/api/filtered-products', methods=['GET'])
-async def get_products_filtered():
+def get_products_filtered():
     pageIndex = int(request.args.get('pageIndex'))
     pageSize = int(request.args.get('pageSize'))
     price_order = str(request.args.get('priceOrder'))

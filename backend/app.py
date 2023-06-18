@@ -1,6 +1,9 @@
 from flask import Flask
 from flask_cors import CORS
 import redis
+from config.FirebaseManager import FirebaseManager
+
+firebase_manager = FirebaseManager()
 
 app = Flask(__name__)
 CORS(app)

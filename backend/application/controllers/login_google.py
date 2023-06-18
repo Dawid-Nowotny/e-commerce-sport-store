@@ -1,16 +1,6 @@
-import os
-import sys
 from flask import Blueprint, jsonify, request
 from firebase_admin import auth, exceptions
 import requests
-models_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
-sys.path.insert(0, models_path)
-
-backend_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
-sys.path.insert(0, backend_path)
-
-from config.FirebaseManager import FirebaseManager
-firebase_manager = FirebaseManager()
 
 from config.pyrebaseManager import PyrebaseManager
 pyrebase_manager = PyrebaseManager()
@@ -38,10 +28,6 @@ def login_google():
     except exceptions.FirebaseError as error:
         return jsonify({'success': False, 'error': str(error)})
 
-
-
-
-
 def login_with_google(code):
         exchanged_code = exchange_code(code)
         access_token = exchanged_code['access_token']
@@ -65,9 +51,6 @@ def login_with_google(code):
                 print("Użytkownik nie istnieje w bazie danych - tworzenie nowego użytkownika")
                 uid = create_user_with_google(email, uid)
                 return custom_token
-            
-
-
 
 def get_id_token(access_token):
     response = auth.verify_id_token(access_token)

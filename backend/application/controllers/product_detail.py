@@ -1,9 +1,5 @@
-import os, sys
-models_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
-sys.path.insert(0, models_path)
-
-from models.product import Product
-from models.stock import Stock
+from application.models.product import Product
+from application.models.stock import Stock
 
 from flask import Blueprint, jsonify, request
 
@@ -11,7 +7,7 @@ product_details = Blueprint('product_details', __name__, template_folder='templa
 product_details_edit = Blueprint('product_details_edit', __name__, template_folder='templates')
 
 @product_details.route('/api/product-details', methods=['GET'])
-async def get_product_detail():
+def get_product_detail():
     id_p = str(request.args.get('productId'))
 
     product = Product.get_by_id(id_p)
@@ -30,7 +26,7 @@ async def get_product_detail():
         return jsonify({'error': 'Produktu nie odnaleziono'})
 
 @product_details_edit.route('/api/admin/product-details-edit', methods=['GET'])
-async def get_details_for_edit():
+def get_details_for_edit():
     id_p = str(request.args.get('productId'))
 
     product = Product.get_by_id(id_p)

@@ -1,24 +1,17 @@
-import os, sys
-backend_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
-sys.path.insert(0, backend_path)
+from application.models.order import Order
+from application.models.product import Product
+from application.models.delivery_details import DeliveryDetails
+from application.models.stock import Stock
 
 from app import redis_client
 
-models_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
-sys.path.insert(0, models_path)
-
-from models.order import Order
-from models.product import Product
-from models.delivery_details import DeliveryDetails
-from models.stock import Stock
-
-from flask import Blueprint, jsonify, request, redirect
+from flask import Blueprint, jsonify, request
 
 payment_success = Blueprint('payment_success', __name__, template_folder='templates')
 payment_failure = Blueprint('payment_failure', __name__, template_folder='templates')
 
 @payment_success.route('/api/successful-payment', methods=['GET'])
-async def handle_successful_payment():
+def handle_successful_payment():
     user_id = request.args.get('userId')
     order_id = request.args.get('orderId')
 
@@ -50,7 +43,7 @@ async def handle_successful_payment():
     return jsonify({'success': True, 'message': 'Zamówienie zostało zakończone', 'order': order_dict})
 
 @payment_success.route('/api/cancel-payment', methods=['PUT'])
-async def handle_unsuccessful_payment():
+def handle_unsuccessful_payment():
     submitted_data = request.get_json()
     order_id = submitted_data.get('orderId')
 
