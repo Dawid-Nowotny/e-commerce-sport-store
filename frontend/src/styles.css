@@ -80,6 +80,10 @@ input {
 	text-transform: none;
 }
 
+input.filled::placeholder {
+	opacity: 0.5;
+}
+
 label {
 	margin: 10px;
 }
@@ -1199,5 +1203,74 @@ label {
 	
 	.cart_list .info_container {
 		flex-direction: row;
+	}
+}
+
+.checkout {
+	display: flex;
+	width: 100%;
+	flex-direction: column;
+	text-align: center;    
+}
+
+.checkout .bar {
+	margin-bottom: 20px;
+}
+
+.checkout .bar p {
+	margin: 0px;
+}
+
+.checkout .label {
+	font-family: 'Century Gothic';
+    color: #000;
+    background-color: #f0f0f0;
+    border: 1px solid #f0f0f0;
+	width: 100%;
+	box-sizing: border-box;
+}
+
+.checkout .form {
+	display: flex;
+	flex-direction: column;
+	margin-bottom: 20px;
+	justify-content: space-evenly;
+}
+
+.checkout .form_size {
+	min-width: 50px;
+}
+
+.checkout .form_control {
+	width: 100%;
+	box-sizing: border-box;
+}
+
+.checkout_button {
+	width: 100%;
+	font-size: 14px;
+	text-transform: uppercase;
+	padding: 20px;
+	background-color: #fff;
+    border: 1px solid #ccc;
+}
+
+.checkout_button:hover {
+	padding: 20px;
+	background-color: #e0e0e0;
+    border: 1px solid #ccc;
+}
+
+@media only screen and (min-width: 960px) {
+	.checkout .form {
+		flex-direction: row;
+	}
+
+	.checkout .form_size {
+		min-width: 300px;
+	}
+	
+	.checkout_button {
+		width: 50%;
 	}
 }

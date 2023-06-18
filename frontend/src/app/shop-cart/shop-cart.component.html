@@ -47,10 +47,10 @@
                     </div>
                 </div><br />
                 <div *ngIf="isLogged">
-                    <button routerLink="/checkout" class="cart_button">Przejdź do płatności</button>
+                    <button routerLink="/checkout" class="cart_button">Przejdź do kasy</button>
                 </div>
                 <div *ngIf="!isLogged">
-                    <button (click)="errorMessage = 'Aby przejść do płatności, musisz się zalogować!'" class="cart_button">Przejdź do płatności</button>
+                    <button (click)="errorMessage = 'Aby przejść do kasy, musisz się zalogować!'" class="cart_button">Przejdź do kasy</button>
                 </div>
             </div>
             
