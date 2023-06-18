@@ -9,7 +9,6 @@
         <div id="menu_top_center">
           <a routerLink="/"><div>Sklep</div></a>
           <a routerLink="/cart"><div>Koszyk</div></a>
-          <a routerLink="/accounts"><div>Użytkownicy</div></a> 
           <a routerLink="/orders"><div>Zamówienia</div></a>
         </div>
         <div id="menu_top_right">
@@ -46,7 +45,6 @@
       <div id="menu_mobile">
         <a routerLink="/"><div>Sklep</div></a>
         <a routerLink="/cart"><div>Koszyk</div></a>
-        <a routerLink="/accounts"><div>Użytkownicy</div></a> 
         <a routerLink="/orders"><div>Zamówienia</div></a>
         <div *ngIf="isLogged; then logoutTemplate else loginTemplate"></div>
         <ng-template #loginTemplate>

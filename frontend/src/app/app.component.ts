@@ -63,11 +63,13 @@ export class AppComponent {
   logout(): void {
     localStorage.removeItem('user_id');
     this.isLogged = false;
+    this.serverService.isLogged = false;
     this.cdr.detectChanges();
   }
 
   checkState() {
     if(localStorage.getItem('user_id') != undefined) {
+      this.serverService.isLogged = true;
       this.isLogged = true;
     }
     this.cdr.detectChanges();
