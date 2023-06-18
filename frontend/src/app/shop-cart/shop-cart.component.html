@@ -16,7 +16,7 @@
                 </div>
                 <div class="cart_item" *ngFor="let cartElement of cart; let i=index">
                     <div class="thumbnail">
-                        <img [src]="cartElement.img">
+                        <img [src]="cartElement.prod_images">
                     </div>
                     <div class="info_container">
                         <div class="info">
@@ -46,14 +46,22 @@
                         <span class="price">{{ totalPrice }} zł</span>
                     </div>
                 </div><br />
-                <div *ngIf="isLogged">
-                    <button routerLink="/checkout" class="cart_button">Przejdź do kasy</button>
-                </div>
-                <div *ngIf="!isLogged">
+              
+                <div *ngIf="isLogged; then logged else unlogged"></div>
+                <ng-template #logged>
+                    <div *ngIf="cartMessage == 'Brak produktów w koszyku!'; then notEmpty else isEmpty"></div>
+                    <ng-template #isEmpty>
+                        <button routerLink="/checkout" class="cart_button">Przejdź do kasy</button>
+                    </ng-template>
+                    <ng-template #notEmpty>
+                        <button (click)="errorMessage = 'Aby przejść do kasy, musisz coś dodać do koszyka!'" class="cart_button">Przejdź do kasy</button>
+                    </ng-template> 
+                    
+                </ng-template>
+                <ng-template #unlogged>
                     <button (click)="errorMessage = 'Aby przejść do kasy, musisz się zalogować!'" class="cart_button">Przejdź do kasy</button>
-                </div>
+                </ng-template> 
             </div>
-            
         </div>
     </div>
 </div>

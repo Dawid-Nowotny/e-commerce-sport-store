@@ -1,6 +1,90 @@
 <div class="content_padding">
     <div class="content_text">
         <app-nav-bar></app-nav-bar>
-        
+        <div *ngIf="isLogged; then logged else unlogged"></div>
+        <ng-template #logged>
+            <div *ngIf="successMessage">
+                <div class="success-message"><p>{{ successMessage }}</p></div>
+            </div>
+            <div class="loader" *ngIf="isLoading"></div>
+            <div class="cart" *ngIf="!isLoading">
+                <div class="cart_list">
+                    <div class="bar"><p>Twoje zamówienie</p></div>
+                    <div class="cart_item" *ngFor="let cartElement of cart; let i=index">
+                        <div class="thumbnail">
+                            <img [src]="cartElement.prod_images[0]">
+                        </div>
+                        <div class="info_container">
+                            <div class="info">
+                                <div class="name" (click)="goToProductDetails(cartElement.id)">
+                                    {{ cartElement.name }}
+                                </div>
+                                <div class="amount">
+                                    Ilość:  
+                                    {{ cartElement.amount }}
+                                </div>
+                            </div>
+                            <div class="price">
+                                {{ cartElement.price }} zł
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="cart_summary">
+                    <div class="cart_summary_content"><span class="title">Podsumowanie</span><br /><br />
+                        <div style="display: flex; justify-content: space-between;">
+                            <span class="price_title">Status:</span>
+                            <span class="price_title">zapłacone</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between;">
+                            <span class="price_title">Całkowita cena:</span>
+                            <span class="price">{{order[0].price}} zł</span>
+                        </div>
+                        
+                    </div><br />
+                    <div class="cart_summary_content"><span class="title">Adres dostawy</span><br /><br />
+                        <div style="display: flex; justify-content: space-between;">
+                            <span class="price_title">Imię:</span>
+                            <span class="price_title">{{deliveryData[0].firstname}}</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between;">
+                            <span class="price_title">Nazwisko:</span>
+                            <span class="price_title">{{deliveryData[0].lastname}}</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between;">
+                            <span class="price_title">Numer telefonu:</span>
+                            <span class="price_title">{{deliveryData[0].phoneNumber}}</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between;">
+                            <span class="price_title">Państwo:</span>
+                            <span class="price_title">{{deliveryData[0].country}}</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between;">
+                            <span class="price_title">Miasto:</span>
+                            <span class="price_title">{{deliveryData[0].city}}</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between;">
+                            <span class="price_title">Ulica:</span>
+                            <span class="price_title">{{deliveryData[0].street}}</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between;">
+                            <span class="price_title">Numer domu:</span>
+                            <span class="price_title">{{deliveryData[0].houseNumber}}</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between;">
+                            <span class="price_title">Kod pocztowy:</span>
+                            <span class="price_title">{{deliveryData[0].postcode}}</span>
+                        </div>
+                    </div><br />
+                </div>
+                
+            </div>
+        </ng-template>
+        <ng-template #unlogged>
+            <div class="text-center">
+                <div class="error-message"><p>Nie masz dostępu do tej części strony!</p></div>
+                <button routerLink="/">Powrót na stronę główną</button>
+            </div>
+        </ng-template> 
     </div>
 </div>

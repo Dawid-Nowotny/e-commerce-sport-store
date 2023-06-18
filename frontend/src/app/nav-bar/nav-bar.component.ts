@@ -58,6 +58,10 @@ export class NavBarComponent implements OnInit, AfterViewInit {
         pageTitle = 'Koszyk - AWAZONsport';
       } else if (currentUrl === '/checkout') {
         pageTitle = 'Kasa - AWAZONsport';
+      } else if (currentUrl === '/payment-cancel') {
+        pageTitle = 'Płatność anulowana - AWAZONsport';
+      } else if (currentUrl === '/payment-success') {
+        pageTitle = 'Płatność zakończona - AWAZONsport';
       } else if(this.notFound) {
         pageTitle = 'Nie znaleziono podanej strony - AWAZONsport';
       } else {

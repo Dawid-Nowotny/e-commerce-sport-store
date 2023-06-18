@@ -5,5 +5,5 @@ export interface Cart {
   'price': string,
   'amount': number,
   'stock_amount': number,
-  'img': string
+  'prod_images': string
 }
