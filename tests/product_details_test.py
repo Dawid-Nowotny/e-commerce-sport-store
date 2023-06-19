@@ -12,9 +12,9 @@ class TestProductDetails(unittest.TestCase):
 
     def test_get_product_detail_success(self):
         # Prawidłowe dane
-        submitted_data = {'productId': '-NXGWNdZDAYhERQCTMLC'}
+        productId = '-NY8V58DW_mcPKeLEwRw'
     
-        response = self.client.post('/api/product-details', json=submitted_data)
+        response = self.client.get(f'/api/product-details?productId={productId}')
 
         self.assertEqual(response.status_code, 200)
         data = response.get_json()
@@ -24,9 +24,9 @@ class TestProductDetails(unittest.TestCase):
 
     def test_get_product_detail_failure(self):
         # Produkt z nieistniejącym id
-        submitted_data = {'productId': 'nieistniejacy'}
+        productId = 'nieistniejacy'
 
-        response = self.client.post('/api/product-details', json=submitted_data)
+        response = self.client.get(f'/api/product-details?productId={productId}')
     
         self.assertEqual(response.status_code, 200)
         data = response.get_json()

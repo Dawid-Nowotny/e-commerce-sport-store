@@ -30,6 +30,7 @@ def login_google():
         token_info = get_token_info(access_token)
 
         uid = token_info['sub']
+        email = token_info['email']
         custom_token = login_with_google(token_info)
 
         if custom_token == None:
@@ -39,7 +40,7 @@ def login_google():
         auth = firebase.auth()
         auth.sign_in_with_custom_token(custom_token.decode())
 
-        return jsonify({'success': True, 'message': 'Zalogowano pomyślnie', 'user_id': uid})
+        return jsonify({'success': True, 'message': 'Zalogowano pomyślnie', 'user_id': uid, 'user_name': email})
     except exceptions.FirebaseError as error:
         return jsonify({'success': False, 'error': str(error)})
 
