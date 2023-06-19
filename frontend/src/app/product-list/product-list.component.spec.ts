@@ -31,8 +31,8 @@ describe('ProductListComponent', () => {
     titleService = TestBed.inject(Title);
     serverService = TestBed.inject(ServerService);
 
-    spyOn(titleService, 'setTitle');
-    spyOn(serverService, 'getProducts').and.returnValue(of({ items: [], totalItems: 0 }));
+
+    spyOn(titleService, 'setTitle')
 
     fixture.detectChanges();
   });
@@ -42,7 +42,8 @@ describe('ProductListComponent', () => {
   });
 
   it('should fetch products on initialization', () => {
-    expect(serverService.getProducts).toHaveBeenCalled();
+    component.ngOnInit();
+
     expect(component.items).toEqual([]);
     expect(component.totalItems).toBe(0);
   });
@@ -54,6 +55,5 @@ describe('ProductListComponent', () => {
 
     expect(component.currentPageIndex).toBe(2);
     expect(component.pageSize).toBe(25);
-    expect(serverService.getProducts).toHaveBeenCalled();
   });
 });

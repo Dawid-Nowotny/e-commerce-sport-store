@@ -1,4 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { NavBarComponent } from '../nav-bar/nav-bar.component';
+import { ActivatedRoute } from '@angular/router';
+import { of } from 'rxjs';
+
 
 import { OrdersComponent } from './orders.component';
 
@@ -8,7 +13,16 @@ describe('OrdersComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ OrdersComponent ]
+      imports: [ HttpClientTestingModule ],
+      declarations: [ OrdersComponent, NavBarComponent ],
+      providers: [
+        {
+          provide: ActivatedRoute,
+          useValue: {
+            paramMap: of({ get: () => 'mockProductId' }),
+          },
+        },
+      ]
     })
     .compileComponents();
 

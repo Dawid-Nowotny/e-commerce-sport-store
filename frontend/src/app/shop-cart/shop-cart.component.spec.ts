@@ -3,6 +3,8 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 import { ShopCartComponent } from './shop-cart.component';
 import { NavBarComponent } from '../nav-bar/nav-bar.component';
+import { ActivatedRoute } from '@angular/router';
+import { of } from 'rxjs';
 
 describe('ShopCartComponent', () => {
   let component: ShopCartComponent;
@@ -11,7 +13,15 @@ describe('ShopCartComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ ShopCartComponent, NavBarComponent],
-      imports: [HttpClientTestingModule]
+      imports: [HttpClientTestingModule],
+      providers: [
+        {
+          provide: ActivatedRoute,
+          useValue: {
+            paramMap: of({ get: () => 'mockProductId' }),
+          },
+        },
+      ],
     })
     .compileComponents();
 

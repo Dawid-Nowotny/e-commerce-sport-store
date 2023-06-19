@@ -4,6 +4,8 @@ import { FormsModule } from '@angular/forms';
 
 import { AddProductComponent } from './add-product.component';
 import { NavBarComponent } from '../nav-bar/nav-bar.component';
+import { ActivatedRoute } from '@angular/router';
+import { of } from 'rxjs';
 
 describe('AddProductComponent', () => {
   let component: AddProductComponent;
@@ -12,7 +14,15 @@ describe('AddProductComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ AddProductComponent, NavBarComponent ],
-      imports: [FormsModule, HttpClientTestingModule]
+      imports: [FormsModule, HttpClientTestingModule],
+      providers: [
+        {
+          provide: ActivatedRoute,
+          useValue: {
+            paramMap: of({ get: () => 'mockProductId' }),
+          },
+        },
+      ],
     })
     .compileComponents();
 

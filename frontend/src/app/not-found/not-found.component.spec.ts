@@ -1,7 +1,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Title } from '@angular/platform-browser';
+import { NavBarComponent } from '../nav-bar/nav-bar.component'
+import { ActivatedRoute } from '@angular/router';
 
 import { NotFoundComponent } from './not-found.component';
+import { of } from 'rxjs';
 
 describe('NotFoundComponent', () => {
   let component: NotFoundComponent;
@@ -10,8 +13,15 @@ describe('NotFoundComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [NotFoundComponent],
-      providers: [Title], // Add Title provider
+      declarations: [NotFoundComponent, NavBarComponent],
+      providers: [Title,
+        {
+          provide: ActivatedRoute,
+          useValue: {
+            paramMap: of({ get: () => 'mockProductId' }),
+          },
+        },],
+ 
     }).compileComponents();
   });
 

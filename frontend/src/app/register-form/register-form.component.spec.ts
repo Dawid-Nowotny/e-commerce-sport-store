@@ -1,8 +1,11 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { FormsModule } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 
 import { RegisterFormComponent } from './register-form.component';
+import { of } from 'rxjs';
+import { AppComponent } from '../app.component';
 
 describe('RegisterFormComponent', () => {
   let component: RegisterFormComponent;
@@ -11,7 +14,15 @@ describe('RegisterFormComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ RegisterFormComponent ],
-      imports: [FormsModule, HttpClientTestingModule]
+      imports: [FormsModule, HttpClientTestingModule],
+      providers: [ AppComponent,
+        {
+          provide: ActivatedRoute,
+          useValue: {
+            paramMap: of({ get: () => 'mockProductId' }),
+          },
+        },
+      ],
     })
     .compileComponents();
 

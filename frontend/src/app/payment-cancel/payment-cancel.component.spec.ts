@@ -1,4 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { NavBarComponent } from '../nav-bar/nav-bar.component';
+import { ActivatedRoute } from '@angular/router';
+import { of } from 'rxjs';
 
 import { PaymentCancelComponent } from './payment-cancel.component';
 
@@ -8,7 +12,16 @@ describe('PaymentCancelComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ PaymentCancelComponent ]
+      declarations: [ PaymentCancelComponent, NavBarComponent ],
+      imports: [ HttpClientTestingModule ],
+      providers: [
+        {
+          provide: ActivatedRoute,
+          useValue: {
+            paramMap: of({ get: () => 'mockProductId' }),
+          },
+        },
+      ],
     })
     .compileComponents();
 
