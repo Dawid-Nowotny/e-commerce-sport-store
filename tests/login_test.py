@@ -19,7 +19,7 @@ class TestLoginPage(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
         data = response.get_json()
         self.assertTrue(data['success'])
-        self.assertIn('token', data)
+        self.assertIn('user_id', data)
 
     def test_confirm_login_failure(self):
         # Nieprawidłowe dane testowe

@@ -15,24 +15,26 @@ def login_google():
     code = request.get_json().get('code')
     
     try:
-        custom_token = login_with_google(code)
+        exchanged_code = exchange_code(code)
+        access_token = exchanged_code['access_token']
+        token_info = get_token_info(access_token)
+
+        uid = token_info['sub']
+        email = token_info['email']
+        custom_token = login_with_google(token_info)
 
         if custom_token == None:
             return jsonify({'success': False, 'message': 'Konto z takim emailem jest już zarejestrowane'})
 
         firebase = pyrebase_manager.get_firebase()
         auth = firebase.auth()
-        user = auth.sign_in_with_custom_token(custom_token.decode())
+        auth.sign_in_with_custom_token(custom_token.decode())
 
-        return jsonify({'success': True, 'message': 'Zalogowano pomyślnie'})
+        return jsonify({'success': True, 'message': 'Zalogowano pomyślnie', 'user_id': uid, 'user_name': email})
     except exceptions.FirebaseError as error:
         return jsonify({'success': False, 'error': str(error)})
 
-def login_with_google(code):
-        exchanged_code = exchange_code(code)
-        access_token = exchanged_code['access_token']
-        token_info = get_token_info(access_token)
-
+def login_with_google(token_info):
         email = token_info['email']
         uid = token_info['sub']
 
@@ -48,7 +50,7 @@ def login_with_google(code):
             except exceptions.NotFoundError:
                 uid = create_user_with_google(email, uid)
                 return custom_token
-
+            
 def get_id_token(access_token):
     response = auth.verify_id_token(access_token)
     return response["uid"]
@@ -72,13 +74,11 @@ def get_user_info(id_token):
     response = auth.get_user(id_token)
     return response
 
-
 def create_user_with_google(email, uid):
     user = auth.create_user(email=email, uid=uid, email_verified=True)
     provider = auth.ProviderIdentifier(provider_id='google.com', provider_uid=uid)
     user.provider_data.append(provider)
     return user.uid
-
 
 def exchange_code(code):
     token_url = 'https://oauth2.googleapis.com/token'

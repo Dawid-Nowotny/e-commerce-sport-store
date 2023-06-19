@@ -12,14 +12,14 @@ class TestRegisterPage(unittest.TestCase):
 
     def test_register_confirm_success(self):
         # Prawidłowe dane
-        submitted_data = {'username': 'vorixal193@rockdian.com', 'password': '123123'}
+        submitted_data = {'username': 'vorixal1@rockdian.com', 'password': '123123'}
     
         response = self.client.post('/api/register', json=submitted_data)
 
         self.assertEqual(response.status_code, 200)
         data = response.get_json()
         self.assertTrue(data['success'])
-        self.assertIn('token', data)
+        self.assertIn('user_id', data)
 
     def test_register_confirm_existing_user(self):
         # Istniejący użytkownik
