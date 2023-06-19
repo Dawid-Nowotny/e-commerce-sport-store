@@ -72,6 +72,8 @@ export class NavBarComponent implements OnInit, AfterViewInit {
         pageTitle = 'Lista produktów -Panel administratora - AWAZONsport';
       } else if (currentUrl === '/admin-panel/add-product') {
         pageTitle = 'Dodaj produkt - Panel administratora - AWAZONsport';
+      } else if (currentUrl === ('/admin-panel/increase-stock/'+this.itemId)) {
+        pageTitle = 'Dodaj do magazynu - Panel administratora - AWAZONsport';
       } else if(this.notFound) {
         pageTitle = 'Nie znaleziono podanej strony - AWAZONsport';
       } else {

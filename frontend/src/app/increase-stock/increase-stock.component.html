@@ -1,19 +1,27 @@
 <div class="content_padding">
-    <div *ngIf="isAdmin; then adminPanel else error"></div>
-    <ng-template #adminPanel>
-        <div>
-            <div>
-                <select [(ngModel)]="rozmiar">
+    <div class="content_text">
+        <app-nav-bar [itemId]="productId"></app-nav-bar>
+        <div *ngIf="admin; then adminPanel else error"></div>
+        <ng-template #adminPanel>
+            <div *ngIf="errorMessage" class="error-message"><p>{{ errorMessage }}</p></div>
+            <div *ngIf="successMessage" class="success-message"><p>{{ successMessage }}</p></div>
+            <div class="login_form" style="text-align: center;"> 
+                <div class="label">ROZMIAR</div>
+                <select [(ngModel)]="rozmiar" class="form_control">
                     <option *ngFor="let element of sizes">
                         {{ element }}
                     </option>
-                </select>
+                </select><br /><br />
+                <div class="label">ILOŚĆ</div>
+                <input type="number" [(ngModel)]="ilosc" placeholder="Ilość" min="0" class="form_control"><br /><br />
+                <button (click)="addToStock()" class="button" class="form_control">Dodaj do magazynu</button>
             </div>
-            <input type="number" [(ngModel)]="ilosc" min="0"><br />
-            <button (click)="addToStock()">Dodaj do magazynu</button>
-        </div>
-    </ng-template>
-    <ng-template #error>
-        <p>Brak uprawnień administratora</p>
-    </ng-template>
+        </ng-template>
+        <ng-template #error>
+            <div class="text-center">
+                <div class="error-message"><p>Brak uprawnień administratora!</p></div>
+                <button routerLink="/">Powrót na stronę główną</button>
+            </div>
+        </ng-template>
+    </div>
 </div>
