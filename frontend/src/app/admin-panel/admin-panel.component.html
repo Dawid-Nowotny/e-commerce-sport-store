@@ -1,11 +1,19 @@
 <div class="content_padding">
-    <div *ngIf="isAdmin; then adminPanel else error"></div>
-    <ng-template #adminPanel>
-        <button routerLink="/admin-panel/add-product">Dodaj produkt</button><br />
-        <button routerLink="/admin-panel/product-list">Lista produktów</button><br />
-        <button routerLink="/admin-panel/orders">Zamówienia</button>
-    </ng-template>
-    <ng-template #error>
-        <p>Brak uprawnień administratora</p>
-    </ng-template>
+    <div class="content_text">
+        <app-nav-bar></app-nav-bar>
+        <div *ngIf="admin; then adminPanel else error"></div>
+        <ng-template #adminPanel>
+            <div class="login_form" style="text-align: center;">
+                <button routerLink="/admin-panel/add-product" class="form_control">Dodaj produkt</button><br /><br />
+                <button routerLink="/admin-panel/product-list" class="form_control">Lista produktów</button><br /><br />
+                <button routerLink="/admin-panel/orders" class="form_control">Zamówienia</button>
+            </div>
+        </ng-template>
+        <ng-template #error>
+            <div class="text-center">
+                <div class="error-message"><p>Brak uprawnień administratora!</p></div>
+                <button routerLink="/">Powrót na stronę główną</button>
+            </div>
+        </ng-template>
+    </div>
 </div>

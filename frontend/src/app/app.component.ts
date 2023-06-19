@@ -12,6 +12,7 @@ import { Item } from './item/item';
 export class AppComponent {
   title = 'AWAZONsport';
   isLogged: boolean = false;
+  admin: boolean = false;
   isLoading: boolean = false;
   searchResult: boolean = false;
   items: Item[] = [];
@@ -63,6 +64,8 @@ export class AppComponent {
   logout(): void {
     localStorage.removeItem('user_id');
     this.isLogged = false;
+    this.admin = false;
+    this.serverService.admin = false;
     this.serverService.isLogged = false;
     this.cdr.detectChanges();
   }
@@ -71,6 +74,14 @@ export class AppComponent {
     if(localStorage.getItem('user_id') != undefined) {
       this.serverService.isLogged = true;
       this.isLogged = true;
+      this.serverService.isAdmin().subscribe(
+        (response: any) => {
+          if(response.isAdmin == true) {
+            this.admin = true;
+            this.serverService.admin = true;
+          }
+        }
+      );
     }
     this.cdr.detectChanges();
   }

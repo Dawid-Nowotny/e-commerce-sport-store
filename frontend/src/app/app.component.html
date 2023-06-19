@@ -31,6 +31,10 @@
           <a routerLink="/register"><div>Rejestracja</div></a>
         </ng-template>
         <ng-template #logoutTemplate>
+          <div *ngIf="admin; then adminPanel"></div>
+          <ng-template #adminPanel>
+            <a routerLink="/admin-panel"><div>Panel administratora</div></a>
+          </ng-template>
           <a routerLink="" (click)="logout()"><div>Wyloguj</div></a>
         </ng-template>
       </div>

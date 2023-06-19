@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, AfterViewInit } from '@angular/core';
 import { ServerService } from '../server.service';
 
 @Component({
@@ -6,18 +6,14 @@ import { ServerService } from '../server.service';
   templateUrl: './admin-panel.component.html',
   styleUrls: ['./admin-panel.component.css']
 })
-export class AdminPanelComponent {
-  isAdmin: boolean = false;
+export class AdminPanelComponent implements AfterViewInit {
+  isLogged: boolean = false;
+  admin: boolean = false;
 
   constructor(private serverService: ServerService) {}
 
-  ngOnInit() {
-    this.serverService.isAdmin().subscribe(
-      (response: any) => {
-        if(response.isAdmin == true) {
-          this.isAdmin = true;
-        }
-      }
-    );
+  ngAfterViewInit(): void {
+    this.isLogged = this.serverService.isLogged;
+    this.admin = this.serverService.admin;
   }
 }

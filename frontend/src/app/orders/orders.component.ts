@@ -30,7 +30,6 @@ export class OrdersComponent {
       (response: any) => {
         this.orders = response.orders;
         this.cart = response.orders.products;
-        console.log(response.orders);
         for (let i = 0; i < this.orders.length; i++) {
           this.cart[i].push(response.orders.products);
         }

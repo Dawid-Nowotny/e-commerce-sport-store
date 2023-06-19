@@ -64,6 +64,14 @@ export class NavBarComponent implements OnInit, AfterViewInit {
         pageTitle = 'Płatność zakończona - AWAZONsport';
       } else if (currentUrl === '/orders') {
         pageTitle = 'Zamówienia - AWAZONsport';
+      } else if (currentUrl === '/admin-panel') {
+        pageTitle = 'Panel administratora - AWAZONsport';
+      } else if (currentUrl === '/admin-panel/orders') {
+        pageTitle = 'Zamówienia - Panel administratora - AWAZONsport';
+      } else if (currentUrl === '/admin-panel/product-list') {
+        pageTitle = 'Lista produktów -Panel administratora - AWAZONsport';
+      } else if (currentUrl === '/admin-panel/add-product') {
+        pageTitle = 'Dodaj produkt - Panel administratora - AWAZONsport';
       } else if(this.notFound) {
         pageTitle = 'Nie znaleziono podanej strony - AWAZONsport';
       } else {
