@@ -1,6 +1,8 @@
 from app import app
+from apscheduler.schedulers.background import BackgroundScheduler
 
 from application.controllers.login import login_page
+from application.controllers.logout import logout
 from application.controllers.login_google import google_login_page
 from application.controllers.register import register_page
 
@@ -18,8 +20,15 @@ from application.controllers.payment_result import payment_success, payment_fail
 
 from application.controllers.search import search
 
+from application.controllers.scheduler import payment_exp
+
+scheduler = BackgroundScheduler(daemon=True)
+scheduler.add_job(payment_exp, 'interval', hours=24)
+scheduler.start()
+
 app.register_blueprint(login_page)
 app.register_blueprint(google_login_page)
+app.register_blueprint(logout)
 app.register_blueprint(register_page)
 
 app.register_blueprint(main_page_products)

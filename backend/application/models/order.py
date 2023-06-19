@@ -1,23 +1,22 @@
-import os, sys
-backend_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
-sys.path.insert(0, backend_path)
-
+import datetime
 from firebase_admin import db
-from config.FirebaseManager import FirebaseManager
-
-firebase_manager = FirebaseManager()
 
 class Order:
-    def __init__(self, user_id, delivery_data_id, products, price, payment_status):
+    def __init__(self, user_id, delivery_data_id, products, price, payment_status, date_exp=None):
         self.user_id = user_id
         self.delivery_data_id = delivery_data_id
         self.products = products
         self.price = price
         self.payment_status = payment_status
+        if date_exp is None:
+            self.date_exp = datetime.datetime.now() + datetime.timedelta(hours=24)
+        else:
+            self.date_exp = date_exp
 
     def __str__(self):
         return f"Order(user_id='{self.user_id}', delivery_data_id='{self.delivery_data_id}', " \
-               f"products={self.products}, price={self.price}, payment_status='{self.payment_status}')"
+               f"products={self.products}, price={self.price}, payment_status='{self.payment_status}', " \
+               f"date='{self.date_exp}')"
 
     def to_dict(self):
         order_dict = {
@@ -25,7 +24,8 @@ class Order:
             'delivery_data_id': self.delivery_data_id,
             'products': self.products,
             'price': self.price,
-            'payment_status': self.payment_status
+            'payment_status': self.payment_status,
+            'date': self.date_exp.isoformat()
         }
 
         if hasattr(self, 'order_id'):
@@ -35,7 +35,10 @@ class Order:
 
     @staticmethod
     def from_dict(data):
-        return Order(data['user_id'], data['delivery_data_id'], data['products'], data['price'], data['payment_status'])
+        order = Order(data['user_id'], data['delivery_data_id'], data['products'], data['price'], data['payment_status'])
+        if 'date' in data:
+            order.date_exp = datetime.datetime.fromisoformat(data['date'])
+        return order
 
     def save(self):
         if hasattr(self, 'order_id'):

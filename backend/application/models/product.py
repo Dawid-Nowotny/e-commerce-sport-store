@@ -1,14 +1,7 @@
-import os, sys
-backend_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
-sys.path.insert(0, backend_path)
-
 from firebase_admin import db
-from config.FirebaseManager import FirebaseManager
 
 from .brand import Brand
 from .category import Category
-
-firebase_manager = FirebaseManager()
 
 class Product:
     def __init__(self, id, name, price, description, brand_id, category_id, prod_images):

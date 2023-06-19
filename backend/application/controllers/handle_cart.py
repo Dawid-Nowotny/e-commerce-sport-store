@@ -1,17 +1,9 @@
-import os, sys
-models_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
-sys.path.insert(0, models_path)
-
-from models.product import Product
-from models.stock import Stock
-from models.products_redis import ProductRedis
+from application.models.product import Product
+from application.models.stock import Stock
+from application.models.products_redis import ProductRedis
 from .handle_user import check_user_exists
 
-backend_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
-sys.path.insert(0, backend_path)
-
 from app import redis_client
-
 from flask import Blueprint, jsonify, request
 import json
 
@@ -21,7 +13,7 @@ delete_from_cart = Blueprint('delete_from_cart', __name__, template_folder='temp
 increase_product_amount = Blueprint('increase_product_amount', __name__, template_folder='templates')
 
 @add_to_cart.route('/api/add-to-cart', methods=['POST'])
-async def handle_add():
+def handle_add():
     submitted_data = request.get_json()
     user_id = submitted_data.get('userId')
     product_id = submitted_data.get('productId')
@@ -54,7 +46,7 @@ async def handle_add():
         return jsonify({'success': False, 'message': 'Użytkownik o podanym identyfikatorze nie istnieje'})
     
 @get_cart.route('/api/get-cart', methods=['GET'])
-async def handle_get():
+def handle_get():
     user_id = request.args.get('userId')
     
     if user_id is None:
@@ -83,6 +75,7 @@ async def handle_get():
                     'price': round(product.price * product_data.get('amount'),2),
                     'amount': product_data.get('amount'),
                     'stock_amount': stock.amount if stock else None,
+                    'prod_images': product.prod_images[0]
                 })
 
             return jsonify({'success': True, 'cart': cart, 'total_price': round(total_price, 2)})
@@ -92,7 +85,7 @@ async def handle_get():
         return jsonify({'success': False, 'message': 'Użytkownik o podanym identyfikatorze nie istnieje'})
     
 @delete_from_cart.route('/api/delete-from-cart', methods=['DELETE'])
-async def handle_delete():
+def handle_delete():
     submitted_data = request.get_json()
     user_id = submitted_data.get('userId')
     product_id = submitted_data.get('productId')
@@ -117,7 +110,7 @@ async def handle_delete():
         return jsonify({'success': True, 'message': 'Koszyk jest pusty'})
     
 @increase_product_amount.route('/api/set-product-amount', methods=['PUT'])
-async def handle_increase():
+def handle_increase():
     submitted_data = request.get_json()
     user_id = submitted_data.get('userId')
     product_id = submitted_data.get('productId')

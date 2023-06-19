@@ -1,23 +1,12 @@
-import os, sys
-backend_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
-sys.path.insert(0, backend_path)
-
+import uuid, datetime, io
 from firebase_admin import storage
 
-models_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
-sys.path.insert(0, models_path)
-
-from models.admin import Admin
-from models.product import Product
-from models.stock import Stock
-from models.order import Order
+from application.models.admin import Admin
+from application.models.product import Product
+from application.models.stock import Stock
+from application.models.order import Order
 
 from flask import Blueprint, jsonify, request
-import uuid
-from io import BytesIO
-import datetime
-
-product_details = Blueprint('product_details', __name__, template_folder='templates')
 
 check_admin = Blueprint('check_admin', __name__, template_folder='templates')
 add_new_product = Blueprint('add_new_product', __name__, template_folder='templates')
@@ -28,9 +17,8 @@ get_user_orders = Blueprint('get_user_orders', __name__, template_folder='templa
 change_payment_status = Blueprint('change_payment_status', __name__, template_folder='templates')
 
 @check_admin.route('/api/admin', methods=['GET'])
-async def bool_admin():
-    submitted_data = request.get_json()
-    user_id = submitted_data.get('userId')
+def bool_admin():
+    user_id = request.args.get('userId')
 
     if user_id is None:
         return jsonify({'success': False, 'message': 'Nie podano identyfikatora użytkownika'})
@@ -41,13 +29,13 @@ async def bool_admin():
         return jsonify({'isAdmin': False})
 
 @add_new_product.route('/api/admin/add-product', methods=['POST'])
-async def new_product():
+def new_product():
     p_id = request.form.get('id')
     brand_id = request.form.get('brand_id')
     category_id = request.form.get('category_id')
     description = request.form.get('description')
     name = request.form.get('name')
-    price = request.form.get('price')
+    price = float(request.form.get('price'))
 
     images = request.files.getlist('images[]')
 
@@ -56,7 +44,7 @@ async def new_product():
     for image in images:
         image_name = f'{uuid.uuid4()}.jpg'
 
-        image_data = BytesIO()
+        image_data = io.BytesIO()
         image.save(image_data)
         image_data.seek(0)
 
@@ -76,13 +64,13 @@ async def new_product():
     return jsonify({'message': 'Produkt został dodany.'})
 
 @edit_product.route('/api/admin/edit-product', methods=['PUT'])
-async def edit_product_database():
+def edit_product_database():
     p_id = request.form.get('id')
     brand_id = request.form.get('brand_id')
     category_id = request.form.get('category_id')
     description = request.form.get('description')
     name = request.form.get('name')
-    price = request.form.get('price')
+    price = float(request.form.get('price'))
 
     images = request.files.getlist('images[]')
 
@@ -92,7 +80,7 @@ async def edit_product_database():
         for image in images:
             image_name = f'{uuid.uuid4()}.jpg'
 
-            image_data = BytesIO()
+            image_data = io.BytesIO()
             image.save(image_data)
             image_data.seek(0)
 
@@ -122,7 +110,7 @@ async def edit_product_database():
         return jsonify({'message': 'Produkt o podanym ID nie istnieje.'})
 
 @delete_product.route('/api/admin/delete-product', methods=['DELETE'])
-async def delete_product_from_db():
+def delete_product_from_db():
     submitted_data = request.get_json()
     product_id = submitted_data.get('productId')
 
@@ -136,7 +124,7 @@ async def delete_product_from_db():
     return jsonify({'success': True, 'message': 'Produkt został usunięty z bazy danych i magazynu'})
 
 @append_stock.route('/api/admin/add-stock', methods=['POST'])
-async def add_stock():
+def add_stock():
     submitted_data = request.get_json()
     product_id = submitted_data.get('productId')
     size = submitted_data.get('size')
@@ -156,15 +144,15 @@ async def add_stock():
         return jsonify({'success': False, 'message': 'Produkt o podanym ID nie istnieje.'})
     
 @get_user_orders.route('/api/admin/get-orders', methods=['GET'])
-async def get_all_orders():
+def get_all_orders():
     orders = Order.get_all()
     orders_data = [order.to_dict() for order in orders]
-    print(len(orders_data))
+    orders_data.reverse()
 
     return jsonify({'success': True, 'orders': orders_data})
 
 @change_payment_status.route('/api/admin/change-payment', methods=['PUT'])
-async def change_order_payment():
+def change_order_payment():
     submitted_data = request.get_json()
     order_id = submitted_data.get('order_id')
 
@@ -172,7 +160,6 @@ async def change_order_payment():
         return jsonify({'success': False, 'message': 'Brak identyfikatora zamówienia'})
 
     order = Order.get_by_id(order_id)
-
     if order:
         products = order.products
         for product in products:

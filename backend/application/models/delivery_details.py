@@ -1,46 +1,39 @@
-import os, sys
-backend_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
-sys.path.insert(0, backend_path)
-
 from firebase_admin import db
-from config.FirebaseManager import FirebaseManager
-
-firebase_manager = FirebaseManager()
 
 class DeliveryDetails:
-    def __init__(self, name, surname, country, city, street, house_number, postcode, phone_number, user_id):
-        self.name = name
-        self.surname = surname
+    def __init__(self, firstname, lastname, country, city, street, houseNumber, postcode, phoneNumber, user_id):
+        self.firstname = firstname
+        self.lastname = lastname
         self.country = country
         self.city = city
         self.street = street
-        self.house_number = house_number
+        self.houseNumber = houseNumber
         self.postcode = postcode
-        self.phone_number = phone_number
+        self.phoneNumber = phoneNumber
         self.user_id = user_id
 
     def __str__(self):
-        return f"Address(name='{self.name}', surname='{self.surname}', country='{self.country}', " \
-               f"city='{self.city}', street='{self.street}', house_number='{self.house_number}', " \
-               f"postcode='{self.postcode}', phone_number='{self.phone_number}', user_id='{self.user_id}')"
+        return f"DeliveryDetails(firstname='{self.firstname}', lastname='{self.lastname}', country='{self.country}', " \
+            f"city='{self.city}', street='{self.street}', houseNumber='{self.houseNumber}', " \
+            f"postcode='{self.postcode}', phoneNumber='{self.phoneNumber}', user_id='{self.user_id}')"
 
     def to_dict(self):
         return {
-            'name': self.name,
-            'surname': self.surname,
+            'firstname': self.firstname,
+            'lastname': self.lastname,
             'country': self.country,
             'city': self.city,
             'street': self.street,
-            'house_number': self.house_number,
+            'houseNumber': self.houseNumber,
             'postcode': self.postcode,
-            'phone_number': self.phone_number,
+            'phoneNumber': self.phoneNumber,
             'user_id': self.user_id
         }
 
     @staticmethod
     def from_dict(data):
-        return DeliveryDetails(data['name'], data['surname'], data['country'], data['city'], data['street'],
-                       data['house_number'], data['postcode'], data['phone_number'], data['user_id'])
+        return DeliveryDetails(data['firstname'], data['lastname'], data['country'], data['city'], data['street'],
+                    data['houseNumber'], data['postcode'], data['phoneNumber'], data['user_id'])
 
     def save(self):
         ref = db.reference('addresses')

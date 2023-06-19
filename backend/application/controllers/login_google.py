@@ -1,16 +1,6 @@
-import os
-import sys
 from flask import Blueprint, jsonify, request
 from firebase_admin import auth, exceptions
 import requests
-models_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
-sys.path.insert(0, models_path)
-
-backend_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
-sys.path.insert(0, backend_path)
-
-from config.FirebaseManager import FirebaseManager
-firebase_manager = FirebaseManager()
 
 from config.pyrebaseManager import PyrebaseManager
 pyrebase_manager = PyrebaseManager()
@@ -44,10 +34,6 @@ def login_google():
     except exceptions.FirebaseError as error:
         return jsonify({'success': False, 'error': str(error)})
 
-
-
-
-
 def login_with_google(token_info):
         email = token_info['email']
         uid = token_info['sub']
@@ -56,21 +42,15 @@ def login_with_google(token_info):
 
         try:
             existing_user = auth.get_user(uid)
-            print("Użytkownik google już istnieje w bazie danych")
             return custom_token
         except exceptions.NotFoundError:
             try:
                 existing_user = auth.get_user_by_email(email)
-                print("Konto z takim emailem jest już zarejestrowane")
                 return None
             except exceptions.NotFoundError:
-                print("Użytkownik nie istnieje w bazie danych - tworzenie nowego użytkownika")
                 uid = create_user_with_google(email, uid)
                 return custom_token
             
-
-
-
 def get_id_token(access_token):
     response = auth.verify_id_token(access_token)
     return response["uid"]
@@ -88,20 +68,17 @@ def get_token_info(access_token):
         token_info = response.json()
         return token_info
     else:
-        print('Błąd podczas pobierania token_info')
         return None
 
 def get_user_info(id_token):
     response = auth.get_user(id_token)
     return response
 
-
 def create_user_with_google(email, uid):
     user = auth.create_user(email=email, uid=uid, email_verified=True)
     provider = auth.ProviderIdentifier(provider_id='google.com', provider_uid=uid)
     user.provider_data.append(provider)
     return user.uid
-
 
 def exchange_code(code):
     token_url = 'https://oauth2.googleapis.com/token'
@@ -120,7 +97,6 @@ def exchange_code(code):
         exchanged_code = response.json()
         return exchanged_code
     else:
-        print('Błąd podczas wymiany kodu')
         return None
 
 def get_user_profile(access_token):
@@ -133,5 +109,4 @@ def get_user_profile(access_token):
         user_info = response.json()
         return user_info
     else:
-        print('Błąd podczas pobierania informacji o użytkowniku')
         return None

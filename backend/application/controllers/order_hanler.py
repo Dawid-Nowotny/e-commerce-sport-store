@@ -1,17 +1,7 @@
-import os, sys
-models_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
-sys.path.insert(0, models_path)
-
-from models.delivery_details import DeliveryDetails
-from models.order import Order
-from models.product import Product
-from models.stock import Stock
-
-backend_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
-sys.path.insert(0, backend_path)
-
-from config.FirebaseManager import FirebaseManager
-firebase_manager = FirebaseManager()
+from application.models.delivery_details import DeliveryDetails
+from application.models.order import Order
+from application.models.product import Product
+from application.models.stock import Stock
 
 from app import redis_client
 
@@ -22,7 +12,7 @@ add_order = Blueprint('add_order', __name__, template_folder='templates')
 get_order_user_list = Blueprint('get_order_user_list', __name__, template_folder='templates')
 
 @add_order.route('/api/add-order', methods=['POST'])
-async def create_order():
+def create_order():
     submitted_data = request.get_json()
     user_id = submitted_data.get('user_id')
     del_id = submitted_data.get('delivery_id')
@@ -61,6 +51,7 @@ async def create_order():
                 'price': product.price,
                 'size': size,
                 'amount': amount,
+                'prod_images': product.prod_images[0],
             }
             products.append(product_dict)
 
@@ -83,7 +74,7 @@ async def create_order():
         return jsonify({'success': False, 'message': 'W koszyku nie ma żadnego produktu'})
 
 @get_order_user_list.route('/api/get-orders', methods=['GET'])
-async def get_orders():
+def get_orders():
     user_id = request.args.get('user_id')
 
     if user_id is None or user_id == "None":
@@ -97,5 +88,6 @@ async def get_orders():
             user_orders.append(order)
 
     user_orders_data = [order.to_dict() for order in user_orders]
+    user_orders_data.reverse()
 
     return jsonify({'success': True, 'orders': user_orders_data})

@@ -1,11 +1,4 @@
-import os, sys
-backend_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
-sys.path.insert(0, backend_path)
-
 from firebase_admin import db
-from config.FirebaseManager import FirebaseManager
-
-firebase_manager = FirebaseManager()
 
 class Category:
     def __init__(self, name):

@@ -1,21 +1,11 @@
-import os, sys
-models_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
-sys.path.insert(0, models_path)
-
-from models.delivery_details import DeliveryDetails
-
-backend_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
-sys.path.insert(0, backend_path)
-
-from config.FirebaseManager import FirebaseManager
-firebase_manager = FirebaseManager()
+from application.models.delivery_details import DeliveryDetails
 
 from flask import Blueprint, jsonify, request
 
 add_delivery_details = Blueprint('add_delivery_details', __name__, template_folder='templates')
 
 @add_delivery_details.route('/api/delivery-data', methods=['POST'])
-async def set_address():
+def set_address():
     submitted_data = request.get_json()
     name = submitted_data.get('firstname')
     surname = submitted_data.get('lastname')
