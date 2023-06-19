@@ -17,6 +17,8 @@ export class PaymentSuccessComponent {
   cart: Cart[] = [];
   deliveryData: DeliveryData[] = [];
   successMessage: string = '';
+  errorMessage: string = '';
+  orderId: string | null = '';
 
   constructor(private serverService: ServerService,private router: Router) {}
   
@@ -25,19 +27,19 @@ export class PaymentSuccessComponent {
   }
 
   ngOnInit() {
-    this.isLoading = true;
-    this.serverService.getSuccessfulPayment().subscribe(
-      (response: any) => {
-        this.successMessage = response.message;
-        this.order = [response.order];
-        this.cart = response.order.products;
-        this.deliveryData = [response.order.delivery_details];
-        console.log(this.order[0]);
-        console.log(this.deliveryData);
-        console.log(this.cart);
-        this.isLoading = false;
-      }
-    );
+    this.orderId = localStorage.getItem('order_id');
+    if(this.orderId !== null) {
+      this.isLoading = true;
+      this.serverService.getSuccessfulPayment().subscribe(
+        (response: any) => {
+          this.successMessage = response.message;
+          this.order = [response.order];
+          this.cart = response.order.products;
+          this.deliveryData = [response.order.delivery_details];
+          this.isLoading = false;
+        }
+      );
+    } 
   }
 
   goToProductDetails(productId: string): void {

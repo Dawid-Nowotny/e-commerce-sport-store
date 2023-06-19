@@ -1,6 +1,7 @@
 import { Component, AfterViewInit } from '@angular/core';
 import { ServerService } from '../server.service';
 import { DeliveryData } from '../delivery-data/delivery-data';
+import { Cart } from '../cart/cart';
 
 @Component({
   selector: 'app-checkout',
@@ -9,6 +10,7 @@ import { DeliveryData } from '../delivery-data/delivery-data';
 })
 export class CheckoutComponent implements AfterViewInit {
   isLogged: boolean = false;
+  isLoading: boolean = false;
   firstname: string = '';
   lastname: string = '';
   country: string = '';
@@ -18,8 +20,14 @@ export class CheckoutComponent implements AfterViewInit {
   postcode: string = '';
   phoneNumber: string = '';
   errorMessage: string = '';
+  successMessage: string = '';
+  cart: boolean = true;
 
   constructor(private serverService: ServerService) {}
+
+  ngOnInit() {
+    this.getCart();
+  }
 
   ngAfterViewInit(): void {
     this.isLogged = this.serverService.isLogged;
@@ -63,6 +71,17 @@ export class CheckoutComponent implements AfterViewInit {
     } else {
       this.errorMessage = validationResult;
     }
+  }
+
+  getCart(): void {
+    this.serverService.getCart().subscribe(response => {
+      if(response.cart.length == 0) {
+        this.cart = false;
+      } else {
+        this.cart = true;
+        console.log(":ss")
+      }
+    });
   }
 
   validateData(data: DeliveryData): string {

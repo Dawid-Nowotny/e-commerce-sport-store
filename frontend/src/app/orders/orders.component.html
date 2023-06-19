@@ -5,34 +5,42 @@
         <ng-template #logged>
           <div class="loader" *ngIf="isLoading"></div>
           <div *ngIf="!isLoading">
-            <div class="cart_summary_content" *ngFor="let order of orders; let i = index" style="margin-bottom: 15px; padding-left: 30px;">
-                <span class="title">Zamówienie nr: {{ order.order_id }}</span><br /><br />
-                <div *ngIf="order.payment_status == 'Not paid'; then notPaid else paid"></div>
-                <ng-template #paid>Status płatności: opłacone</ng-template>
-                <ng-template #notPaid>Status płatności: nieopłacono</ng-template><br />
-                Cena zamówienia: {{ order.price }} zł<br />
-                Produkty: <br />
-                <div class="cart_list" style="width: 100%">
-                  <div class="cart_item" *ngFor="let cartElement of order.products; let j = index" style="padding-left:0;">
-                    <div class="thumbnail">
-                        <img [src]="cartElement.prod_images">
-                    </div>
-                    <div class="info_container">
-                      <div class="info">
-                        <div class="name" (click)="goToProductDetails(cartElement.id)">
-                          {{ cartElement.name }}
-                        </div>
-                        <div class="amount">
-                          Rozmiar: {{ cartElement.size }}<br />
-                          Ilość: {{ cartElement.amount }}
-                        </div>
+            <div *ngIf="!isEmpty">
+              <div class="cart_summary_content" *ngFor="let order of orders; let i = index" style="margin-bottom: 15px; padding-left: 30px;">
+                  <span class="title">Zamówienie nr: {{ order.order_id }}</span><br /><br />
+                  <div *ngIf="order.payment_status == 'Not paid'; then notPaid else paid"></div>
+                  <ng-template #paid>Status płatności: opłacone</ng-template>
+                  <ng-template #notPaid>Status płatności: nieopłacono</ng-template><br />
+                  Cena zamówienia: {{ order.price }} zł<br />
+                  Produkty: <br />
+                  <div class="cart_list" style="width: 100%">
+                    <div class="cart_item" *ngFor="let cartElement of order.products; let j = index" style="padding-left:0;">
+                      <div class="thumbnail">
+                          <img [src]="cartElement.prod_images">
                       </div>
-                      <div class="price">
-                        {{ cartElement.price }} zł
+                      <div class="info_container">
+                        <div class="info">
+                          <div class="name" (click)="goToProductDetails(cartElement.id)">
+                            {{ cartElement.name }}
+                          </div>
+                          <div class="amount">
+                            Rozmiar: {{ cartElement.size }}<br />
+                            Ilość: {{ cartElement.amount }}
+                          </div>
+                        </div>
+                        <div class="price">
+                          {{ cartElement.price }} zł
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
+              </div>
+            </div>
+            <div *ngIf="isEmpty">
+              <div class="text-center">
+                <div class="error-message"><p>Nie masz żadnych zamówień!</p></div>
+                <button routerLink="/">Powrót na stronę główną</button>
+              </div>
             </div>
           </div>
         </ng-template>

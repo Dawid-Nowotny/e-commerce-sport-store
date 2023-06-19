@@ -71,24 +71,30 @@ export class EditProductComponent {
   }
 
   onSubmit(): void {
-    const formData = new FormData();
+    if (this.name === '' || this.brand_id.toString() === null || this.category_id.toString() === null || this.description === '' || this.price === '' || this.prod_images === null) {
+      this.errorMessage = 'Wszystkie pola muszą być uzupełnione!';
+      this.successMessage = '';
+    } else {
+      this.errorMessage = '';
+      const formData = new FormData();
 
-    formData.append('id', this.productId);
-    formData.append('brand_id', this.brand_id.toString());
-    formData.append('category_id', this.category_id.toString());
-    formData.append('description', this.description);
-    formData.append('name', this.name);
-    formData.append('price', this.price);
-  
-    for (let i = 0; i < this.prod_images.length; i++) {
-      formData.append('images[]', this.prod_images[i]);
-    }
+      formData.append('id', this.productId);
+      formData.append('brand_id', this.brand_id.toString());
+      formData.append('category_id', this.category_id.toString());
+      formData.append('description', this.description);
+      formData.append('name', this.name);
+      formData.append('price', this.price);
     
-    this.serverService.editProduct(formData).subscribe(
-      (response: any) => {
-        console.log('Odpowiedź serwera:', response);
+      for (let i = 0; i < this.prod_images.length; i++) {
+        formData.append('images[]', this.prod_images[i]);
       }
-    );
+      
+      this.serverService.editProduct(formData).subscribe(
+        (response: any) => {
+          this.successMessage = response.message;
+        }
+      );
+    }
   }
 
   onFileChange(event: any) {

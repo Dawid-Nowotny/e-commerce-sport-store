@@ -12,6 +12,7 @@ import { AppComponent } from '../app.component';
 export class LoginGoogleComponent implements OnInit {
   errorMessage: string;
   successMessage: string;
+  userId: string | null = null;
 
   constructor(private route: ActivatedRoute, private serverService: ServerService, private appComponent: AppComponent) {
     this.errorMessage = '';
@@ -19,17 +20,21 @@ export class LoginGoogleComponent implements OnInit {
   }
 
   ngOnInit() {
+    if(localStorage.getItem('user_id') != null) {
+      this.userId = localStorage.getItem('user_id');
+    }
+
     const data = {
       code: this.route.snapshot.queryParams['code']
     };
 
     this.serverService.login_google(data).subscribe(
       (response: any) => {
-        console.log('Odpowiedź serwera:', response);
         if (response.success == true) {
           this.successMessage = 'Zalogowano!';
           this.errorMessage = '';
           localStorage.setItem('user_id', response.user_id);
+          localStorage.setItem('user_name', response.user_name);
           this.appComponent.checkState();
         } else {
           this.errorMessage = 'Podano błędny email lub hasło!';
@@ -38,12 +43,8 @@ export class LoginGoogleComponent implements OnInit {
       (error: HttpErrorResponse) => {
         console.log('Błąd:', error);
         if (error.error instanceof ErrorEvent) {
-          // Błąd po stronie klienta
-          //this.errorMessage = 'Wystąpił błąd po stronie klienta: ' + error.error.message;
           this.errorMessage = 'Wystąpił błąd po stronie klienta!';
         } else {
-          // Błąd po stronie serwera
-          //this.errorMessage = 'Wystąpił błąd po stronie serwera. Kod błędu: ' + error.status + ', wiadomość: ' + error.message;
           this.errorMessage = 'Wystąpił błąd po stronie serwera!';
         }
       }

@@ -3,10 +3,19 @@
         <app-nav-bar ></app-nav-bar>
         <div *ngIf="isLogged; then logged else unlogged"></div>
         <ng-template #logged>
-            <div class="text-center">
-                <div class="error-message"><p>Płatność została anulowana!</p></div>
-                <button routerLink="/cart">Powrót do koszyka</button>
-            </div>
+            <div *ngIf="orderId == null; then orderIsNull else orderIsNotNull"></div>
+            <ng-template #orderIsNull>
+                <div class="text-center">
+                    <div class="error-message"><p>Nie rozpoczęto żadnej płatności!</p></div>
+                    <button routerLink="/">Powrót na stronę główną</button>
+                </div>
+            </ng-template>
+            <ng-template #orderIsNotNull>
+                <div class="text-center">
+                    <div class="error-message"><p>Płatność została anulowana!</p></div>
+                    <button routerLink="/cart">Powrót do koszyka</button>
+                </div>
+            </ng-template>
         </ng-template>
         <ng-template #unlogged>
             <div class="text-center">

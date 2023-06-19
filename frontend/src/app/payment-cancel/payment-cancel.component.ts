@@ -8,12 +8,15 @@ import { ServerService } from '../server.service';
 })
 export class PaymentCancelComponent implements AfterViewInit {
   isLogged: boolean = false;
+  successMessage: string = '';
+  errorMessage: string = '';
+  orderId: string | null = '';
   constructor(private serverService: ServerService) {}
   
   ngOnInit() {
+    this.orderId = localStorage.getItem('order_id');
     this.serverService.putCancelledPayment().subscribe (
       (response: any) => {
-        console.log(response);
       }
     );
   }

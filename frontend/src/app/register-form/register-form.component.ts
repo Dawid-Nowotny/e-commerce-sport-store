@@ -16,6 +16,7 @@ export class RegisterFormComponent {
   errorMessage: string;
   successMessage: string;
   agreedToTerms: boolean = false;
+  userId: string | null = null;
 
   constructor(private serverService: ServerService, private router: Router, private appComponent: AppComponent) {
     this.username = '';
@@ -23,6 +24,12 @@ export class RegisterFormComponent {
     this.passwordCheck = '';
     this.errorMessage = '';
     this.successMessage = '';
+  }
+
+  ngOnInit() {
+    if(localStorage.getItem('user_id') != null) {
+      this.userId = localStorage.getItem('user_id');
+    }
   }
   
   onSubmit() {
@@ -47,27 +54,21 @@ export class RegisterFormComponent {
   
     this.serverService.register(data).subscribe(
       (response: any) => {
-        console.log('Odpowiedź serwera:', response);
         if (response.success == true) {
           this.successMessage = 'Zarejestrowano!';
           this.errorMessage = '';
           localStorage.setItem('user_id', response.user_id);
+          localStorage.setItem('user_name', response.user_name);
           this.appComponent.checkState();
           this.router.navigate(['/']);
-          // Przekieruj użytkownika na inną stronę lub wykonaj inne działania po udanym logowaniu
         } else {
           this.errorMessage = response.message;
         }
       },
       (error: HttpErrorResponse) => {
-        console.log('Błąd:', error);
         if (error.error instanceof ErrorEvent) {
-          // Błąd po stronie klienta
-          //this.errorMessage = 'Wystąpił błąd po stronie klienta: ' + error.error.message;
           this.errorMessage = 'Wystąpił błąd po stronie klienta!';
         } else {
-          // Błąd po stronie serwera
-          //this.errorMessage = 'Wystąpił błąd po stronie serwera. Kod błędu: ' + error.status + ', wiadomość: ' + error.message;
           this.errorMessage = 'Wystąpił błąd po stronie serwera!';
         }
       }

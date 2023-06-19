@@ -2,9 +2,23 @@
     <div class="content_text">
         <app-nav-bar></app-nav-bar>
         <div class="text-center">
-            <div class="bar"><p>Przetwarzanie logowania...</p></div>
-            <div *ngIf="errorMessage" class="error-message"><p>{{ errorMessage }}</p></div>
-            <div *ngIf="successMessage" class="success-message"><p>{{ successMessage }}</p></div>
+            <div *ngIf="userId == null; then logout else login"></div>
+            <ng-template #login>
+                <div class="text-center">
+                    <div class="success-message"><p>Jesteś już zalogowany :)</p></div>
+                    <button routerLink="/">Powrót na stronę główną</button>
+                </div>
+            </ng-template>
+            <ng-template #logout>
+                <div *ngIf="!successMessage" class="bar"><p>Przetwarzanie logowania...</p></div>
+                <div *ngIf="errorMessage" class="error-message"><p>{{ errorMessage }}</p></div>
+                <div *ngIf="successMessage" >
+                    <div class="text-center">
+                        <div class="success-message"><p>Zalogowano!</p></div>
+                        <button routerLink="/">Przejdź na stronę główną</button>
+                    </div>
+                </div>
+            </ng-template>
         </div>
     </div>
 </div>

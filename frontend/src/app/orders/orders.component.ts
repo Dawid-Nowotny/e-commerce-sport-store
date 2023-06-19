@@ -14,6 +14,7 @@ export class OrdersComponent {
   isLogged: boolean = false;
   orders: Order[] = [];
   cart: Cart[][] = [];
+  isEmpty: boolean = false;
   
   constructor(private serverService: ServerService,private router: Router) {}
 
@@ -25,14 +26,15 @@ export class OrdersComponent {
     this.isLogged = this.serverService.isLogged;
   }
 
-
   getOrders(): void {
     this.isLoading = true;
     this.serverService.getOrders().subscribe(
       (response: any) => {
+        console.log(response.orders.length);
         this.orders = response.orders;
         this.cart = response.orders.products;
         this.isLoading = false;
+        if(response.orders.length == 0) this.isEmpty = true;
       }
     );
   }

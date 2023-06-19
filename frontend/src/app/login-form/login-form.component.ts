@@ -14,12 +14,21 @@ export class LoginFormComponent {
   password: string;
   errorMessage: string;
   successMessage: string;
+  userId: string | null = null;
 
   constructor(private serverService: ServerService, private router: Router, private appComponent: AppComponent) {
     this.username = '';
     this.password = '';
     this.errorMessage = '';
     this.successMessage = '';
+  }
+
+  ngOnInit() {
+    console.log("Kasztan w chuj: " + localStorage.getItem('user_id'));
+    if(localStorage.getItem('user_id') != null) {
+      this.userId = localStorage.getItem('user_id');
+    }
+    console.log("Kasztan taki maly: " + this.userId);
   }
 
   loginWithGoogle() {
@@ -39,11 +48,11 @@ export class LoginFormComponent {
   
     this.serverService.login(data).subscribe(
       (response: any) => {
-        console.log('Odpowiedź serwera:', response);
         if (response.success == true) {
           this.successMessage = 'Zalogowano!';
           this.errorMessage = '';
           localStorage.setItem("user_id", response.user_id);
+          localStorage.setItem("user_name", response.user_name);
           this.appComponent.checkState();
           this.router.navigate(['/']);
         } else {
@@ -51,14 +60,9 @@ export class LoginFormComponent {
         }
       },
       (error: HttpErrorResponse) => {
-        console.log('Błąd:', error);
         if (error.error instanceof ErrorEvent) {
-          // Błąd po stronie klienta
-          //this.errorMessage = 'Wystąpił błąd po stronie klienta: ' + error.error.message;
           this.errorMessage = 'Wystąpił błąd po stronie klienta!';
         } else {
-          // Błąd po stronie serwera
-          //this.errorMessage = 'Wystąpił błąd po stronie serwera. Kod błędu: ' + error.status + ', wiadomość: ' + error.message;
           this.errorMessage = 'Wystąpił błąd po stronie serwera!';
         }
       }
