@@ -10,6 +10,7 @@ import { Cart } from '../cart/cart';
   styleUrls: ['./orders.component.css']
 })
 export class OrdersComponent {
+  isLogged: boolean = false;
   orders: Order[] = [];
   cart: Cart[][] = [];
   
@@ -18,6 +19,11 @@ export class OrdersComponent {
   ngOnInit() {
     this.getOrders();
   }
+
+  ngAfterViewInit(): void {
+    this.isLogged = this.serverService.isLogged;
+  }
+
 
   getOrders(): void {
     this.serverService.getOrders().subscribe(

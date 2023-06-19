@@ -15,6 +15,7 @@
         <a (click)="navigateToBrand(itemBrand)" *ngIf="itemBrand && itemBrand !== 'Wszystkie'" style="cursor: pointer"> / {{itemBrand}}</a>
         <a [routerLink]="'/product-details/' + itemId" *ngIf="itemName"> / {{itemName}}</a>
         <a *ngIf="isCurrentComponent('/login-google')"> / Logowanie google</a>
+        <a routerLink="/orders" *ngIf="isCurrentComponent('/orders')"> / Zamówienia</a>
         <a routerLink="/" *ngIf="notFound"> / Błąd</a>
     </p>
 </div>

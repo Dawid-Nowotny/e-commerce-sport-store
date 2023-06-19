@@ -62,6 +62,8 @@ export class NavBarComponent implements OnInit, AfterViewInit {
         pageTitle = 'Płatność anulowana - AWAZONsport';
       } else if (currentUrl === '/payment-success') {
         pageTitle = 'Płatność zakończona - AWAZONsport';
+      } else if (currentUrl === '/orders') {
+        pageTitle = 'Zamówienia - AWAZONsport';
       } else if(this.notFound) {
         pageTitle = 'Nie znaleziono podanej strony - AWAZONsport';
       } else {
