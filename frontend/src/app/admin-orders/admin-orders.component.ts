@@ -10,6 +10,7 @@ import { Cart } from '../cart/cart';
   styleUrls: ['./admin-orders.component.css']
 })
 export class AdminOrdersComponent {
+  isLoading: boolean = false;
   orders: Order[] = [];
   cart: Cart[][] = [];
   isLogged: boolean = false;
@@ -49,13 +50,12 @@ export class AdminOrdersComponent {
   }
 
   getOrders(): void {
+    this.isLoading = true;
     this.serverService.getAdminOrders().subscribe(
       (response: any) => {
         this.orders = response.orders;
         this.cart = response.orders.products;
-        for (let i = 0; i < this.orders.length; i++) {
-          this.cart[i].push(response.orders.products);
-        }
+        this.isLoading = false;
       }
     );
   }

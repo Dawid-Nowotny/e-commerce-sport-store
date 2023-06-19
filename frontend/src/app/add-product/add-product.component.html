@@ -24,7 +24,7 @@
                     <div class="label" *ngIf="description !== ''">Opis produktu</div>
                     <textarea [(ngModel)]="description" name="description" class="form_control" placeholder="Opis produktu"></textarea><br /><br />
                     <div class="label" *ngIf="price !== ''">Cena produktu</div>
-                    <input type="text" [(ngModel)]="price" (keydown)="onKeyPress($event)" (keypress)="onKeyPress($event)" [ngModelOptions]="{ standalone: true }" pattern="^\d+(\.\d{1,2})?$" placeholder="Cena produktu"  class="form_control"><br /><br />
+                    <input type="text" [(ngModel)]="price" (keydown)="onKeyPress($event)" (keypress)="onKeyPress($event)" [ngModelOptions]="{ standalone: true }" placeholder="Cena produktu"  class="form_control"><br /><br />
                     <div class="label">Zdjęcia produktu</div>
                     <input type="file" [(ngModel)]="prod_images" name="prod_images" multiple (change)="onFileChange($event)" class="form_control"><br /><br />
                 

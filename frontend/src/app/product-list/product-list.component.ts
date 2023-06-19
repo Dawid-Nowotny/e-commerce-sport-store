@@ -152,7 +152,6 @@ export class ProductListComponent implements OnInit {
 
   deleteProduct(productId: string): void {
     this.serverService.deleteProduct(productId).subscribe(response => {
-      console.log(response);
       if(response.success == true) {
         this.successMessage = response.message;
         this.errorMessage = '';

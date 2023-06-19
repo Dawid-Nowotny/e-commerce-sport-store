@@ -15,7 +15,7 @@ export class IncreaseStockComponent {
   productId: string = '';
   rozmiar: string = '';
   ilosc: number = 1;
-  sizes: string[] = []
+  sizes: string[] = [];
   errorMessage: string = '';
   successMessage: string = '';
   

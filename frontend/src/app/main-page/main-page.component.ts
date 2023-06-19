@@ -80,8 +80,6 @@ export class MainPageComponent implements OnInit, AfterViewInit {
     sortingDropdownContent.style.display = 'block';
   }
 
-  @HostListener('keydown', ['$event'])
-  @HostListener('keypress', ['$event'])
   onKeyPress(event: KeyboardEvent) {
     const allowedKeys = ['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight'];
     const isDigit = /[0-9]/.test(event.key);

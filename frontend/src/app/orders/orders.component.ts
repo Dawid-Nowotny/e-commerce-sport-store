@@ -10,6 +10,7 @@ import { Cart } from '../cart/cart';
   styleUrls: ['./orders.component.css']
 })
 export class OrdersComponent {
+  isLoading: boolean = false;
   isLogged: boolean = false;
   orders: Order[] = [];
   cart: Cart[][] = [];
@@ -26,13 +27,12 @@ export class OrdersComponent {
 
 
   getOrders(): void {
+    this.isLoading = true;
     this.serverService.getOrders().subscribe(
       (response: any) => {
         this.orders = response.orders;
         this.cart = response.orders.products;
-        for (let i = 0; i < this.orders.length; i++) {
-          this.cart[i].push(response.orders.products);
-        }
+        this.isLoading = false;
       }
     );
   }
