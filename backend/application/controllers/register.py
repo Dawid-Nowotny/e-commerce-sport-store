@@ -23,6 +23,6 @@ def register_confirm():
 
             uid = user.uid
 
-            return jsonify({'success': True, 'message': 'Rejestracja powiodła się', 'user_id': uid})
+            return jsonify({'success': True, 'message': 'Rejestracja powiodła się', 'user_id': uid, 'user_name': email})
         except:
             return jsonify({'success': False, 'message': 'Nieokreślony błąd.'})

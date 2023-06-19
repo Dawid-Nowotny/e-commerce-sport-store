@@ -17,6 +17,6 @@ def confirm_login():
         user = auth.sign_in_with_email_and_password(email, password)
 
         uid = user['localId']
-        return jsonify({'success': True, 'message': 'Zalogowano pomyślnie', 'user_id': uid})
+        return jsonify({'success': True, 'message': 'Zalogowano pomyślnie', 'user_id': uid, 'user_name': email})
     except:
         return jsonify({'success': False, 'error': 'Błąd logowania'})

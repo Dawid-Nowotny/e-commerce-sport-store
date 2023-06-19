@@ -147,6 +147,7 @@ def add_stock():
 def get_all_orders():
     orders = Order.get_all()
     orders_data = [order.to_dict() for order in orders]
+    orders_data.reverse()
 
     return jsonify({'success': True, 'orders': orders_data})
 

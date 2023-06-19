@@ -88,5 +88,6 @@ def get_orders():
             user_orders.append(order)
 
     user_orders_data = [order.to_dict() for order in user_orders]
+    user_orders_data.reverse()
 
     return jsonify({'success': True, 'orders': user_orders_data})
