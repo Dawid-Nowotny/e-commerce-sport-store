@@ -86,7 +86,7 @@ async def create_order():
 async def get_orders():
     user_id = request.args.get('user_id')
 
-    if user_id is None:
+    if user_id is None or user_id == "None":
         return jsonify({'success': False, 'message': 'Brak identyfikatora użytkownika'})
 
     orders = Order.get_all()

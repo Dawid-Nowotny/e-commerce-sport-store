@@ -98,7 +98,7 @@ async def handle_delete():
     product_id = submitted_data.get('productId')
     size = submitted_data.get('size')
 
-    if user_id is None:
+    if user_id is None or not check_user_exists(user_id):
         return jsonify({'success': False, 'message': 'Użytkownik o podanym identyfikatorze nie istnieje'})
 
     existing_data = redis_client.get(user_id)
@@ -124,7 +124,7 @@ async def handle_increase():
     size = submitted_data.get('size')
     amount = int(submitted_data.get('amount'))
 
-    if user_id is None:
+    if user_id is None or not check_user_exists(user_id):
         return jsonify({'success': False, 'message': 'Użytkownik o podanym identyfikatorze nie istnieje'})
 
     existing_data = redis_client.get(user_id)
