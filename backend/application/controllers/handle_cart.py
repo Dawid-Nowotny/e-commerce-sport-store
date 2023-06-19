@@ -75,7 +75,7 @@ def handle_get():
                     'price': round(product.price * product_data.get('amount'),2),
                     'amount': product_data.get('amount'),
                     'stock_amount': stock.amount if stock else None,
-                    'img': product.prod_images[0]
+                    'prod_images': product.prod_images[0]
                 })
 
             return jsonify({'success': True, 'cart': cart, 'total_price': round(total_price, 2)})

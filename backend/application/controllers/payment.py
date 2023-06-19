@@ -30,14 +30,12 @@ def process_payment():
             product_data = {
                 'name': product.name,
                 'type': 'physical',
-                'description': product.description,
                 'images': product.prod_images,
                 'quantity': product_data.get('amount')
             }
 
             stripe_product = stripe.Product.create(
                 name=product_data['name'],
-                description=product_data['description'],
                 images=product_data['images']
             )
 

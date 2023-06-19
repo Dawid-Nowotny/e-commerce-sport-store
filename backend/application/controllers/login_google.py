@@ -40,15 +40,12 @@ def login_with_google(code):
 
         try:
             existing_user = auth.get_user(uid)
-            print("Użytkownik google już istnieje w bazie danych")
             return custom_token
         except exceptions.NotFoundError:
             try:
                 existing_user = auth.get_user_by_email(email)
-                print("Konto z takim emailem jest już zarejestrowane")
                 return None
             except exceptions.NotFoundError:
-                print("Użytkownik nie istnieje w bazie danych - tworzenie nowego użytkownika")
                 uid = create_user_with_google(email, uid)
                 return custom_token
 
@@ -69,7 +66,6 @@ def get_token_info(access_token):
         token_info = response.json()
         return token_info
     else:
-        print('Błąd podczas pobierania token_info')
         return None
 
 def get_user_info(id_token):
@@ -101,7 +97,6 @@ def exchange_code(code):
         exchanged_code = response.json()
         return exchanged_code
     else:
-        print('Błąd podczas wymiany kodu')
         return None
 
 def get_user_profile(access_token):
@@ -114,5 +109,4 @@ def get_user_profile(access_token):
         user_info = response.json()
         return user_info
     else:
-        print('Błąd podczas pobierania informacji o użytkowniku')
         return None

@@ -51,6 +51,7 @@ def create_order():
                 'price': product.price,
                 'size': size,
                 'amount': amount,
+                'prod_images': product.prod_images[0],
             }
             products.append(product_dict)
 
