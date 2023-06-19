@@ -1,6 +1,8 @@
 import { Component, ChangeDetectorRef } from '@angular/core';
 import { ServerService } from '../server.service';
 import { Order } from '../order/order';
+import { Router } from '@angular/router';
+import { Cart } from '../cart/cart';
 
 @Component({
   selector: 'app-admin-orders',
@@ -9,25 +11,37 @@ import { Order } from '../order/order';
 })
 export class AdminOrdersComponent {
   orders: Order[] = [];
-  isAdmin: boolean = false;
+  cart: Cart[][] = [];
+  isLogged: boolean = false;
+  admin: boolean = false;
+  errorMessage: string = '';
+  successMessage: string = '';
   
-  constructor(private serverService: ServerService, private cdr: ChangeDetectorRef) {}
+  constructor(private serverService: ServerService, private cdr: ChangeDetectorRef,private router: Router) {}
+
+  ngAfterViewInit(): void {
+    this.isLogged = this.serverService.isLogged;
+    this.admin = this.serverService.admin;
+  }
 
   ngOnInit() {
-    this.serverService.isAdmin().subscribe(
-      (response: any) => {
-        if(response.isAdmin == true) {
-          this.isAdmin = true;
-          this.getOrders();
-        }
-      }
-    );
+    if(this.serverService.admin == true) {
+      this.getOrders();
+    }
   }
 
   payOrder(order_id: string): void {
     this.serverService.payOrder(order_id).subscribe(
       (response: any) => {
         console.log('Odpowiedź serwera:', response.message);
+        if(response.success == true) {
+          this.successMessage = response.message;
+          this.errorMessage = '';
+        } else {
+          this.successMessage = '';
+          this.errorMessage = response.message;
+        }
+
         this.getOrders();
         this.cdr.detectChanges();
       }
@@ -38,7 +52,15 @@ export class AdminOrdersComponent {
     this.serverService.getAdminOrders().subscribe(
       (response: any) => {
         this.orders = response.orders;
+        this.cart = response.orders.products;
+        for (let i = 0; i < this.orders.length; i++) {
+          this.cart[i].push(response.orders.products);
+        }
       }
     );
+  }
+
+  goToProductDetails(productId: string): void {
+    this.router.navigate(['/product-details', productId]);
   }
 }

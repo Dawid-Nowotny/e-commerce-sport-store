@@ -1,23 +1,46 @@
 <div class="content_padding">
     <div class="content_text">
         <app-nav-bar></app-nav-bar>
-        <div *ngIf="isAdmin; then adminPanel else error"></div>
+        <div *ngIf="admin; then adminPanel else error"></div>
         <ng-template #adminPanel>
-            <div *ngFor="let element of orders">
-                {{ element.order_id }}<br />
-                <div *ngIf="element.payment_status == 'Not paid'; then notPaid else paid"></div>
-                <ng-template #paid>
-                    Status płatności: opłacono
-                </ng-template>
-                <ng-template #notPaid>
-                    Status płatności: nieopłacono
-                    <button (click)="payOrder(element.order_id)">Zmień status na opłacone</button>
-                </ng-template>
-                <br /><br />
+            <div *ngIf="errorMessage" class="error-message"><p>{{ errorMessage }}</p></div>
+            <div *ngIf="successMessage" class="success-message"><p>{{ successMessage }}</p></div>
+            <div class="cart_summary_content" *ngFor="let order of orders; let i = index" style="margin-bottom: 15px; padding-left: 30px;">
+                <span class="title">Zamówienie nr: {{ order.order_id }}</span><br /><br />
+                <div *ngIf="order.payment_status == 'Not paid'; then notPaid else paid"></div>
+                <ng-template #paid>Status płatności: opłacone</ng-template>
+                <ng-template #notPaid>Status płatności: nieopłacono <button (click)="payOrder(order.order_id)">Zmień status na opłacone</button></ng-template>
+                <br />
+                Cena zamówienia: {{ order.price }} zł<br />
+                Produkty: <br />
+                <div class="cart_list" style="width: 100%">
+                  <div class="cart_item" *ngFor="let cartElement of order.products; let j = index" style="padding-left:0;">
+                    <div class="thumbnail">
+                        <img [src]="cartElement.prod_images">
+                    </div>
+                    <div class="info_container">
+                      <div class="info">
+                        <div class="name" (click)="goToProductDetails(cartElement.id)">
+                          {{ cartElement.name }}
+                        </div>
+                        <div class="amount">
+                          Rozmiar: {{ cartElement.size }}<br />
+                          Ilość: {{ cartElement.amount }}
+                        </div>
+                      </div>
+                      <div class="price">
+                        {{ cartElement.price }} zł
+                      </div>
+                    </div>
+                  </div>
+                </div>
             </div>
         </ng-template>
         <ng-template #error>
-            <p>Brak uprawnień administratora</p>
+            <div class="text-center">
+                <div class="error-message"><p>Brak uprawnień administratora!</p></div>
+                <button routerLink="/">Powrót na stronę główną</button>
+            </div>
         </ng-template>
     </div>
 </div>
