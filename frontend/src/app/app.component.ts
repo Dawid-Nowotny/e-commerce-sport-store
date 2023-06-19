@@ -12,10 +12,12 @@ import { Item } from './item/item';
 export class AppComponent {
   title = 'AWAZONsport';
   isLogged: boolean = false;
+  admin: boolean = false;
   isLoading: boolean = false;
   searchResult: boolean = false;
   items: Item[] = [];
   searchValue: string = "";
+  userName: string | null = '';
 
   constructor(private serverService: ServerService,private router: Router, private cdr: ChangeDetectorRef) {}
 
@@ -37,7 +39,6 @@ export class AppComponent {
     if (this.searchResult) {
       this.isLoading = true;
       this.serverService.getSearchResult(this.searchValue).subscribe(response => {
-        console.log(response.items);
         this.items = response.items;
         this.isLoading = false;
       });
@@ -62,13 +63,27 @@ export class AppComponent {
   
   logout(): void {
     localStorage.removeItem('user_id');
+    localStorage.removeItem('user_name');
     this.isLogged = false;
+    this.admin = false;
+    this.serverService.admin = false;
+    this.serverService.isLogged = false;
     this.cdr.detectChanges();
   }
 
   checkState() {
     if(localStorage.getItem('user_id') != undefined) {
+      this.userName = localStorage.getItem('user_name');
+      this.serverService.isLogged = true;
       this.isLogged = true;
+      this.serverService.isAdmin().subscribe(
+        (response: any) => {
+          if(response.isAdmin == true) {
+            this.admin = true;
+            this.serverService.admin = true;
+          }
+        }
+      );
     }
     this.cdr.detectChanges();
   }

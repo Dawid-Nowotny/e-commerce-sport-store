@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
-import { Title } from '@angular/platform-browser';
 import { ServerService } from '../server.service';
+import { Router } from '@angular/router';
+import { Cart } from '../cart/cart';
 import { Order } from '../order/order';
 import { DeliveryData } from '../delivery-data/delivery-data';
 
@@ -10,20 +11,39 @@ import { DeliveryData } from '../delivery-data/delivery-data';
   styleUrls: ['./payment-success.component.css']
 })
 export class PaymentSuccessComponent {
+  isLogged: boolean = false;
+  isLoading: boolean = false;
   order: Order[] = [];
+  cart: Cart[] = [];
   deliveryData: DeliveryData[] = [];
+  successMessage: string = '';
+  errorMessage: string = '';
+  orderId: string | null = '';
 
-  constructor(private titleService: Title, private serverService: ServerService) {}
+  constructor(private serverService: ServerService,private router: Router) {}
   
-  ngOnInit() {
-    this.serverService.getSuccessfulPayment().subscribe(
-      (response: any) => {
-        console.log(response);
-        this.order = response.order;
-        this.deliveryData = response.order.delivery_details;
-        console.log(this.order);
-        console.log(this.deliveryData);
-      }
-    );
+  ngAfterViewInit(): void {
+    this.isLogged = this.serverService.isLogged;
   }
+
+  ngOnInit() {
+    this.orderId = localStorage.getItem('order_id');
+    if(this.orderId !== null) {
+      this.isLoading = true;
+      this.serverService.getSuccessfulPayment().subscribe(
+        (response: any) => {
+          this.successMessage = response.message;
+          this.order = [response.order];
+          this.cart = response.order.products;
+          this.deliveryData = [response.order.delivery_details];
+          this.isLoading = false;
+        }
+      );
+    } 
+  }
+
+  goToProductDetails(productId: string): void {
+    this.router.navigate(['/product-details', productId]);
+  }
+
 }

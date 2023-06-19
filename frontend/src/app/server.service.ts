@@ -8,7 +8,8 @@ const httpOptions = {
 
 @Injectable({ providedIn: 'root' })
 export class ServerService {
-
+  isLogged: boolean = false;
+  admin: boolean = false;
   private userUrl = 'http://127.0.0.1:5000';  // URL to REST API
 
   constructor(private http: HttpClient) {}
@@ -206,7 +207,7 @@ export class ServerService {
     let orderId = localStorage.getItem('order_id');
     let userId = localStorage.getItem('user_id')
     const url = `${this.userUrl}/api/successful-payment?userId=${userId}&orderId=${orderId}`;
-    //localStorage.removeItem('order_id');
+    localStorage.removeItem('order_id');
     return this.http.get(url);
   }
 
@@ -216,7 +217,7 @@ export class ServerService {
       orderId: localStorage.getItem('order_id')
     }
     const url = `${this.userUrl}/api/cancel-payment`;
-    //localStorage.removeItem('order_id');
+    localStorage.removeItem('order_id');
     return this.http.put(url, data);
   }
 }

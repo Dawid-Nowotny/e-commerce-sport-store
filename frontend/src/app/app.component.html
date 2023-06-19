@@ -9,8 +9,7 @@
         <div id="menu_top_center">
           <a routerLink="/"><div>Sklep</div></a>
           <a routerLink="/cart"><div>Koszyk</div></a>
-          <a routerLink="/accounts"><div>Użytkownicy</div></a> 
-          <a routerLink="/orders"><div>Zamówienia</div></a>
+          <a routerLink="/orders"><div>Twoje zamówienia</div></a>
         </div>
         <div id="menu_top_right">
           <div class="search_header">
@@ -32,6 +31,11 @@
           <a routerLink="/register"><div>Rejestracja</div></a>
         </ng-template>
         <ng-template #logoutTemplate>
+          <a routerLink="/orders"><div>Witaj, {{userName}}</div></a>
+          <div *ngIf="admin; then adminPanel"></div>
+          <ng-template #adminPanel>
+            <a routerLink="/admin-panel"><div>Panel administratora</div></a>
+          </ng-template>
           <a routerLink="" (click)="logout()"><div>Wyloguj</div></a>
         </ng-template>
       </div>
@@ -46,15 +50,19 @@
       <div id="menu_mobile">
         <a routerLink="/"><div>Sklep</div></a>
         <a routerLink="/cart"><div>Koszyk</div></a>
-        <a routerLink="/accounts"><div>Użytkownicy</div></a> 
-        <a routerLink="/orders"><div>Zamówienia</div></a>
-        <div *ngIf="isLogged; then logoutTemplate else loginTemplate"></div>
-        <ng-template #loginTemplate>
+        <a routerLink="/orders"><div>Twoje zamówienia</div></a>
+        <div *ngIf="isLogged; then logoutMobileTemplate else loginMobileTemplate"></div>
+        <ng-template #loginMobileTemplate>
           <a routerLink="/login"><div>Logowanie</div></a>
           <a routerLink="/register"><div>Rejestracja</div></a>
         </ng-template>
-        <ng-template #logoutTemplate>
+        <ng-template #logoutMobileTemplate>
+          <div *ngIf="admin; then adminPanel"></div>
+          <ng-template #adminPanel>
+            <a routerLink="/admin-panel"><div>Panel administratora</div></a>
+          </ng-template>
           <a routerLink="" (click)="logout()"><div>Wyloguj</div></a>
+          <a routerLink="/orders"><div>Witaj, użytowniku</div></a>
         </ng-template>
       </div>
     </div>

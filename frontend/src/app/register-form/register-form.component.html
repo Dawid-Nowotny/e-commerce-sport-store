@@ -1,11 +1,23 @@
-<form (ngSubmit)="onSubmit()"> 
+<div *ngIf="userId == null; then logout else login"></div>
+<ng-template #login>
+    <div class="text-center">
+        <div class="success-message"><p>Jesteś już zalogowany :)</p></div>
+        <button routerLink="/">Powrót na stronę główną</button>
+    </div>
+</ng-template>
+<ng-template #logout>
     <div *ngIf="errorMessage" class="error-message"><p>{{ errorMessage }}</p></div>
     <div *ngIf="successMessage" class="success-message"><p>{{ successMessage }}</p></div>
-    <input type="text" [(ngModel)]="username" [ngModelOptions]="{ standalone: true }" placeholder="E-mail"><br /><br />
-    <input type="password" [(ngModel)]="password" [ngModelOptions]="{ standalone: true }" placeholder="Hasło"><br /><br />
-    <input type="password" [(ngModel)]="passwordCheck" [ngModelOptions]="{ standalone: true }" placeholder="Powtórz hasło"><br /><br />
-    <label>
-    <input type="checkbox" [(ngModel)]="agreedToTerms" [ngModelOptions]="{ standalone: true }"> Oświadczam, że zapoznałem(am) się i akceptuję treść Regulaminu sklepu internetowego AWAZONsport. *
-    </label><br /><br />
-    <button type="submit" >Zarejestruj się</button>
-</form>
+    <form (ngSubmit)="onSubmit()" class="login_form"> 
+        <div class="label" *ngIf="username !== ''">E-mail</div>
+        <input type="text" [(ngModel)]="username" [ngModelOptions]="{ standalone: true }" placeholder="E-mail"  class="form_control"><br /><br />
+        <div class="label" *ngIf="password !== ''">Hasło</div>
+        <input type="password" [(ngModel)]="password" [ngModelOptions]="{ standalone: true }" placeholder="Hasło"  class="form_control"><br /><br />
+        <div class="label" *ngIf="passwordCheck !== ''">Powtórz hasło</div>
+        <input type="password" [(ngModel)]="passwordCheck" [ngModelOptions]="{ standalone: true }" placeholder="Powtórz hasło"  class="form_control"><br /><br />
+        <label>
+            <input type="checkbox" [(ngModel)]="agreedToTerms" [ngModelOptions]="{ standalone: true }"> Oświadczam, że zapoznałem(am) się i akceptuję treść Regulaminu sklepu internetowego AWAZONsport. *
+            </label><br /><br />
+        <button type="submit" class="button">Zarejestruj się</button>
+    </form><br />
+</ng-template>

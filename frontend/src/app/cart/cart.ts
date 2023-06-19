@@ -4,5 +4,6 @@ export interface Cart {
   'size': string,
   'price': string,
   'amount': number,
-  'stock_amount': number
+  'stock_amount': number,
+  'prod_images': string
 }

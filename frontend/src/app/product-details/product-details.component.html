@@ -1,9 +1,9 @@
 <app-nav-bar [itemId]="item[0].id" [itemName]="item[0].name" [itemBrand]="item[0].brand" [itemCategory]="item[0].category"></app-nav-bar>
 <div class="details_padding">
-    <div class="products" *ngIf="errorMessage">
+    <div *ngIf="errorMessage">
         <div class="error-message"><p>{{ errorMessage }}</p></div>
     </div>
-    <div class="products" *ngIf="successMessage">
+    <div *ngIf="successMessage">
         <div class="success-message"><p>{{ successMessage }}</p></div>
     </div>
     <div class="loader" *ngIf="isLoading"></div>
@@ -43,12 +43,6 @@
     </div>
     <div class="details_description" *ngIf="!isLoading">
         <div class="bar"><p>Opis produktu</p></div>
-		<div class="content">
-			<p> 
-                {{ item[0].description }}
-            </p>
-		</div>
-        <div class="bar"><p>Szczegóły produktu</p></div>
 		<div class="content">
 			<p> 
                 {{ item[0].description }}

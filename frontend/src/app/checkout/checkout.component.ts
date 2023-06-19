@@ -1,13 +1,16 @@
-import { Component } from '@angular/core';
+import { Component, AfterViewInit } from '@angular/core';
 import { ServerService } from '../server.service';
 import { DeliveryData } from '../delivery-data/delivery-data';
+import { Cart } from '../cart/cart';
 
 @Component({
   selector: 'app-checkout',
   templateUrl: './checkout.component.html',
   styleUrls: ['./checkout.component.css']
 })
-export class CheckoutComponent {
+export class CheckoutComponent implements AfterViewInit {
+  isLogged: boolean = false;
+  isLoading: boolean = false;
   firstname: string = '';
   lastname: string = '';
   country: string = '';
@@ -16,21 +19,21 @@ export class CheckoutComponent {
   houseNumber: string = '';
   postcode: string = '';
   phoneNumber: string = '';
+  errorMessage: string = '';
+  successMessage: string = '';
+  cart: boolean = true;
 
   constructor(private serverService: ServerService) {}
 
+  ngOnInit() {
+    this.getCart();
+  }
+
+  ngAfterViewInit(): void {
+    this.isLogged = this.serverService.isLogged;
+  }
+
   goToTransaction(): void {
-    let deliveryData: DeliveryData = {
-      firstname: this.firstname,
-      lastname: this.lastname,
-      country: this.country,
-      city: this.city,
-      street: this.street,
-      houseNumber: this.houseNumber,
-      postcode: this.postcode,
-      phoneNumber: this.phoneNumber
-    }
-    console.log(deliveryData);
     const data = {
       user_id: localStorage.getItem('user_id'),
       firstname: this.firstname,
@@ -42,25 +45,78 @@ export class CheckoutComponent {
       postcode: this.postcode,
       phoneNumber: this.phoneNumber
     }
-    console.log(data);
+
+    const validationResult = this.validateData(data);
     
-    this.serverService.setDeliveryData(data).subscribe(
-      (response: any) => {
-        if(response.success == true) {
-          this.serverService.addOrder(response.delivery_id).subscribe(
-            (response: any) => {
-              if(response.success == true) {
-                localStorage.setItem('order_id', response.order_id);
-                this.serverService.payment(response.order_id).subscribe(
-                  (response: any) => {
-                    window.location.href = response.url;
-                  }
-                );
+    if (validationResult == 'success') {
+      this.errorMessage = "";
+      this.serverService.setDeliveryData(data).subscribe(
+        (response: any) => {
+          if(response.success == true) {
+            this.serverService.addOrder(response.delivery_id).subscribe(
+              (response: any) => {
+                if(response.success == true) {
+                  localStorage.setItem('order_id', response.order_id);
+                  this.serverService.payment(response.order_id).subscribe(
+                    (response: any) => {
+                      window.location.href = response.url;
+                    }
+                  );
+                }
               }
-            }
-          );
+            );
+          }
         }
+      );
+    } else {
+      this.errorMessage = validationResult;
+    }
+  }
+
+  getCart(): void {
+    this.serverService.getCart().subscribe(response => {
+      if(response.cart.length == 0) {
+        this.cart = false;
+      } else {
+        this.cart = true;
+        console.log(":ss")
       }
+    });
+  }
+
+  validateData(data: DeliveryData): string {
+    if (!this.areAllFieldsFilled(data)) 
+      return 'Musisz uzupełnić wszystkie pola!';
+
+    if (!this.isValidPostcode(data.postcode)) 
+      return 'Nieprawidłowy format kodu pocztowego!';
+    
+    if (!this.isValidPhoneNumber(data.phoneNumber)) 
+      return 'Nieprawidłowy format numeru telefonu!';
+
+    return 'success';
+  }
+
+  areAllFieldsFilled(data: DeliveryData): boolean {
+    return (
+      data.firstname !== '' &&
+      data.lastname !== '' &&
+      data.country !== '' &&
+      data.city !== '' &&
+      data.street !== '' &&
+      data.houseNumber !== '' &&
+      data.postcode !== '' &&
+      data.phoneNumber !== ''
     );
+  }
+
+  isValidPostcode(postcode: string): boolean {
+    var postcodeRegex = /^\d{2}-\d{3}$/;
+    return postcodeRegex.test(postcode);
+  }
+
+  isValidPhoneNumber(phoneNumber: string): boolean {
+    var phoneNumberRegex = /^\d{9}$/;
+    return phoneNumberRegex.test(phoneNumber);
   }
 }

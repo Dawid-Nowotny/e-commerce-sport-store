@@ -1,22 +1,57 @@
 <div class="content_padding">
     <div class="content_text">
         <app-nav-bar></app-nav-bar>
-        <label for="imie">Imię:</label>
-        <input type="text" [(ngModel)]="firstname"><br />
-        <label for="nazwisko">Nazwisko:</label>
-        <input type="text" [(ngModel)]="lastname"><br />
-        <label for="panstwo">Państwo:</label>
-        <input type="text" [(ngModel)]="country"><br />
-        <label for="miasto">Miasto:</label>
-        <input type="text" [(ngModel)]="city"><br />
-        <label for="ulica">Ulica:</label>
-        <input type="text" [(ngModel)]="street"><br />
-        <label for="nrDomu">Numer domu:</label>
-        <input type="text" [(ngModel)]="houseNumber"><br />
-        <label for="kodPocztowy">Kod pocztowy:</label>
-        <input type="text" [(ngModel)]="postcode"><br />
-        <label for="numerTelefonu">Numer telefonu:</label>
-        <input type="text" [(ngModel)]="phoneNumber"><br />
-        <button (click)="goToTransaction()">Przejdź do płatności</button>
+        <div *ngIf="errorMessage">
+            <div class="error-message"><p>{{ errorMessage }}</p></div>
+        </div>
+        <div *ngIf="successMessage">
+            <div class="success-message"><p>{{ successMessage }}</p></div>
+        </div>
+        <div *ngIf="isLogged; then logged else unlogged"></div>
+        <ng-template #logged>
+            <div *ngIf="cart; then cartIsNotEmpty else cartEmpty"></div>
+            <ng-template #cartIsNotEmpty>
+                <div class="checkout">
+                    <div class="bar"><p>Dane dostawy</p></div>
+                    <div class="form">
+                        <div class="form_size">
+                            <div class="label" *ngIf="firstname !== ''">Imię</div>
+                            <input type="text" [(ngModel)]="firstname" placeholder="Imię" class="form_control"><br /><br />
+                            <div class="label" *ngIf="lastname !== ''">Nazwisko</div>
+                            <input type="text" [(ngModel)]="lastname" placeholder="Nazwisko" class="form_control"><br /><br />
+                            <div class="label" *ngIf="phoneNumber !== ''">Numer telefonu</div>
+                            <input type="text" [(ngModel)]="phoneNumber" placeholder="Numer telefonu" class="form_control"><br /><br />
+                        </div>
+                        <div class="form_size">
+                            <div class="label" *ngIf="country !== ''">Państwo</div>
+                            <input type="text" [(ngModel)]="country" placeholder="Państwo" class="form_control"><br /><br />
+                            <div class="label" *ngIf="city !== ''">Miasto</div>
+                            <input type="text" [(ngModel)]="city" placeholder="Miasto" class="form_control"><br /><br />
+                            <div class="label" *ngIf="street !== ''">Ulica</div>
+                            <input type="text" [(ngModel)]="street" placeholder="Ulica" class="form_control"><br /><br />
+                            <div class="label" *ngIf="houseNumber !== ''">Numer domu</div>
+                            <input type="text" [(ngModel)]="houseNumber" placeholder="Numer domu" class="form_control"><br /><br />
+                            <div class="label" *ngIf="postcode !== ''">Kod pocztowy</div>
+                            <input type="text" [(ngModel)]="postcode" placeholder="Kod pocztowy" class="form_control"><br /><br />
+                        </div>
+                    </div>
+                    <div>
+                        <button (click)="goToTransaction()" class="checkout_button">Zamawiam i płacę</button>
+                    </div>
+                </div>
+            </ng-template>
+            <ng-template #cartEmpty>
+                <div class="text-center">
+                    <div class="error-message"><p>Brak produktów w koszyku!</p></div>
+                    <button routerLink="/cart">Powrót do koszyka</button>
+                </div>
+            </ng-template>
+        </ng-template>
+        <ng-template #unlogged>
+            <div class="text-center">
+                <div class="error-message"><p>Aby przejść do kasy, musisz się zalogować!</p></div>
+                <button routerLink="/login">Przejdz do logowania</button>
+            </div>
+        </ng-template>    
     </div>
 </div>

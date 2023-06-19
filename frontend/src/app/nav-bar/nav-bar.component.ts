@@ -56,6 +56,26 @@ export class NavBarComponent implements OnInit, AfterViewInit {
         pageTitle = 'Regulamin sprzedaży - AWAZONsport';
       } else if (currentUrl === '/cart') {
         pageTitle = 'Koszyk - AWAZONsport';
+      } else if (currentUrl === '/checkout') {
+        pageTitle = 'Kasa - AWAZONsport';
+      } else if (currentUrl === '/payment-cancel') {
+        pageTitle = 'Płatność anulowana - AWAZONsport';
+      } else if (currentUrl === '/payment-success') {
+        pageTitle = 'Płatność zakończona - AWAZONsport';
+      } else if (currentUrl === '/orders') {
+        pageTitle = 'Twoje zamówienia - AWAZONsport';
+      } else if (currentUrl === '/admin-panel') {
+        pageTitle = 'Panel administratora - AWAZONsport';
+      } else if (currentUrl === '/admin-panel/orders') {
+        pageTitle = 'Zamówienia - Panel administratora - AWAZONsport';
+      } else if (currentUrl === '/admin-panel/product-list') {
+        pageTitle = 'Lista produktów -Panel administratora - AWAZONsport';
+      } else if (currentUrl === '/admin-panel/add-product') {
+        pageTitle = 'Dodaj produkt - Panel administratora - AWAZONsport';
+      } else if (currentUrl === ('/admin-panel/increase-stock/'+this.itemId)) {
+        pageTitle = 'Dodaj do magazynu - Panel administratora - AWAZONsport';
+      } else if (currentUrl === ('/admin-panel/edit-product/'+this.itemId)) {
+        pageTitle = 'Edycja produktu - Panel administratora - AWAZONsport';
       } else if(this.notFound) {
         pageTitle = 'Nie znaleziono podanej strony - AWAZONsport';
       } else {

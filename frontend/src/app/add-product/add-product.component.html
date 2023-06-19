@@ -1,37 +1,42 @@
 <div class="content_padding">
-    <div *ngIf="isAdmin; then adminPanel else error"></div>
-    <ng-template #adminPanel>
-        <form (ngSubmit)="onSubmit()" enctype="multipart/form-data">
-            <label for="name">Nazwa produktu:</label>
-            <input type="text" [(ngModel)]="name" name="name" [required]="true" [ngModelOptions]="{standalone: true}"><br />       
-            
-            <label for="brand">Marka:</label>
-            <select name="brand" [(ngModel)]="brand_id">
-                <option [value]=brand.id *ngFor="let brand of brands; let i=index" [selected]="i==0">
-                    {{ brand.name }}
-                </option>
-            </select><br />
-
-            <label for="category">Kategoria:</label>
-            <select name="category" [(ngModel)]="category_id">
-                <option [value]=category.id *ngFor="let category of categories; let i=index" [selected]="i==0">
-                    {{ category.name }}
-                </option>
-            </select><br />
-        
-            <label for="description">Opis:</label>
-            <textarea [(ngModel)]="description" name="description"></textarea><br />
-        
-            <label for="price">Cena produktu:</label>
-            <input type="text" [(ngModel)]="price" name="price"><br />
-        
-            <label for="prod_images">Product Images:</label>
-            <input type="file" [(ngModel)]="prod_images" name="prod_images" multiple (change)="onFileChange($event)"><br />
-        
-            <input type="submit" value="Dodaj produkt">
-        </form>
-    </ng-template>
-    <ng-template #error>
-        <p>Brak uprawnień administratora</p>
-    </ng-template>
+    <div class="content_text">
+        <app-nav-bar></app-nav-bar>
+        <div *ngIf="admin; then adminPanel else error"></div>
+        <ng-template #adminPanel>
+            <div *ngIf="errorMessage" class="error-message"><p>{{ errorMessage }}</p></div>
+            <div *ngIf="successMessage" class="success-message"><p>{{ successMessage }}</p></div>
+            <div class="login_form" style="text-align: center;">
+                <form (ngSubmit)="onSubmit()" enctype="multipart/form-data">
+                    <div class="label" *ngIf="name !== ''">Nazwa produktu</div>
+                    <input type="text" [(ngModel)]="name" [ngModelOptions]="{ standalone: true }" placeholder="Nazwa produktu"  class="form_control"><br /><br />
+                    <div class="label">Marka</div>
+                    <select name="brand" [(ngModel)]="brand_id"  class="form_control">
+                        <option [value]=brand.id *ngFor="let brand of brands; let i=index" [selected]="i==0">
+                            {{ brand.name }}
+                        </option>
+                    </select><br /><br />
+                    <div class="label">Kategoria</div>
+                    <select name="category" [(ngModel)]="category_id"  class="form_control">
+                        <option [value]=category.id *ngFor="let category of categories; let i=index" [selected]="i==0">
+                            {{ category.name }}
+                        </option>
+                    </select><br /><br />
+                    <div class="label" *ngIf="description !== ''">Opis produktu</div>
+                    <textarea [(ngModel)]="description" name="description" class="form_control" placeholder="Opis produktu"></textarea><br /><br />
+                    <div class="label" *ngIf="price !== ''">Cena produktu</div>
+                    <input type="text" [(ngModel)]="price" (keydown)="onKeyPress($event)" (keypress)="onKeyPress($event)" [ngModelOptions]="{ standalone: true }" placeholder="Cena produktu"  class="form_control"><br /><br />
+                    <div class="label">Zdjęcia produktu</div>
+                    <input type="file" [(ngModel)]="prod_images" name="prod_images" multiple (change)="onFileChange($event)" class="form_control"><br /><br />
+                
+                    <input type="submit" value="DODAJ PRODUKT" class="form_control">
+                </form>
+            </div>
+        </ng-template>
+        <ng-template #error>
+            <div class="text-center">
+                <div class="error-message"><p>Brak uprawnień administratora!</p></div>
+                <button routerLink="/">Powrót na stronę główną</button>
+            </div>
+        </ng-template>
+    </div>
 </div>

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, AfterViewInit } from '@angular/core';
 import { ServerService } from '../server.service';
 
 @Component({
@@ -6,14 +6,22 @@ import { ServerService } from '../server.service';
   templateUrl: './payment-cancel.component.html',
   styleUrls: ['./payment-cancel.component.css']
 })
-export class PaymentCancelComponent {
+export class PaymentCancelComponent implements AfterViewInit {
+  isLogged: boolean = false;
+  successMessage: string = '';
+  errorMessage: string = '';
+  orderId: string | null = '';
   constructor(private serverService: ServerService) {}
   
   ngOnInit() {
+    this.orderId = localStorage.getItem('order_id');
     this.serverService.putCancelledPayment().subscribe (
       (response: any) => {
-        console.log(response);
       }
     );
+  }
+
+  ngAfterViewInit(): void {
+    this.isLogged = this.serverService.isLogged;
   }
 }

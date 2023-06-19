@@ -7,11 +7,21 @@
         <a routerLink="/register" *ngIf="isCurrentComponent('/register')"> / Rejestracja</a>
         <a routerLink="/cookies" *ngIf="isCurrentComponent('/cookies')"> / Polityka prywatności</a>
         <a routerLink="/rules" *ngIf="isCurrentComponent('/rules')"> / Regulamin sprzedaży</a>
-        <a routerLink="/cart" *ngIf="isCurrentComponent('/cart')"> / Koszyk</a>
+        <a routerLink="/cart" *ngIf="isCurrentComponent('/cart') || isCurrentComponent('/checkout') || isCurrentComponent('/payment-cancel') || isCurrentComponent('/payment-success')"> / Koszyk</a>
+        <a routerLink="/checkout" *ngIf="isCurrentComponent('/checkout')"> / Kasa</a>
+        <a routerLink="/payment-cancel" *ngIf="isCurrentComponent('/payment-cancel')"> / Kasa</a>
+        <a routerLink="/payment-success" *ngIf="isCurrentComponent('/payment-success')"> / Kasa</a>
         <a (click)="navigateToCategory(itemCategory)" *ngIf="itemCategory && itemCategory !== 'Wszystkie'" style="cursor: pointer"> / {{itemCategory}}</a>
         <a (click)="navigateToBrand(itemBrand)" *ngIf="itemBrand && itemBrand !== 'Wszystkie'" style="cursor: pointer"> / {{itemBrand}}</a>
         <a [routerLink]="'/product-details/' + itemId" *ngIf="itemName"> / {{itemName}}</a>
         <a *ngIf="isCurrentComponent('/login-google')"> / Logowanie google</a>
+        <a routerLink="/orders" *ngIf="isCurrentComponent('/orders')"> / Twoje zamówienia</a>
+        <a routerLink="/admin-panel" *ngIf="isCurrentComponent('/admin-panel')"> / Panel administratora</a>
+        <a routerLink="/admin-panel/orders" *ngIf="isCurrentComponent('/admin-panel/orders')"> / Zamówienia</a>
+        <a routerLink="/admin-panel/product-list" *ngIf="isCurrentComponent('/admin-panel/product-list')"> / Lista produktów</a>
+        <a routerLink="/admin-panel/add-product" *ngIf="isCurrentComponent('/admin-panel/add-product')"> / Dodaj produkt</a>
+        <a [routerLink]="'/admin-panel/increase-stock/' + itemId" *ngIf="isCurrentComponent('/admin-panel/increase-stock/' + itemId)"> / Dodaj do magazynu</a>
+        <a [routerLink]="'/admin-panel/edit-product/' + itemId" *ngIf="isCurrentComponent('/admin-panel/edit-product/' + itemId)"> / Edycja produktu</a>
         <a routerLink="/" *ngIf="notFound"> / Błąd</a>
     </p>
 </div>

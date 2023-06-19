@@ -9,36 +9,39 @@ import { Sizes } from '../sizes/sizes';
   styleUrls: ['./increase-stock.component.css']
 })
 export class IncreaseStockComponent {
-  isAdmin: boolean = false;
+  isLogged: boolean = false;
+  admin: boolean = false;
   category: string = '';
   productId: string = '';
   rozmiar: string = '';
   ilosc: number = 1;
-  sizes: string[] = []
+  sizes: string[] = [];
+  errorMessage: string = '';
+  successMessage: string = '';
   
   constructor(private route: ActivatedRoute, private serverService: ServerService) { }
 
   ngOnInit() {
-    this.serverService.isAdmin().subscribe(
-      (response: any) => {
-        if(response.isAdmin == true) {
-          this.isAdmin = true;
-          this.route.url.subscribe(urlSegments => {
-            this.productId = urlSegments[urlSegments.length - 1].toString();
-          
-            this.serverService.getProductCategory(this.productId).subscribe(response => {
-              this.category = response.category;
-              if(this.category == "Buty")
-                this.sizes = Sizes.boots;
-              else if(this.category == "Ubranie")
-                this.sizes = Sizes.clothes;
-              else if(this.category == "Piłka")
-                this.sizes = Sizes.balls;
-            });
-          });
-        }
-      }
-    );
+    if(this.serverService.admin == true) {
+      this.route.url.subscribe(urlSegments => {
+        this.productId = urlSegments[urlSegments.length - 1].toString();
+      
+        this.serverService.getProductCategory(this.productId).subscribe(response => {
+          this.category = response.category;
+          if(this.category == "Buty")
+            this.sizes = Sizes.boots;
+          else if(this.category == "Ubranie")
+            this.sizes = Sizes.clothes;
+          else if(this.category == "Piłka")
+            this.sizes = Sizes.balls;
+        });
+      });
+    }
+  }
+
+  ngAfterViewInit(): void {
+    this.isLogged = this.serverService.isLogged;
+    this.admin = this.serverService.admin;
   }
 
   addToStock() {
@@ -47,9 +50,23 @@ export class IncreaseStockComponent {
       size: this.rozmiar,
       amount: this.ilosc
     }
+
+    if(this.rozmiar == '') {
+      this.errorMessage = 'Wybierz rozmiar!';
+    } else {
+      this.errorMessage = '';
+      this.serverService.addProductStock(data).subscribe(response => {
+        console.log(response);
+        if(response.success == true) {
+          this.successMessage = 'Dodano produkt do magazynu!';
+          this.errorMessage = '';
+        } else {
+          this.successMessage = '';
+          this.errorMessage = 'Wystąpił błąd!';
+        }
+      });
+    }
     
-    this.serverService.addProductStock(data).subscribe(response => {
-      
-    });
+    
   }
 }

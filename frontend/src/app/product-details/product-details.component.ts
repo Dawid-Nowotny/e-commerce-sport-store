@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, ViewChildren, ElementRef, QueryList } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChildren, ElementRef, QueryList, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ServerService } from '../server.service';
 import { Item } from '../item/item';
@@ -20,7 +20,7 @@ export class ProductDetailsComponent implements AfterViewInit, OnInit {
   slideIndex: number = 1;
   @ViewChildren('slide') slides!: QueryList<ElementRef>;
 
-  constructor(private route: ActivatedRoute, private serverService: ServerService) {}
+  constructor(private route: ActivatedRoute, private serverService: ServerService, private cdr: ChangeDetectorRef) {}
  
   ngOnInit() {
     this.isLoading = true;
@@ -122,17 +122,21 @@ export class ProductDetailsComponent implements AfterViewInit, OnInit {
       size: this.size.toString()
     }
 
-    if(data.size) {
-      this.serverService.addToCart(data).subscribe(
-        (response: any) => {
-          this.successMessage = response.message;
-          this.errorMessage = "";
-        }
-      );
+    if(this.serverService.isLogged == true) {
+      if(data.size) {
+        this.serverService.addToCart(data).subscribe(
+          (response: any) => {
+            this.successMessage = response.message;
+            this.errorMessage = "";
+          }
+        );
+      } else {
+        this.successMessage = "";
+        this.errorMessage = "Musisz wybrać rozmiar!";
+      }
     } else {
       this.successMessage = "";
-      this.errorMessage = "Musisz wybrać rozmiar!";
+      this.errorMessage = "Musisz się zalogować, aby dodać produkt do koszyka!";
     }
   }
 }
-
