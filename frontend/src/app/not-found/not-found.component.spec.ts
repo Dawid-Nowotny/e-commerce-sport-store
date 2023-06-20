@@ -1,34 +1,30 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { Title } from '@angular/platform-browser';
+import { ComponentFixture, TestBed, tick, fakeAsync } from '@angular/core/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { NavBarComponent } from '../nav-bar/nav-bar.component'
-import { ActivatedRoute } from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing';
 
 import { NotFoundComponent } from './not-found.component';
-import { of } from 'rxjs';
+import { Title } from '@angular/platform-browser';
+import { ServerService } from '../server.service';
 
-describe('NotFoundComponent', () => {
+describe('CookiesComponent', () => {
   let component: NotFoundComponent;
   let fixture: ComponentFixture<NotFoundComponent>;
+  let serverService: ServerService;
   let titleService: Title;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [NotFoundComponent, NavBarComponent],
-      providers: [Title,
-        {
-          provide: ActivatedRoute,
-          useValue: {
-            paramMap: of({ get: () => 'mockProductId' }),
-          },
-        },],
- 
+      declarations: [ NotFoundComponent, NavBarComponent ],
+      imports: [ RouterTestingModule, HttpClientTestingModule],
+      providers: [ ServerService, Title ],
     }).compileComponents();
-  });
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(NotFoundComponent);
     component = fixture.componentInstance;
-    titleService = TestBed.inject(Title); // Inject Title service
+    titleService = TestBed.inject(Title);
+    serverService = TestBed.inject(ServerService);
+
     fixture.detectChanges();
   });
 
@@ -36,6 +32,7 @@ describe('NotFoundComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  
   it('should set the title to "Strona nie znaleziona - AWAZONsport"', () => {
     spyOn(titleService, 'setTitle');
 
@@ -43,4 +40,7 @@ describe('NotFoundComponent', () => {
 
     expect(titleService.setTitle).toHaveBeenCalledWith('Strona nie znaleziona - AWAZONsport');
   });
+
+  
 });
+

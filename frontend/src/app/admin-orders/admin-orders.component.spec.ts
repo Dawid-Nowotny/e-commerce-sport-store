@@ -1,36 +1,33 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, tick, fakeAsync } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { NavBarComponent } from '../nav-bar/nav-bar.component';
-import { ActivatedRoute } from '@angular/router';
-import { of } from 'rxjs';
+import { NavBarComponent } from '../nav-bar/nav-bar.component'
+import { RouterTestingModule } from '@angular/router/testing';
 
 import { AdminOrdersComponent } from './admin-orders.component';
+import { ServerService } from '../server.service';
 
-describe('AdminOrdersComponent', () => {
+describe('AdminPanelComponent', () => {
   let component: AdminOrdersComponent;
   let fixture: ComponentFixture<AdminOrdersComponent>;
+  let serverService: ServerService;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ HttpClientTestingModule ],
-      declarations: [ AdminOrdersComponent, NavBarComponent],
-      providers: [
-        {
-          provide: ActivatedRoute,
-          useValue: {
-            paramMap: of({ get: () => 'mockProductId' }),
-          },
-        },
-      ],
-    })
-    .compileComponents();
+      declarations: [ AdminOrdersComponent, NavBarComponent ],
+      imports: [ RouterTestingModule, HttpClientTestingModule],
+      providers: [ ServerService ],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(AdminOrdersComponent);
     component = fixture.componentInstance;
+    serverService = TestBed.inject(ServerService);
+
     fixture.detectChanges();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  
 });

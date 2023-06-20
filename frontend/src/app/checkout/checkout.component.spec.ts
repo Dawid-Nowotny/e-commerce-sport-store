@@ -1,36 +1,33 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, tick, fakeAsync } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { NavBarComponent } from '../nav-bar/nav-bar.component';
-import { ActivatedRoute } from '@angular/router';
-import { of } from 'rxjs';
+import { NavBarComponent } from '../nav-bar/nav-bar.component'
+import { RouterTestingModule } from '@angular/router/testing';
 
 import { CheckoutComponent } from './checkout.component';
+import { ServerService } from '../server.service';
 
-describe('CheckoutComponent', () => {
+describe('AdminPanelComponent', () => {
   let component: CheckoutComponent;
   let fixture: ComponentFixture<CheckoutComponent>;
+  let serverService: ServerService;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ HttpClientTestingModule],
       declarations: [ CheckoutComponent, NavBarComponent ],
-      providers: [
-        {
-          provide: ActivatedRoute,
-          useValue: {
-            paramMap: of({ get: () => 'mockProductId' }),
-          },
-        },
-      ]
-    })
-    .compileComponents();
+      imports: [ RouterTestingModule, HttpClientTestingModule],
+      providers: [ ServerService ],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(CheckoutComponent);
     component = fixture.componentInstance;
+    serverService = TestBed.inject(ServerService);
+
     fixture.detectChanges();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  
 });
