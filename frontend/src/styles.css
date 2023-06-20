@@ -999,6 +999,17 @@ label {
     flex-direction: row;
 }
 
+.slideshow-content2 {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    height: auto;
+    overflow: hidden;
+    width: 100%;
+    flex-wrap: nowrap;
+    flex-direction: row;
+}
+
 .mySlides {
     display: none;
     position: relative;
@@ -1057,6 +1068,11 @@ label {
 	.slideshow-content {
 		width: 80%;
 		height: 700px;
+	}
+
+	.slideshow-content2 {
+		width: 70%;
+		height: 900px;
 	}
 }
 

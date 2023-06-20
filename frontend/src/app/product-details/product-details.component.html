@@ -10,13 +10,25 @@
     <div class="details_content" *ngIf="!isLoading">
         <div class="details_images">
             <div class="slideshow-container">
-                <div class="slideshow-content">
-                    <div><a class="prev" (click)="plusSlides(-1)">&#10094;</a></div>
-                    <div class="mySlides fade" *ngFor="let image of item[0].prod_images; let i = index;" #slide>
-                        <img [src]="image">
+                <div *ngIf="item[0].category == 'Buty'; then shoes else notShoes"></div>
+                  <ng-template #shoes>
+                    <div class="slideshow-content">
+                        <div><a class="prev" (click)="plusSlides(-1)">&#10094;</a></div>
+                        <div class="mySlides fade" *ngFor="let image of item[0].prod_images; let i = index;" #slide>
+                            <img [src]="image">
+                        </div>
+                        <div><a class="next" (click)="plusSlides(1)">&#10095;</a></div>
                     </div>
-                    <div><a class="next" (click)="plusSlides(1)">&#10095;</a></div>
-                </div>
+                  </ng-template>
+                  <ng-template #notShoes>
+                    <div class="slideshow-content2">
+                        <div><a class="prev" (click)="plusSlides(-1)">&#10094;</a></div>
+                        <div class="mySlides fade" *ngFor="let image of item[0].prod_images; let i = index;" #slide>
+                            <img [src]="image">
+                        </div>
+                        <div><a class="next" (click)="plusSlides(1)">&#10095;</a></div>
+                    </div>
+                  </ng-template>
             </div>
             <div class="thumbnails">
                 <div class="thumbnail" *ngFor="let image of item[0].prod_images; let i = index;" (click)="currentSlide(i + 1)">
