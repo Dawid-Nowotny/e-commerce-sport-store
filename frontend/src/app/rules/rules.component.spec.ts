@@ -1,7 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { RulesComponent } from './rules.component';
-import { NavBarComponent } from '../nav-bar/nav-bar.component'; // Dodaj import NavBarComponent
+import { NavBarComponent } from '../nav-bar/nav-bar.component';
+import { ActivatedRoute } from '@angular/router';
+import { of } from 'rxjs';
 
 describe('RulesComponent', () => {
   let component: RulesComponent;
@@ -9,7 +11,15 @@ describe('RulesComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [RulesComponent, NavBarComponent], // Dodaj NavBarComponent do declarations
+      declarations: [RulesComponent, NavBarComponent],
+      providers: [
+        {
+          provide: ActivatedRoute,
+          useValue: {
+            paramMap: of({ get: () => 'mockProductId' }),
+          },
+        },
+      ]
     }).compileComponents();
 
     fixture = TestBed.createComponent(RulesComponent);

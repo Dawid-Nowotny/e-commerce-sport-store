@@ -3,9 +3,12 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { Router } from '@angular/router';
 import { of } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
 
 import { LoginFormComponent } from './login-form.component';
 import { ServerService } from '../server.service';
+import { AppComponent } from '../app.component';
+
 
 describe('LoginFormComponent', () => {
   let component: LoginFormComponent;
@@ -17,9 +20,18 @@ describe('LoginFormComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [LoginFormComponent],
       imports: [FormsModule, HttpClientTestingModule],
-      providers: [ServerService, Router],
+      providers: [ServerService, Router, AppComponent,
+        {
+          provide: ActivatedRoute,
+          useValue: {
+            paramMap: of({ get: () => 'mockProductId' }),
+          },
+        },
+        
+      ],
     }).compileComponents();
   });
+  
 
   beforeEach(() => {
     fixture = TestBed.createComponent(LoginFormComponent);

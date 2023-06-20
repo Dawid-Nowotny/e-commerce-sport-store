@@ -4,7 +4,10 @@ import { FormsModule } from '@angular/forms';
 
 import { RegisterComponent } from './register.component';
 import { NavBarComponent } from '../nav-bar/nav-bar.component';
-import { RegisterFormComponent } from '../register-form/register-form.component'; // Import RegisterFormComponent
+import { ActivatedRoute } from '@angular/router';
+import { RegisterFormComponent } from '../register-form/register-form.component';
+import { of } from 'rxjs';
+import { AppComponent } from '../app.component';
 
 describe('RegisterComponent', () => {
   let component: RegisterComponent;
@@ -12,8 +15,16 @@ describe('RegisterComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ RegisterComponent, NavBarComponent, RegisterFormComponent ], // Dodaj RegisterFormComponent
-      imports: [FormsModule, HttpClientTestingModule]
+      declarations: [ RegisterComponent, NavBarComponent, RegisterFormComponent ],
+      imports: [FormsModule, HttpClientTestingModule],
+      providers: [ AppComponent,
+        {
+          provide: ActivatedRoute,
+          useValue: {
+            paramMap: of({ get: () => 'mockProductId' }),
+          },
+        },
+      ],
     })
     .compileComponents();
 

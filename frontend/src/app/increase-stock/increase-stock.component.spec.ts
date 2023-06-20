@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ActivatedRoute } from '@angular/router';
+import { NavBarComponent } from '../nav-bar/nav-bar.component'
 import { of } from 'rxjs';
 
 import { IncreaseStockComponent } from './increase-stock.component';
@@ -11,7 +12,7 @@ describe('IncreaseStockComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [IncreaseStockComponent],
+      declarations: [IncreaseStockComponent, NavBarComponent],
       imports: [HttpClientTestingModule],
       providers: [
         {

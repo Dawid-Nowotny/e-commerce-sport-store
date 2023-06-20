@@ -3,6 +3,8 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { FormsModule } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
+import { of } from 'rxjs';
 
 import { MainPageComponent } from './main-page.component';
 import { NavBarComponent } from '../nav-bar/nav-bar.component';
@@ -14,7 +16,15 @@ describe('MainPageComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ MainPageComponent, NavBarComponent ],
-      imports: [FormsModule, HttpClientTestingModule, BrowserAnimationsModule, MatPaginatorModule]
+      imports: [FormsModule, HttpClientTestingModule, BrowserAnimationsModule, MatPaginatorModule],
+      providers: [
+        {
+          provide: ActivatedRoute,
+          useValue: {
+            paramMap: of({ get: () => 'mockProductId' }),
+          },
+        },
+      ],
     })
     .compileComponents();
 

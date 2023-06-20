@@ -18,7 +18,7 @@ describe('ProductDetailsComponent', () => {
         {
           provide: ActivatedRoute,
           useValue: {
-            paramMap: of({ get: () => 'mockProductId' }), // Dostarcz atrapę z wartością paramMap
+            paramMap: of({ get: () => 'mockProductId' }),
           },
         },
       ],
