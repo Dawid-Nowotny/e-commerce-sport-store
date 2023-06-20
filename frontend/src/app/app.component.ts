@@ -12,7 +12,7 @@ import { Item } from './item/item';
 export class AppComponent {
   title = 'AWAZONsport';
   isLogged: boolean = false;
-  admin: boolean = false;
+  isAdmin: boolean = false;
   isLoading: boolean = false;
   searchResult: boolean = false;
   items: Item[] = [];
@@ -65,26 +65,29 @@ export class AppComponent {
     localStorage.removeItem('user_id');
     localStorage.removeItem('user_name');
     this.isLogged = false;
-    this.admin = false;
-    this.serverService.admin = false;
-    this.serverService.isLogged = false;
+    this.isAdmin = false;
+    localStorage.removeItem('isAdmin');
+    localStorage.removeItem('isLogged');
     this.cdr.detectChanges();
   }
 
   checkState() {
     if(localStorage.getItem('user_id') != undefined) {
       this.userName = localStorage.getItem('user_name');
-      this.serverService.isLogged = true;
       this.isLogged = true;
       this.serverService.isAdmin().subscribe(
         (response: any) => {
           if(response.isAdmin == true) {
-            this.admin = true;
-            this.serverService.admin = true;
+            localStorage.setItem('isAdmin', 'true');
+            this.isAdmin = true;
           }
         }
       );
     }
     this.cdr.detectChanges();
+  }
+
+  navigateToHomePage(): void {
+    this.router.navigate([''], { queryParams: { brand: 'Wszystkie', category: 'Wszystkie' } });
   }
 }

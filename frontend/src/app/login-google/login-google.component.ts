@@ -33,6 +33,7 @@ export class LoginGoogleComponent implements OnInit {
         if (response.success == true) {
           this.successMessage = 'Zalogowano!';
           this.errorMessage = '';
+          localStorage.setItem("isLogged", 'true');
           localStorage.setItem('user_id', response.user_id);
           localStorage.setItem('user_name', response.user_name);
           this.appComponent.checkState();
@@ -41,7 +42,6 @@ export class LoginGoogleComponent implements OnInit {
         }
       },
       (error: HttpErrorResponse) => {
-        console.log('Błąd:', error);
         if (error.error instanceof ErrorEvent) {
           this.errorMessage = 'Wystąpił błąd po stronie klienta!';
         } else {

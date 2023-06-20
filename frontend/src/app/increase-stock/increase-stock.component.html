@@ -1,7 +1,7 @@
 <div class="content_padding">
     <div class="content_text">
         <app-nav-bar [itemId]="productId"></app-nav-bar>
-        <div *ngIf="admin; then adminPanel else error"></div>
+        <div *ngIf="isAdmin; then adminPanel else error"></div>
         <ng-template #adminPanel>
             <div *ngIf="errorMessage" class="error-message"><p>{{ errorMessage }}</p></div>
             <div *ngIf="successMessage" class="success-message"><p>{{ successMessage }}</p></div>

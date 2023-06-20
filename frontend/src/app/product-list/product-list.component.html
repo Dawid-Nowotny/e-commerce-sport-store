@@ -63,9 +63,11 @@
             <div class="loader" *ngIf="isLoading"></div>
             <div class="item_list" *ngIf="!isLoading">
                 <div class="item" *ngFor="let itemElement of items" >
-                    <div class="div_item_image"><img [src]="itemElement.prod_images[0]" class="item_image"></div>
-                    <div class="item_name" (click)="goToProductDetails(itemElement.id)">{{ itemElement.name }}</div>
-                    <div class="item_price">{{ itemElement.price }} zł</div>
+                    <div (click)="goToProductDetails(itemElement.id)">
+                        <div class="div_item_image"><img [src]="itemElement.prod_images[0]" class="item_image"></div>
+                        <div class="item_name">{{ itemElement.name }}</div>
+                        <div class="item_price">{{ itemElement.price }} zł</div>
+                    </div>
                     <div style="text-align: center;">
                         <button (click)="goToEditProduct(itemElement.id)" style="width: 100%; margin-bottom: 3px; margin-top: 5px;">Edytuj</button>
                         <button (click)="goToIncreaseStock(itemElement.id)" style="width: 100%; margin-bottom: 3px;">Dodaj ilość produktu</button> 

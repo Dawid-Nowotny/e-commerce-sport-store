@@ -23,7 +23,7 @@ export class PaymentSuccessComponent {
   constructor(private serverService: ServerService,private router: Router) {}
   
   ngAfterViewInit(): void {
-    this.isLogged = this.serverService.isLogged;
+    this.isLogged = Boolean(localStorage.getItem('isLogged'));
   }
 
   ngOnInit() {

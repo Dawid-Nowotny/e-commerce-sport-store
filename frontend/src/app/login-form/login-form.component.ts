@@ -24,11 +24,9 @@ export class LoginFormComponent {
   }
 
   ngOnInit() {
-    console.log("Kasztan w chuj: " + localStorage.getItem('user_id'));
     if(localStorage.getItem('user_id') != null) {
       this.userId = localStorage.getItem('user_id');
     }
-    console.log("Kasztan taki maly: " + this.userId);
   }
 
   loginWithGoogle() {
@@ -51,6 +49,7 @@ export class LoginFormComponent {
         if (response.success == true) {
           this.successMessage = 'Zalogowano!';
           this.errorMessage = '';
+          localStorage.setItem("isLogged", 'true');
           localStorage.setItem("user_id", response.user_id);
           localStorage.setItem("user_name", response.user_name);
           this.appComponent.checkState();

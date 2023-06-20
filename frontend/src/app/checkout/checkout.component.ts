@@ -30,7 +30,7 @@ export class CheckoutComponent implements AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.isLogged = this.serverService.isLogged;
+    this.isLogged = Boolean(localStorage.getItem('isLogged'));
   }
 
   goToTransaction(): void {
@@ -79,7 +79,6 @@ export class CheckoutComponent implements AfterViewInit {
         this.cart = false;
       } else {
         this.cart = true;
-        console.log(":ss")
       }
     });
   }

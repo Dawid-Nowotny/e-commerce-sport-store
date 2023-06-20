@@ -9,8 +9,7 @@ import { Sizes } from '../sizes/sizes';
   styleUrls: ['./increase-stock.component.css']
 })
 export class IncreaseStockComponent {
-  isLogged: boolean = false;
-  admin: boolean = false;
+  isAdmin: boolean = false;
   category: string = '';
   productId: string = '';
   rozmiar: string = '';
@@ -22,7 +21,7 @@ export class IncreaseStockComponent {
   constructor(private route: ActivatedRoute, private serverService: ServerService) { }
 
   ngOnInit() {
-    if(this.serverService.admin == true) {
+    if(Boolean(localStorage.getItem('isAdmin'))) {
       this.route.url.subscribe(urlSegments => {
         this.productId = urlSegments[urlSegments.length - 1].toString();
       
@@ -34,14 +33,14 @@ export class IncreaseStockComponent {
             this.sizes = Sizes.clothes;
           else if(this.category == "Piłka")
             this.sizes = Sizes.balls;
+          this.rozmiar = this.sizes[0];
         });
       });
     }
   }
 
   ngAfterViewInit(): void {
-    this.isLogged = this.serverService.isLogged;
-    this.admin = this.serverService.admin;
+    this.isAdmin = Boolean(localStorage.getItem('isAdmin'));
   }
 
   addToStock() {
@@ -56,7 +55,6 @@ export class IncreaseStockComponent {
     } else {
       this.errorMessage = '';
       this.serverService.addProductStock(data).subscribe(response => {
-        console.log(response);
         if(response.success == true) {
           this.successMessage = 'Dodano produkt do magazynu!';
           this.errorMessage = '';

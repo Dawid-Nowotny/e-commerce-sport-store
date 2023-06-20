@@ -22,6 +22,6 @@ export class PaymentCancelComponent implements AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.isLogged = this.serverService.isLogged;
+    this.isLogged = Boolean(localStorage.getItem('isLogged'));
   }
 }

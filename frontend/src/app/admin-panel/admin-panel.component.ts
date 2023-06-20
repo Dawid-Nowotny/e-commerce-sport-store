@@ -8,12 +8,12 @@ import { ServerService } from '../server.service';
 })
 export class AdminPanelComponent implements AfterViewInit {
   isLogged: boolean = false;
-  admin: boolean = false;
+  isAdmin: boolean = false;
 
   constructor(private serverService: ServerService) {}
 
   ngAfterViewInit(): void {
-    this.isLogged = this.serverService.isLogged;
-    this.admin = this.serverService.admin;
+    this.isLogged = Boolean(localStorage.getItem('isLogged'));
+    this.isAdmin = Boolean(localStorage.getItem('isAdmin'));
   }
 }

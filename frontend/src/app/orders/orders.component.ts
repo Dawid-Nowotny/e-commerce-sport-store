@@ -20,17 +20,17 @@ export class OrdersComponent {
 
   ngOnInit() {
     this.getOrders();
+    this.isLogged = Boolean(localStorage.getItem('isLogged'));
   }
 
   ngAfterViewInit(): void {
-    this.isLogged = this.serverService.isLogged;
+    this.isLogged = Boolean(localStorage.getItem('isLogged'));
   }
 
   getOrders(): void {
     this.isLoading = true;
     this.serverService.getOrders().subscribe(
       (response: any) => {
-        console.log(response.orders.length);
         this.orders = response.orders;
         this.cart = response.orders.products;
         this.isLoading = false;

@@ -25,7 +25,7 @@ export class ShopCartComponent implements OnInit {
   }
 
   ngAfterViewInit(): void {
-    this.isLogged = this.serverService.isLogged;
+    this.isLogged = Boolean(localStorage.getItem('isLogged'));
   }
 
   getCart(): void {
@@ -59,7 +59,6 @@ export class ShopCartComponent implements OnInit {
 
   deleteProductFromCart(productId: string, size: string): void {
     this.serverService.deleteProductFromCart(productId, size).subscribe(response => {
-        console.log('Odpowiedź serwera:', response.message);
         this.getCart();
         this.cdr.detectChanges();
       }
@@ -73,7 +72,6 @@ export class ShopCartComponent implements OnInit {
   setProductAmount(productId: string, size: string, amount: number): void {
     this.serverService.setProductAmount(productId, size, amount).subscribe(
       (response: any) => {
-        console.log('Odpowiedź serwera:', response);
         this.getCart();
       }
     );

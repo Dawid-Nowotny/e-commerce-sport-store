@@ -8,8 +8,6 @@ const httpOptions = {
 
 @Injectable({ providedIn: 'root' })
 export class ServerService {
-  isLogged: boolean = false;
-  admin: boolean = false;
   private userUrl = 'http://127.0.0.1:5000';  // URL to REST API
 
   constructor(private http: HttpClient) {}
@@ -44,7 +42,7 @@ export class ServerService {
     return this.http.get(url);
   }
 
-  /** GET GETBRANDSANDCATEGORIES */
+  /** GET GETFILTEREDPRODUCTS */
   getFilteredProducts(pageIndex: number, pageSize: number, filters: string): Observable<any> {
     const url = `${this.userUrl}/api/filtered-products?pageIndex=${pageIndex}&pageSize=${pageSize}` + filters;
     return this.http.get(url);
@@ -77,7 +75,6 @@ export class ServerService {
   /** POST SETDELIVERYDATA */
   setDeliveryData(data: any): Observable<any> {
     const url = `${this.userUrl}/api/delivery-data`;
-    console.log("setDeliveryData"+data);
     return this.http.post(url, data, httpOptions);
   }
 

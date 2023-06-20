@@ -28,12 +28,11 @@ export class EditProductComponent {
 
   ngOnInit() {
     
-    if(this.serverService.admin == true) {
+    if(Boolean(localStorage.getItem('isAdmin'))) {
       this.route.url.subscribe(urlSegments => {
         this.productId = urlSegments[urlSegments.length - 1].toString();
       
         this.serverService.getDetailsForEdit(this.productId).subscribe(response => {
-          console.log(response.items.brand_id);
           this.items = [response.items];
           this.name = this.items[0].name;
           this.brand_id = response.items.brand_id;
@@ -45,14 +44,13 @@ export class EditProductComponent {
       this.serverService.getBrandsAndCategories().subscribe(response => {
         this.categories = response.categories;
         this.brands = response.brands;
-        console.log(this.brands);
       });
     }
   }
   
   ngAfterViewInit(): void {
-    this.isLogged = this.serverService.isLogged;
-    this.admin = this.serverService.admin;
+    this.isLogged = Boolean(localStorage.getItem('isLogged'))
+    this.admin = Boolean(localStorage.getItem('isAdmin'));
   }
 
   onKeyPress(event: KeyboardEvent) {

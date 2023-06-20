@@ -1,7 +1,7 @@
 <div class="content_padding">
     <div class="content_text">
         <app-nav-bar></app-nav-bar>
-        <div *ngIf="admin; then adminPanel else error"></div>
+        <div *ngIf="isAdmin; then adminPanel else error"></div>
         <ng-template #adminPanel>
             <div class="loader" *ngIf="isLoading"></div>
             <div *ngIf="!isLoading">

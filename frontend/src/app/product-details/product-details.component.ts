@@ -18,6 +18,7 @@ export class ProductDetailsComponent implements AfterViewInit, OnInit {
   errorMessage: string = '';
   successMessage: string = '';
   slideIndex: number = 1;
+  a: number = 0;
   @ViewChildren('slide') slides!: QueryList<ElementRef>;
 
   constructor(private route: ActivatedRoute, private serverService: ServerService, private cdr: ChangeDetectorRef) {}
@@ -44,8 +45,6 @@ export class ProductDetailsComponent implements AfterViewInit, OnInit {
         setTimeout(() => {
           this.showSlides(1);
         }, 0);
-
-        
         
         this.isLoading = false;
       });
@@ -62,11 +61,6 @@ export class ProductDetailsComponent implements AfterViewInit, OnInit {
   
   currentSlide(n: number) {
     this.showSlides(this.slideIndex = n);
-  }
-  
-
-  gAfterViewInit(): void {
-    this.showSlides(this.slideIndex);
   }
 
   showSlides(n: number) {
@@ -122,12 +116,18 @@ export class ProductDetailsComponent implements AfterViewInit, OnInit {
       size: this.size.toString()
     }
 
-    if(this.serverService.isLogged == true) {
+    if(Boolean(localStorage.getItem('isLogged'))) {
       if(data.size) {
         this.serverService.addToCart(data).subscribe(
           (response: any) => {
-            this.successMessage = response.message;
-            this.errorMessage = "";
+            if (response.success) {
+              this.successMessage = response.message;
+              this.errorMessage = "";
+            }
+            else {
+              this.successMessage = "";
+              this.errorMessage = response.message;
+            }
           }
         );
       } else {

@@ -30,18 +30,27 @@ def handle_add():
         else:
             existing_products = []
 
-        for existing_product in existing_products:
-            if existing_product['product'] == product_id and existing_product['size'] == size:
-                existing_product['amount'] += 1
-                break
+        stock = Stock.get_by_product_id_and_size(product_id, size)
+        if stock and stock.amount > 0:
+            total_amount = sum(existing_product['amount'] for existing_product in existing_products
+                               if existing_product['product'] == product_id and existing_product['size'] == size)
+            if total_amount < stock.amount:
+                for existing_product in existing_products:
+                    if existing_product['product'] == product_id and existing_product['size'] == size:
+                        existing_product['amount'] += 1
+                        break
+                else:
+                    product = ProductRedis(product_id, size, amount)
+                    existing_products.append(product.to_json())
+
+                updated_data = json.dumps(existing_products)
+                redis_client.set(user_id, updated_data)
+
+                return jsonify({'success': True, 'message': 'Produkt został dodany do koszyka'})
+            else:
+                return jsonify({'success': False, 'message': 'Przekroczono dostępną ilość produktu'})
         else:
-            product = ProductRedis(product_id, size, amount)
-            existing_products.append(product.to_json())
-
-        updated_data = json.dumps(existing_products)
-        redis_client.set(user_id, updated_data)
-
-        return jsonify({'success': True, 'message': 'Produkt został dodany do koszyka'})
+            return jsonify({'success': False, 'message': 'Produkt jest niedostępny'})
     else:
         return jsonify({'success': False, 'message': 'Użytkownik o podanym identyfikatorze nie istnieje'})
     

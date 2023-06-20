@@ -37,7 +37,7 @@ export class ProductListComponent implements OnInit {
   constructor(private serverService: ServerService, private router: Router, private cdr: ChangeDetectorRef) {}
 
   ngOnInit() {
-    if(this.serverService.admin == true) {
+    if(Boolean(localStorage.getItem('isAdmin'))) {
       this.fetchProducts();
         this.serverService.getBrandsAndCategories().subscribe(response => {
           this.categories = [{id: '', name: 'Wszystkie'}].concat(response.categories);
@@ -47,8 +47,8 @@ export class ProductListComponent implements OnInit {
   }
 
   ngAfterViewInit(): void {
-    this.isLogged = this.serverService.isLogged;
-    this.admin = this.serverService.admin;
+    this.isLogged = Boolean(localStorage.getItem('isLogged'));
+    this.admin = Boolean(localStorage.getItem('isAdmin'));
   }
 
   onKeyPress(event: KeyboardEvent) {
@@ -100,11 +100,11 @@ export class ProductListComponent implements OnInit {
     }
     
     if (this.brand_id != '' && this.category_id == '') {
-      this.router.navigate([''], { queryParams: { brand: this.getBrandName(this.brand_id), category: 'Wszystkie' }, queryParamsHandling: 'merge' });
+      this.router.navigate(['/admin-panel/product-list/'], { queryParams: { brand: this.getBrandName(this.brand_id), category: 'Wszystkie' }, queryParamsHandling: 'merge' });
     } else if (this.brand_id == '' && this.category_id != '') {
-      this.router.navigate([''], { queryParams: { brand: 'Wszystkie', category: this.getCategoryName(this.category_id) }, queryParamsHandling: 'merge' });
+      this.router.navigate(['/admin-panel/product-list/'], { queryParams: { brand: 'Wszystkie', category: this.getCategoryName(this.category_id) }, queryParamsHandling: 'merge' });
     } else {
-      this.router.navigate([''], { queryParams: { brand: this.getBrandName(this.brand_id), category: this.getCategoryName(this.category_id) }, queryParamsHandling: 'merge' });
+      this.router.navigate(['/admin-panel/product-list/'], { queryParams: { brand: this.getBrandName(this.brand_id), category: this.getCategoryName(this.category_id) }, queryParamsHandling: 'merge' });
     }
 
     this.getFilteredList();

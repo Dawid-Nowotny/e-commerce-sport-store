@@ -9,7 +9,7 @@ import { ServerService } from '../server.service';
 })
 export class AddProductComponent {
   isLogged: boolean = false;
-  admin: boolean = false;
+  isAdmin: boolean = false;
   id: string = '';
   brand_id: string = '';
   category_id: number = 0;
@@ -27,13 +27,15 @@ export class AddProductComponent {
   ngOnInit() {
     this.serverService.getBrandsAndCategories().subscribe(response => {
       this.categories = response.categories;
+      this.category_id = this.categories[0].id;
       this.brands = response.brands;
+      this.brand_id = this.brands[0].id;
     });
   }
 
   ngAfterViewInit(): void {
-    this.isLogged = this.serverService.isLogged;
-    this.admin = this.serverService.admin;
+    this.isLogged = Boolean(localStorage.getItem('isLogged'));
+    this.isAdmin = Boolean(localStorage.getItem('isAdmin'));
   }
 
   onFileChange(event: any) {
@@ -76,6 +78,12 @@ export class AddProductComponent {
         (response: any) => {
           this.errorMessage = '';
           this.successMessage = 'Produkt został dodany!';
+          this.name = '';
+          this.brand_id = this.brands[0].id;
+          this.category_id = this.categories[0].id;
+          this.description = '';
+          this.price = '';
+          this.prod_images = [];
         }
       );
     }

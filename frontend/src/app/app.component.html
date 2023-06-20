@@ -2,12 +2,12 @@
   <div id="whole_header" (mouseleave)="onPanelMouseLeave($event)">
     <div id="header">
         <div class="logo">
-            <a routerLink="/">
+            <a (click)="navigateToHomePage()" style="cursor: pointer">
               <i>AWAZON<span style="color: rgb(185,0,0);">sport</span></i>
             </a>
         </div>
         <div id="menu_top_center">
-          <a routerLink="/"><div>Sklep</div></a>
+          <a (click)="navigateToHomePage()" style="cursor: pointer"><div>Sklep</div></a>
           <a routerLink="/cart"><div>Koszyk</div></a>
           <a routerLink="/orders"><div>Twoje zamówienia</div></a>
         </div>
@@ -32,7 +32,7 @@
         </ng-template>
         <ng-template #logoutTemplate>
           <a routerLink="/orders"><div>Witaj, {{userName}}</div></a>
-          <div *ngIf="admin; then adminPanel"></div>
+          <div *ngIf="isAdmin; then adminPanel"></div>
           <ng-template #adminPanel>
             <a routerLink="/admin-panel"><div>Panel administratora</div></a>
           </ng-template>
@@ -48,7 +48,7 @@
         </div>
       </div>
       <div id="menu_mobile">
-        <a routerLink="/"><div>Sklep</div></a>
+        <a (click)="navigateToHomePage()" style="cursor: pointer"><div>Sklep</div></a>
         <a routerLink="/cart"><div>Koszyk</div></a>
         <a routerLink="/orders"><div>Twoje zamówienia</div></a>
         <div *ngIf="isLogged; then logoutMobileTemplate else loginMobileTemplate"></div>
@@ -57,7 +57,7 @@
           <a routerLink="/register"><div>Rejestracja</div></a>
         </ng-template>
         <ng-template #logoutMobileTemplate>
-          <div *ngIf="admin; then adminPanel"></div>
+          <div *ngIf="isAdmin; then adminPanel"></div>
           <ng-template #adminPanel>
             <a routerLink="/admin-panel"><div>Panel administratora</div></a>
           </ng-template>
