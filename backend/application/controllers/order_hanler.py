@@ -2,6 +2,7 @@ from application.models.delivery_details import DeliveryDetails
 from application.models.order import Order
 from application.models.product import Product
 from application.models.stock import Stock
+from .handle_user import check_user_exists
 
 from app import redis_client
 
@@ -17,7 +18,7 @@ def create_order():
     user_id = submitted_data.get('user_id')
     del_id = submitted_data.get('delivery_id')
 
-    if user_id is None:
+    if user_id is None or not check_user_exists(user_id):
         return jsonify({'success': False, 'message': 'Nie podano identyfikatora użytkownika'})
 
     delivery_details = DeliveryDetails.get_by_id(del_id)

@@ -1,3 +1,4 @@
+from .handle_user import check_user_exists
 from application.models.order import Order
 from application.models.product import Product
 from application.models.delivery_details import DeliveryDetails
@@ -20,8 +21,8 @@ def handle_successful_payment():
     order = Order.get_by_id(order_id)
     order.payment_status = "Paid"
     order.save()
-    
-    if order is None:
+
+    if order is None or not check_user_exists(user_id):
         return jsonify({'success': False, 'message': 'Nie znaleziono zamówienia o podanym identyfikatorze'})
 
     products = []

@@ -1,3 +1,4 @@
+from .handle_user import check_user_exists
 from application.models.delivery_details import DeliveryDetails
 
 from flask import Blueprint, jsonify, request
@@ -17,6 +18,9 @@ def set_address():
     phone_number = submitted_data.get('phoneNumber')
     user_id = submitted_data.get('user_id')
 
+    if user_id is None or not check_user_exists(user_id):
+        return jsonify({'success': False, 'message': 'Nie podano identyfikatora użytkownika'})
+    
     address = DeliveryDetails(name, surname, country, city, street, house_number, postcode, phone_number, user_id)
 
     id_dd = address.save()

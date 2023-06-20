@@ -5,6 +5,7 @@ from application.models.admin import Admin
 from application.models.product import Product
 from application.models.stock import Stock
 from application.models.order import Order
+from .handle_user import check_user_exists
 
 from flask import Blueprint, jsonify, request
 
@@ -20,7 +21,7 @@ change_payment_status = Blueprint('change_payment_status', __name__, template_fo
 def bool_admin():
     user_id = request.args.get('userId')
 
-    if user_id is None:
+    if user_id is None or not check_user_exists(user_id):
         return jsonify({'success': False, 'message': 'Nie podano identyfikatora użytkownika'})
 
     if Admin.is_admin(user_id):
@@ -59,7 +60,7 @@ def new_product():
             return jsonify({'message': 'Produkt nie został dodany, błąd serwera'})
 
     product = Product(p_id, name, price, description, brand_id, category_id, prod_images_dict)
-    product.original_save()
+    product.save()
 
     return jsonify({'message': 'Produkt został dodany.'})
 
@@ -104,7 +105,7 @@ def edit_product_database():
         if images and prod_images_dict:
             product.prod_images = prod_images_dict
 
-        product.original_save()
+        product.save()
         return jsonify({'message': 'Produkt został zaktualizowany.'})
     else:
         return jsonify({'message': 'Produkt o podanym ID nie istnieje.'})

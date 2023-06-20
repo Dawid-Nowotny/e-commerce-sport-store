@@ -20,78 +20,72 @@ def handle_add():
     size = submitted_data.get('size')
     amount = 1
 
-    if user_id is None:
+    if user_id is None or not check_user_exists(user_id):
         return jsonify({'success': False, 'message': 'Użytkownik o podanym identyfikatorze nie istnieje'})
 
-    if check_user_exists(user_id):
-        existing_data = redis_client.get(user_id)
-        if existing_data:
-            existing_products = json.loads(existing_data.decode())
-        else:
-            existing_products = []
-
-        stock = Stock.get_by_product_id_and_size(product_id, size)
-        if stock and stock.amount > 0:
-            total_amount = sum(existing_product['amount'] for existing_product in existing_products
-                               if existing_product['product'] == product_id and existing_product['size'] == size)
-            if total_amount < stock.amount:
-                for existing_product in existing_products:
-                    if existing_product['product'] == product_id and existing_product['size'] == size:
-                        existing_product['amount'] += 1
-                        break
-                else:
-                    product = ProductRedis(product_id, size, amount)
-                    existing_products.append(product.to_json())
-
-                updated_data = json.dumps(existing_products)
-                redis_client.set(user_id, updated_data)
-
-                return jsonify({'success': True, 'message': 'Produkt został dodany do koszyka'})
-            else:
-                return jsonify({'success': False, 'message': 'Przekroczono dostępną ilość produktu'})
-        else:
-            return jsonify({'success': False, 'message': 'Produkt jest niedostępny'})
+    existing_data = redis_client.get(user_id)
+    if existing_data:
+        existing_products = json.loads(existing_data.decode())
     else:
-        return jsonify({'success': False, 'message': 'Użytkownik o podanym identyfikatorze nie istnieje'})
+        existing_products = []
+
+    stock = Stock.get_by_product_id_and_size(product_id, size)
+    if stock and stock.amount > 0:
+        total_amount = sum(existing_product['amount'] for existing_product in existing_products
+                            if existing_product['product'] == product_id and existing_product['size'] == size)
+        if total_amount < stock.amount:
+            for existing_product in existing_products:
+                if existing_product['product'] == product_id and existing_product['size'] == size:
+                    existing_product['amount'] += 1
+                    break
+            else:
+                product = ProductRedis(product_id, size, amount)
+                existing_products.append(product.to_json())
+
+            updated_data = json.dumps(existing_products)
+            redis_client.set(user_id, updated_data)
+
+            return jsonify({'success': True, 'message': 'Produkt został dodany do koszyka'})
+        else:
+            return jsonify({'success': False, 'message': 'Przekroczono dostępną ilość produktu'})
+    else:
+        return jsonify({'success': False, 'message': 'Produkt jest niedostępny'})
     
 @get_cart.route('/api/get-cart', methods=['GET'])
 def handle_get():
     user_id = request.args.get('userId')
     
-    if user_id is None:
+    if user_id is None or not check_user_exists(user_id):
         return jsonify({'success': False, 'message': 'Użytkownik o podanym identyfikatorze nie istnieje'})
     
-    if check_user_exists(user_id):
-        existing_data = redis_client.get(user_id)
-        if existing_data:
-            existing_products = json.loads(existing_data.decode())
+    existing_data = redis_client.get(user_id)
+    if existing_data:
+        existing_products = json.loads(existing_data.decode())
+        
+        cart = []
+        total_price = 0
+        
+        for product_data in existing_products:
+            product_id = product_data.get('product')
+            product = Product.get_by_id(product_id)
+            stock = Stock.get_by_product_id_and_size(product_id, product_data.get('size'))
             
-            cart = []
-            total_price = 0
+            price = float(product.price) * int(product_data.get('amount'))
+            total_price += price
             
-            for product_data in existing_products:
-                product_id = product_data.get('product')
-                product = Product.get_by_id(product_id)
-                stock = Stock.get_by_product_id_and_size(product_id, product_data.get('size'))
-                
-                price = float(product.price) * int(product_data.get('amount'))
-                total_price += price
-                
-                cart.append({
-                    'id': product_id,
-                    'name': product.name,
-                    'size': product_data.get('size'),
-                    'price': round(product.price * product_data.get('amount'),2),
-                    'amount': product_data.get('amount'),
-                    'stock_amount': stock.amount if stock else None,
-                    'prod_images': product.prod_images[0]
-                })
+            cart.append({
+                'id': product_id,
+                'name': product.name,
+                'size': product_data.get('size'),
+                'price': round(product.price * product_data.get('amount'),2),
+                'amount': product_data.get('amount'),
+                'stock_amount': stock.amount if stock else None,
+                'prod_images': product.prod_images[0]
+            })
 
-            return jsonify({'success': True, 'cart': cart, 'total_price': round(total_price, 2)})
-        else:
-            return jsonify({'success': True, 'cart': [], 'total_price': 0})
+        return jsonify({'success': True, 'cart': cart, 'total_price': round(total_price, 2)})
     else:
-        return jsonify({'success': False, 'message': 'Użytkownik o podanym identyfikatorze nie istnieje'})
+        return jsonify({'success': True, 'cart': [], 'total_price': 0})
     
 @delete_from_cart.route('/api/delete-from-cart', methods=['DELETE'])
 def handle_delete():

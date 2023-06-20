@@ -60,21 +60,11 @@ class Product:
     def save(self):
         ref = db.reference('products')
         if self.id:
-            ref.child(self.id).set(self.to_dict())
-        else:
-            new_product_ref = ref.push()
-            self.id = new_product_ref.key
-            new_product_ref.set(self.to_dict())
-
-    def original_save(self):
-        ref = db.reference('products')
-        if self.id:
             ref.child(self.id).set(self.to_dict_with_ids())
         else:
             new_product_ref = ref.push()
             self.id = new_product_ref.key
             new_product_ref.set(self.to_dict_with_ids())
-
 
     @staticmethod
     def get_by_id(id):
