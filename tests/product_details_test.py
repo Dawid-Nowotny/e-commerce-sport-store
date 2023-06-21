@@ -12,7 +12,7 @@ class TestProductDetails(unittest.TestCase):
 
     def test_get_product_detail_success(self):
         # Prawidłowe dane
-        productId = '-NY8V58DW_mcPKeLEwRw'
+        productId = '-NY-nJ5wBX8qBsIwGZJo'
     
         response = self.client.get(f'/api/product-details?productId={productId}')
 

@@ -12,7 +12,7 @@ class TestPayment(unittest.TestCase):
 
     def test_process_payment(self):
         # Dane testowe
-        order_id = '-NY9T18k7zVoCjXoEoXz'
+        order_id = '-NYNfZSpOhnr3OuLc7nU'
 
         # Tworzenie żądania POST dla obsługi płatności
         response = self.client.post('/api/payment', json={'order_id': order_id})

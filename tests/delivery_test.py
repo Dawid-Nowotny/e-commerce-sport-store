@@ -14,15 +14,15 @@ class TestDeliveryDetails(unittest.TestCase):
     def test_set_address_success(self):
         # Prawidłowe dane testowe
         submitted_data = {
-            'firstname': 'Jan',
-            'lastname': 'Kowalski',
-            'country': 'Polska',
-            'city': 'Kielce',
-            'street': '3 maja',
+            'firstname': '1231',
+            'lastname': '212',
+            'country': '13',
+            'city': '123',
+            'street': '13',
             'houseNumber': '123',
-            'postcode': '25-001',
-            'phoneNumber': '123456789',
-            'user_id': '123'
+            'postcode': '323',
+            'phoneNumber': '23',
+            'user_id': 'PDDNzEvcrCSKMqYgDEFbPBBnnpU2'
         }
     
         response = self.client.post('/api/delivery-data', json=submitted_data)

@@ -17,8 +17,8 @@ class TestCart(unittest.TestCase):
         # Dane testowe
         submitted_data = {
             'userId': 'ClRjyx0YoEgM2m2U53VEIQVB4hp1',
-            'productId': '-NXGWPVXvXvVcxnJNtD_',
-            'size': '36'
+            'productId': '-NYNkYXIgZK35YFH0SCr',
+            'size': '41'
         }
 
         response = self.client.post('/api/add-to-cart', json=submitted_data)
@@ -33,8 +33,8 @@ class TestCart(unittest.TestCase):
         # Dane testowe z nieistniejącym użytkownikiem
         submitted_data = {
             'userId': '123',
-            'productId': '-NXGWPVXvXvVcxnJNtD_',
-            'size': '36'
+            'productId': '-NYNkYXIgZK35YFH0SCr',
+            'size': '41'
         }
 
         response = self.client.post('/api/add-to-cart', json=submitted_data)
@@ -47,7 +47,7 @@ class TestCart(unittest.TestCase):
 
     def test_handle_get_cart_success(self):
         # Dane testowe
-        user_id = 'ClRjyx0YoEgM2m2U53VEIQVB4hp1'
+        user_id = 'PDDNzEvcrCSKMqYgDEFbPBBnnpU2'
 
         response = self.client.get(f'/api/get-cart?userId={user_id}')
 
