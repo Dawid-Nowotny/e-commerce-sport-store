@@ -1,3 +1,7 @@
+import os, sys
+backend_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
+sys.path.insert(0, backend_path)
+
 from application.models.brand import Brand
 from application.models.category import Category
 from application.models.product import Product

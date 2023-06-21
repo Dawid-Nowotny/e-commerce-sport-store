@@ -16,12 +16,12 @@ class TestAddOrder(unittest.TestCase):
 
     def test_create_order_success(self):
         # Dane testowe
-        user_id = 'ClRjyx0YoEgM2m2U53VEIQVB4hp1'
+        user_id = 'PDDNzEvcrCSKMqYgDEFbPBBnnpU2'
         delivery_id = '-NXoiih-RDm6VQ-aIRih'
         existing_data = [
             {
-                'product': '-NXGWPVXvXvVcxnJNtD_',
-                'size': '42',
+                'product': '-NYNkYXIgZK35YFH0SCr',
+                'size': '41',
                 'amount': 1
             }
         ]

@@ -1,36 +1,33 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, tick, fakeAsync } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { ActivatedRoute } from '@angular/router';
+import { NavBarComponent } from '../nav-bar/nav-bar.component'
+import { RouterTestingModule } from '@angular/router/testing';
 
 import { LoginGoogleComponent } from './login-google.component';
-import { NavBarComponent } from '../nav-bar/nav-bar.component';
+import { ServerService } from '../server.service';
 
-describe('LoginGoogleComponent', () => {
+describe('ShopCartComponent', () => {
   let component: LoginGoogleComponent;
   let fixture: ComponentFixture<LoginGoogleComponent>;
+  let serverService: ServerService;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [LoginGoogleComponent, NavBarComponent],
-      imports: [HttpClientTestingModule],
-      providers: [
-        {
-          provide: ActivatedRoute,
-          useValue: {
-            snapshot: {
-              queryParams: { get: () => 'mockQueryParamValue' }, // Dostarcz atrapę z wartością queryParams
-            },
-          },
-        },
-      ],
+      declarations: [ LoginGoogleComponent, NavBarComponent ],
+      imports: [ RouterTestingModule, HttpClientTestingModule],
+      providers: [ ServerService ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(LoginGoogleComponent);
     component = fixture.componentInstance;
+    serverService = TestBed.inject(ServerService);
+
     fixture.detectChanges();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  
 });
