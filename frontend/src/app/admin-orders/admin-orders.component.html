@@ -9,7 +9,7 @@
                 <div *ngIf="successMessage" class="success-message"><p>{{ successMessage }}</p></div>
                 <div class="cart_summary_content" *ngFor="let order of orders; let i = index" style="margin-bottom: 15px; padding-left: 30px;">
                     <span class="title">Zamówienie nr: {{ order.order_id }}</span><br /><br />
-                    <div *ngIf="order.payment_status == 'Not paid'; then notPaid else paid"></div>
+                    <div *ngIf="order.payment_status == 'Paid'; then paid else notPaid "></div>
                     <ng-template #paid>Status płatności: opłacone</ng-template>
                     <ng-template #notPaid>Status płatności: nieopłacono <button (click)="payOrder(order.order_id)">Zmień status na opłacone</button></ng-template>
                     <br />

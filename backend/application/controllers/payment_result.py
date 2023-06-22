@@ -19,11 +19,11 @@ def handle_successful_payment():
     redis_client.delete(user_id)
 
     order = Order.get_by_id(order_id)
-    order.payment_status = "Paid"
-    order.save()
-
     if order is None or not check_user_exists(user_id):
         return jsonify({'success': False, 'message': 'Nie znaleziono zamówienia o podanym identyfikatorze'})
+
+    order.payment_status = "Paid"
+    order.save()
 
     products = []
     for product_data in order.products:
@@ -52,6 +52,8 @@ def handle_unsuccessful_payment():
 
     if order is None:
         return jsonify({'success': False, 'message': 'Nie znaleziono zamówienia o podanym identyfikatorze'})
+
+    redis_client.delete(order.user_id)
 
     order.payment_status = "Cancelled"
     order.save()

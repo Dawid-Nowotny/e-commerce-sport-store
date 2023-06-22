@@ -34,7 +34,6 @@ def create_order():
         existing_data = json.loads(existing_data)
         total_price = 0
         products = []
-        is_any_product_unavailable = False
 
         for product_data in existing_data:
             product_id = product_data.get('product')
@@ -44,8 +43,7 @@ def create_order():
 
             stock = Stock.get_by_product_id_and_size(product_id, size)
             if stock is None or stock.amount < amount:
-                is_any_product_unavailable = True
-                break
+                return jsonify({'success': False, 'message': 'Jeden lub więcej produktów jest niedostępnych'})
 
             price = float(product.price) * amount
             total_price += price
@@ -58,9 +56,6 @@ def create_order():
                 'prod_images': product.prod_images[0],
             }
             products.append(product_dict)
-
-        if is_any_product_unavailable:
-            return jsonify({'success': False, 'message': 'Jeden lub więcej produktów jest niedostępnych'})
 
         for product_data in existing_data:
             product_id = product_data.get('product')
