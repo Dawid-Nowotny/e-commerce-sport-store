@@ -31,7 +31,6 @@ def bool_admin():
 
 @add_new_product.route('/api/admin/add-product', methods=['POST'])
 def new_product():
-    p_id = request.form.get('id')
     brand_id = request.form.get('brand_id')
     category_id = request.form.get('category_id')
     description = request.form.get('description')
@@ -59,7 +58,7 @@ def new_product():
         except:
             return jsonify({'message': 'Produkt nie został dodany, błąd serwera'})
 
-    product = Product(p_id, name, price, description, brand_id, category_id, prod_images_dict)
+    product = Product(None, name, price, description, brand_id, category_id, prod_images_dict)
     product.save()
 
     return jsonify({'message': 'Produkt został dodany.'})
@@ -165,10 +164,10 @@ def change_order_payment():
         products = order.products
         for product in products:
             stock = Stock.get_by_product_id_and_size(product['id'], product['size'])
-            if stock is None or stock.amount <= 0:
+            if stock is None or stock.amount < product['amount']:
                 return jsonify({'success': False, 'message': f'Produkt "{product["name"]}" w rozmiarze "{product["size"]}" jest niedostępny'})
-
-            stock.amount -= 1
+            
+            stock.amount -= product['amount']
             stock.save()
 
         order.payment_status = "Paid"

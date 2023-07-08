@@ -24,6 +24,7 @@
                                 {{ cartElement.name }}
                             </div>
                             <div class="amount">
+                                Rozmiar: {{ cartElement.size }},
                                 Ilość:  
                                 <select (change)="setProductAmount(cartElement.id, cartElement.size, selectedOption[i])" [(ngModel)]="selectedOption[i]">
                                     <option *ngFor="let amount of maxAmount[i]; let i = index" [value]="amount">
