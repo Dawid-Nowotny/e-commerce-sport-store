@@ -8,7 +8,7 @@ This project is an e-commerce platform developed using Flask, Angular, and Fireb
 
 | Payment successful | Order history | Admin panel |
 | ---------------|------------------|-----------------|
-| <img src="https://github.com/ayaseshi/e-commerce-sport-store/assets/93731073/0958f8f6-0d32-46d8-ba71-2ce4d92c912e" width="400"> | <img src="https://github.com/ayaseshi/e-commerce-sport-store/assets/93731073/21ca5dd5-a9dc-4533-aa95-8c5214394cf1" width="400"> | <img src="https://github.com/ayaseshi/e-commerce-sport-store/assets/93731073/02b4ae92-f2df-4bb9-8f60-f4e9cb1472fa" width="400"> |
+| <img src="https://github.com/ayaseshi/e-commerce-sport-store/assets/93731073/d545fb1b-fcdf-4391-8000-92cecc2d5883" width="400"> | <img src="https://github.com/ayaseshi/e-commerce-sport-store/assets/93731073/1b10d49e-58f9-4a77-b51b-e92c8160b011" width="400"> | <img src="https://github.com/ayaseshi/e-commerce-sport-store/assets/93731073/f40d0c6d-f6fd-405c-b54e-1bb6f4b39124" width="400"> |
 
 ## Functionality
 
