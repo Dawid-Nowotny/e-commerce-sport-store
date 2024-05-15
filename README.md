@@ -33,7 +33,7 @@ git clone https://github.com/Dawid-Nowotny/e-commerce-sport-store.git
     cd backend
     ```
     
-2. Open the files located in the backend/config directory and fill in the necessary access keys.
+2. Open the files located in the `backend/config` directory and fill in the necessary access keys.
    
 3. (Optional) Create a virtual environment (recommended):
     ```bash
